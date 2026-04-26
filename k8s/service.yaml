@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexiq-web
+  labels:
+    app: nexiq-web
+spec:
+  type: ClusterIP
+  selector:
+    app: nexiq-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

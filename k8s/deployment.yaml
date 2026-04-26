@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexiq-web
+  labels:
+    app: nexiq-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nexiq-web
+  template:
+    metadata:
+      labels:
+        app: nexiq-web
+    spec:
+      containers:
+        - name: nginx
+          # Change to your registry after push, e.g. 123456789.dkr.ecr.ap-south-1.amazonaws.com/nexiq-web:v1
+          image: nexiq-web:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi

@@ -1,0 +1,34 @@
+# Public URL for the app. Point DNS (A/AAAA or CNAME) at your Ingress controller's load balancer.
+# Replace `nexiq.santhira.com` if you use another domain.
+#
+# TLS: either (1) uncomment cert-manager annotations and install ClusterIssuer `letsencrypt-prod`,
+# or (2) create `nexiq-web-tls` manually, or (3) remove the `tls:` block and terminate TLS at the cloud LB/CDN.
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexiq-web
+  labels:
+    app: nexiq-web
+  annotations:
+    # nginx ingress controller — adjust or remove if you use Traefik/ALB/etc.
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager (optional): issues cert into `nexiq-web-tls`
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - nexiq.santhira.com
+      secretName: nexiq-web-tls
+  rules:
+    - host: nexiq.santhira.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nexiq-web
+                port:
+                  number: 80
