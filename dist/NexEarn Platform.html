@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NexIQ</title>
+    <script>
+      // Legacy bookmark / design export URL → SPA entry (preserves ?query)
+      var q = location.search || "";
+      location.replace("/" + q);
+    </script>
+  </head>
+  <body>
+    <p><a href="/">Open NexIQ</a></p>
+  </body>
+</html>
