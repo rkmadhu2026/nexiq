@@ -15,13 +15,14 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 8080,
-    strictPort: true,
+    // Prefer 8080; if something else is using it, Vite picks the next free port and prints the URL.
+    strictPort: false,
     host: "0.0.0.0",
     allowedHosts: tunnelAllowedHosts,
   },
   preview: {
     port: 8080,
-    strictPort: true,
+    strictPort: false,
     host: "0.0.0.0",
     allowedHosts: tunnelAllowedHosts,
   },
