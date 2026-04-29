@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from "recharts";
 
 // ── Sample Data ──────────────────────────────────────────────
@@ -73,7 +73,7 @@ const RESPONSES = {
     severity: "warning",
     summary: "CPU spike on prod-api-02 at 14:32 — correlates with scheduled ETL for multiple tenants.",
     insight:
-      "NexIQ Production — workload on prod-api-02 driven mainly by tenant-batch-export and analytics-etl-scheduler. Peak CPU 94% at 14:32 during cross-tenant batch export window. Normalized after 14:38. Pattern repeats daily — consider staggering tenant jobs or moving heavy tenants to a dedicated node pool.",
+      "NexIQ Production — workload on prod-api-02 driven mainly by tenant-batch-export and analytics-etl-scheduler.\n\nPeak CPU 94% at 14:32 during cross-tenant batch export window. Normalized after 14:38.\n\nPattern repeats daily — consider staggering tenant jobs or moving heavy tenants to a dedicated node pool.",
     fix: "No immediate action if within SLO. If it recurs >3 days, reschedule batch to 16:30 UTC or split tenant batches.",
     chart: { type: "cpu", data: cpuData, title: "prod-api-02 — CPU Usage %", yLabel: "CPU %", threshold: 80, color: "#f59e0b" },
     instanceLabel: "prod-api-02",
@@ -86,7 +86,8 @@ const RESPONSES = {
     type: "logs",
     severity: "error",
     summary: "Workflow #8821 rejected — tenant acme-corp failed policy / quota check.",
-    insight: "Tenant acme-corp: budget_remaining 1200 vs quota_required 4200 for this automation. Third rejection for this tenant in 2 hours — all policy/quota failures. Recommend notifying tenant admin to raise quota or split workflows.",
+    insight:
+      "Tenant acme-corp — budget_remaining 1200 vs quota_required 4200 for this automation.\n\nThird rejection for this tenant in 2 hours — all policy/quota failures.\n\nRecommendation — notify tenant admin to raise quota or split workflows.",
     fix: "Rejection is expected under policy. Notify tenant admin for acme-corp to adjust quota or reduce concurrent workflows.",
     logs: workflowSampleLogs,
     sources: ["elasticsearch:app-logs-* workflow_id=8821", "elasticsearch:app-logs-* tenant_id=acme-corp"],
@@ -95,7 +96,8 @@ const RESPONSES = {
     type: "combined",
     severity: "critical",
     summary: "checkout-api OOMKilled — Java heap exhausted. 14 restarts in 2 hours.",
-    insight: "Container memory limit is 512Mi but heap usage peaks at ~503MB. OutOfMemoryError in CheckoutProcessor thread. Memory leak suspected — objects not being GC'd. Pattern started 09:15 during multi-tenant checkout traffic spike.",
+    insight:
+      "Runtime — container memory limit is 512Mi but heap usage peaks at ~503MB.\n\nErrors — OutOfMemoryError in CheckoutProcessor thread; memory leak suspected with objects not GC'd.\n\nTraffic — spike began 09:15 during multi-tenant checkout load.",
     fix: "Immediate: kubectl set resources deploy/checkout-api --limits=memory=1Gi\nPermanent: Profile heap with JVM flags -Xmx768m -XX:+HeapDumpOnOutOfMemoryError",
     chart: { type: "bar", data: podRestartData, title: "Pod Restarts — Production Namespace", yLabel: "Restarts", color: "#ef4444" },
     logs: podLogs,
@@ -105,7 +107,8 @@ const RESPONSES = {
     type: "metrics",
     severity: "warning",
     summary: "P99 latency up to 372ms for tenant acme-corp — 26% above 30-day baseline for this tenant.",
-    insight: "P50 stable at 130-150ms. P95 elevated 280-335ms. P99 spikes 370-400ms aligned with batch windows at 09:30, 10:30, 12:00, 13:30. Other tenants in the same region show normal P99 — points to tenant-specific traffic, not regional outage.",
+    insight:
+      "Latency profile — P50 stable at 130–150ms; P95 elevated 280–335ms; P99 spikes 370–400ms aligned with batch windows at 09:30, 10:30, 12:00, 13:30.\n\nIsolation — other tenants in the same region show normal P99, pointing to tenant-specific traffic rather than regional outage.",
     fix: "Within SLA for now. If P99 stays >400ms, scale checkout-api replicas for acme shard or review noisy-neighbor limits per tenant.",
     chart: { type: "latency", data: latencyData, title: "API latency percentiles — tenant acme (today)", yLabel: "Latency µs", color: "#3b82f6" },
     sources: ["prometheus:http_request_duration_seconds{tenant='acme-corp'}", "elasticsearch:app-logs-* tenant=acme-corp"],
@@ -114,7 +117,8 @@ const RESPONSES = {
     type: "combined",
     severity: "critical",
     summary: "billing-api 500 errors — PostgreSQL connection pool exhausted. 23 errors/min.",
-    insight: "DB pool at max (20/20) at 12:28. Requests time out after 5s → HTTP 500. Started during invoice run across several tenants. Response time rose from 241ms baseline to 350ms (+45%).",
+    insight:
+      "Database — pool saturated at max (20/20) connections from 12:28.\n\nRequests — timeouts after 5s yield HTTP 500 during invoice batch across tenants.\n\nLatency drift — response time rose from 241ms baseline to 350ms (+45%).",
     fix: "Immediate: kubectl rollout restart deploy/billing-api (releases stale connections)\nConfig: DATABASE_POOL_SIZE=50 in billing-api ConfigMap",
     chart: { type: "bar", data: podRestartData, title: "Service error rate", yLabel: "Errors/min", color: "#ef4444" },
     logs: apiLogs,
@@ -124,7 +128,8 @@ const RESPONSES = {
     type: "metrics",
     severity: "critical",
     summary: "Async job queue RISING — avg depth 772, max 988. Threshold 1000 almost breached.",
-    insight: "Depth growing over 5 days (avg 232 → 772). Max 988. Correlates with new tenants onboarded and higher background job volume. At current growth, breach expected within ~2 days without worker scale-up.",
+    insight:
+      "Trend — queue depth grew over 5 days (avg 232 → 772), max 988.\n\nDrivers — correlates with new tenants onboarded and higher background job volume.\n\nRisk — breach likely within ~2 days without worker scale-up.",
     fix: "Scale worker deployment (e.g. notify-worker replicas 4 → 8).\nAlert if rolling avg depth > 850.",
     chart: { type: "queue", data: queueData, title: "Job queue depth (last 5 days)", yLabel: "Queued jobs", threshold: 1000, color: "#f59e0b" },
     sources: ["prometheus:job_queue_depth{queue='default'}"],
@@ -283,8 +288,52 @@ const GrafanaTooltip = ({ active, payload, label }) => {
   );
 };
 
+/** Horizontal bar chart — workload rows + numeric metric */
+function BarMetricTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const row = payload[0]?.payload;
+  const block = payload[0];
+  if (!row || block?.value === undefined) return null;
+  const pod = row.pod ?? row.service ?? "";
+  const ns = row.namespace;
+  const headline = ns ? `${pod} · namespace ${ns}` : pod;
+  const metricName = block.name ?? "Value";
+  const v = typeof block.value === "number" ? block.value : Number(block.value);
+
+  return (
+    <div
+      className="rounded-md px-3 py-2.5 text-[11px] border max-w-[18rem]"
+      style={{
+        fontFamily: MONO_FONT,
+        background: VD.chartBg,
+        borderColor: VD.borderPanel,
+        boxShadow: VD.tooltipShadow,
+      }}
+    >
+      <div className="mb-2 leading-snug font-medium" style={{ color: "#1a1611" }}>
+        {headline}
+      </div>
+      <div className="flex items-baseline justify-between gap-6 tabular-nums">
+        <span style={{ color: "#78716c" }}>{metricName}</span>
+        <span className="font-semibold text-red-700">{Number.isInteger(v) ? v : v.toFixed(1)}</span>
+      </div>
+    </div>
+  );
+}
+
+/** Integer-friendly max for horizontal bar X-axis (e.g. 0 … 16 with step 4) */
+function barAxisMax(rows, valueKey = "restarts") {
+  const vals = rows.map((r) => Number(r[valueKey]) || 0);
+  const hi = Math.max(...vals, 1);
+  const padded = hi + Math.max(2, Math.ceil(hi * 0.08));
+  const step = 4;
+  return Math.max(8, Math.ceil(padded / step) * step);
+}
+
 // ── Chart Renderer ────────────────────────────────────────────
 function GrafanaChart({ chart }) {
+  const barGradId = useId().replace(/:/g, "ocbg");
+
   if (!chart) return null;
 
   const gridProps = { stroke: VD.gridStroke, strokeDasharray: "3 3" };
@@ -292,6 +341,17 @@ function GrafanaChart({ chart }) {
     tick: { fill: VD.axisTick, fontSize: 10, fontFamily: MONO_FONT },
     axisLine: { stroke: VD.axisLine },
   };
+
+  const isBar = chart.type === "bar";
+  const barRows = Array.isArray(chart.data) ? chart.data.length : 0;
+  const plotHeight = isBar ? Math.min(340, 76 + barRows * 46) : 200;
+  const barMax = isBar ? barAxisMax(chart.data, "restarts") : 0;
+  const barMetricName =
+    typeof chart.metricLabel === "string"
+      ? chart.metricLabel
+      : chart.title?.toLowerCase().includes("error")
+        ? "Errors/min"
+        : "Restarts";
 
   return (
     <div
@@ -322,7 +382,7 @@ function GrafanaChart({ chart }) {
           <span>Last 1h</span>
         </div>
       </div>
-      <div className="p-3" style={{ height: 200 }}>
+      <div className="p-3" style={{ height: plotHeight }}>
         <ResponsiveContainer width="100%" height="100%">
           {chart.type === "cpu" ? (
             <AreaChart data={chart.data}>
@@ -370,16 +430,71 @@ function GrafanaChart({ chart }) {
               <Area type="monotone" dataKey="max" stroke="#ef4444" strokeWidth={1} fill="url(#maxGrad)" name="Max" dot={false} />
               <Area type="monotone" dataKey="avg" stroke="#f59e0b" strokeWidth={2} fill="url(#queueGrad)" name="Avg" dot={false} />
             </AreaChart>
-          ) : (
-            <BarChart data={chart.data} layout="vertical">
-              <CartesianGrid {...gridProps} horizontal={false} />
-              <XAxis type="number" {...axisProps} />
-              <YAxis type="category" dataKey="pod" {...axisProps} width={110} />
-              <Tooltip content={<GrafanaTooltip />} />
-              <Bar dataKey="restarts" fill="#ef4444" name="Restarts" radius={[0, 3, 3, 0]}
-                label={{ position: "right", fill: VD.axisTick, fontSize: 10, fontFamily: MONO_FONT }} />
+          ) : chart.type === "bar" ? (
+            <BarChart data={chart.data} layout="vertical" margin={{ top: 4, right: 20, bottom: 14, left: 2 }}>
+              <defs>
+                <linearGradient id={barGradId} x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#fecaca" stopOpacity={0.98} />
+                  <stop offset="55%" stopColor="#ef4444" stopOpacity={1} />
+                  <stop offset="100%" stopColor="#b91c1c" stopOpacity={1} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid {...gridProps} horizontal vertical />
+              <XAxis
+                type="number"
+                domain={[0, barMax]}
+                allowDecimals={false}
+                {...axisProps}
+                tickMargin={6}
+                label={{
+                  value: chart.yLabel ?? "Restarts",
+                  position: "bottom",
+                  offset: 4,
+                  fill: "#8a8278",
+                  fontSize: 10,
+                  fontFamily: MONO_FONT,
+                }}
+              />
+              <YAxis
+                type="category"
+                dataKey="pod"
+                {...axisProps}
+                width={128}
+                interval={0}
+                tickMargin={6}
+              />
+              <Tooltip content={<BarMetricTooltip />} cursor={{ fill: "rgba(174, 138, 88, 0.07)" }} />
+              {typeof chart.threshold === "number" ? (
+                <ReferenceLine
+                  x={chart.threshold}
+                  stroke="#d97706"
+                  strokeDasharray="5 5"
+                  strokeOpacity={0.95}
+                  label={{
+                    value: `Warn ${chart.threshold}`,
+                    fill: "#b45309",
+                    fontSize: 9,
+                    fontFamily: MONO_FONT,
+                  }}
+                />
+              ) : null}
+              <Bar
+                dataKey="restarts"
+                name={barMetricName}
+                fill={`url(#${barGradId})`}
+                stroke="#991b1b"
+                strokeWidth={0.6}
+                radius={[0, 5, 5, 0]}
+                maxBarSize={30}
+                label={{
+                  position: "right",
+                  fill: VD.axisTick,
+                  fontSize: 10,
+                  fontFamily: MONO_FONT,
+                }}
+              />
             </BarChart>
-          )}
+          ) : null}
         </ResponsiveContainer>
       </div>
       <div
@@ -398,6 +513,19 @@ function GrafanaChart({ chart }) {
             <span className="flex items-center gap-1"><span className="w-3 h-0.5 bg-yellow-500 inline-block" /> Avg Queue</span>
             <span className="flex items-center gap-1"><span className="w-3 h-0.5 bg-red-500 inline-block" /> Max Queue</span>
             <span className="flex items-center gap-1"><span className="w-3 h-1 border-t-2 border-dashed border-red-500 inline-block" /> Threshold</span>
+          </>
+        )}
+        {chart.type === "bar" && (
+          <>
+            <span className="flex items-center gap-2">
+              <span
+                className="inline-block h-2.5 w-5 shrink-0 rounded-sm border border-red-800/25"
+                style={{ background: "linear-gradient(90deg,#fecaca,#dc2626)" }}
+                aria-hidden
+              />
+              <span>{barMetricName} · horizontal bars · axis 0–{barMax}</span>
+            </span>
+            <span style={{ opacity: 0.92 }}>Hover a row for pod + namespace.</span>
           </>
         )}
       </div>
@@ -520,6 +648,61 @@ function LogViewer({ logs, title = "Log Results" }) {
   );
 }
 
+// ── Insight narrative (paragraphs · optional bullets · leading clause emphasis) ──
+function InsightLeadingClause({ children }) {
+  const text = typeof children === "string" ? children : "";
+  const sep = " — ";
+  const idx = text.indexOf(sep);
+  if (idx <= 0) return text ? <>{text}</> : null;
+  const head = text.slice(0, idx).trim();
+  const tail = text.slice(idx + sep.length).trim();
+  return (
+    <>
+      <strong className="font-semibold text-stone-900">{head}</strong>
+      <span className="mx-0.5 select-none font-normal text-stone-400">—</span>{" "}
+      <span className="font-normal text-stone-700">{tail}</span>
+    </>
+  );
+}
+
+function InsightBody({ text }) {
+  const raw = String(text ?? "").trim();
+  if (!raw) return null;
+
+  const blocks = raw.split(/\n\n+/).map((b) => b.trim()).filter(Boolean);
+
+  return (
+    <div className="insight-body space-y-4 text-[13px] leading-[1.72] text-stone-700">
+      {blocks.map((block, i) => {
+        const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+        const allBullets = lines.length >= 1 && lines.every((l) => /^[-•]\s/.test(l));
+
+        if (allBullets && lines.length >= 1) {
+          return (
+            <ul key={i} className="m-0 list-none space-y-2.5 border-l-2 border-amber-600/25 pl-3">
+              {lines.map((line, j) => (
+                <li key={j} className="flex gap-3">
+                  <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-amber-600/75" aria-hidden />
+                  <span className="min-w-0 flex-1">
+                    <InsightLeadingClause>{line.replace(/^[-•]\s/, "")}</InsightLeadingClause>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          );
+        }
+
+        const paragraphText = lines.join(" ");
+        return (
+          <p key={i} className="m-0 max-w-none">
+            <InsightLeadingClause>{paragraphText}</InsightLeadingClause>
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 // ── AI Message Bubble ─────────────────────────────────────────
 function AIMessage({ response }) {
   const sev = severityConfig[response.severity] || severityConfig.info;
@@ -555,7 +738,7 @@ function AIMessage({ response }) {
           <span className="text-stone-500 hidden sm:inline" aria-hidden>
             —
           </span>
-          <p className="text-[13px] leading-relaxed text-stone-700 min-w-0 flex-1 basis-[12rem] m-0">{response.summary}</p>
+          <p className="text-[13px] leading-relaxed text-stone-700 min-w-0 flex-1 m-0">{response.summary}</p>
         </div>
 
         <QueryScopeStrip
@@ -573,24 +756,32 @@ function AIMessage({ response }) {
 
         {/* Analysis */}
         <div
-          className="mt-1 rounded-lg border overflow-hidden"
-          style={{ borderColor: VD.borderPanel, boxShadow: VD.panelShadow }}
+          className="mt-1 overflow-hidden rounded-lg border"
+          style={{
+            borderColor: VD.borderPanel,
+            borderLeftWidth: 3,
+            borderLeftColor: "rgba(166, 115, 50, 0.65)",
+            boxShadow: VD.panelShadow,
+          }}
         >
           <div
-            className="px-4 py-2.5 border-b flex items-center gap-2 text-[10px] font-medium uppercase"
+            className="border-b px-4 py-3"
             style={{
               fontFamily: MONO_FONT,
               background: VD.logsHeader,
               borderColor: VD.borderHairline,
-              color: "#8a8278",
-              letterSpacing: "0.08em",
             }}
           >
-            <span className="h-3 w-px rounded-full bg-amber-600/50" aria-hidden />
-            AI Root Cause Analysis
+            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.08em]" style={{ color: "#7d7469" }}>
+              <span className="h-3 w-px rounded-full bg-amber-600/55" aria-hidden />
+              AI Root Cause Analysis
+            </div>
+            <p className="m-0 mt-1 max-w-[40rem] text-[11px] font-normal normal-case leading-snug tracking-normal text-stone-500" style={{ fontFamily: UI_FONT }}>
+              Bold segments highlight scope; paragraphs separate beats.
+            </p>
           </div>
-          <div className="px-4 py-3 text-[13px] text-stone-700 leading-relaxed" style={{ background: VD.analysisBody }}>
-            {response.insight}
+          <div className="px-4 py-4 sm:px-5 sm:py-5" style={{ background: VD.analysisBody }}>
+            <InsightBody text={response.insight} />
           </div>
         </div>
 
@@ -710,7 +901,7 @@ export default function ObservabilityChat() {
 
   return (
     <div
-      className="flex min-h-0 w-full flex-1 flex-row text-stone-800"
+      className="flex min-h-0 min-w-0 w-full flex-1 flex-col overflow-hidden md:flex-row text-stone-800"
       style={{ background: VD.canvas, fontFamily: UI_FONT }}
     >
       <style>{`
@@ -735,49 +926,62 @@ export default function ObservabilityChat() {
           outline: 2px solid rgba(174, 138, 88, 0.45);
           outline-offset: 2px;
         }
+        .observe-rail-section-title {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #6f665c;
+        }
+        .observe-rail-query {
+          hyphens: auto;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
       `}</style>
 
-      {/* Sidebar — recessed chrome; avoids repeating outer “Observability Chat” title */}
+      {/* Sidebar — shell-aligned hierarchy: brand card · nav chips · query deck · data plane */}
       <aside
-        className="flex w-[17rem] shrink-0 flex-col border-r"
+        className="observe-rail flex max-h-[min(48vh,24rem)] w-full shrink-0 flex-col overflow-y-auto border-b md:max-h-none md:h-full md:w-[17rem] md:min-w-[16rem] md:max-w-[17rem] md:flex-none md:overflow-visible md:border-b-0 md:border-r"
         style={{ background: VD.surfaceInset, borderColor: VD.borderHairline }}
         aria-label="Observe navigation"
       >
-        <div className="border-b px-3 pb-4 pt-4" style={{ borderColor: VD.borderHairline }}>
-          <div className="flex items-start gap-3">
-            <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-[11px] font-bold tracking-tight text-white"
-              style={{
-                fontFamily: MONO_FONT,
-                background: VD.accentGrad,
-                borderColor: "rgba(174, 138, 88, 0.35)",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1)",
-              }}
-              aria-hidden
-            >
-              NQ
-            </div>
-            <div className="min-w-0 pt-0.5">
-              <p
-                className="m-0 text-[10px] font-semibold uppercase tracking-[0.12em]"
-                style={{ color: "#7d7469" }}
+        <div className="px-3.5 pb-3 pt-4">
+          <div
+            className="rounded-xl border px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_1px_3px_rgba(47,40,31,0.06)]"
+            style={{ background: VD.surfaceElevated, borderColor: VD.borderPanel }}
+          >
+            <div className="flex items-start gap-3">
+              <div
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-[11px] font-bold tracking-tight text-white"
+                style={{
+                  fontFamily: MONO_FONT,
+                  background: VD.accentGrad,
+                  borderColor: "rgba(174, 138, 88, 0.35)",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.14)",
+                }}
+                aria-hidden
               >
-                Module
-              </p>
-              <h2
-                className="m-0 mt-1 text-[15px] font-semibold leading-tight tracking-tight text-stone-900"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Observe
-              </h2>
-              <p className="m-0 mt-1 text-[11px] leading-snug text-stone-500">
-                Tenant-aware · cited queries
-              </p>
+                NQ
+              </div>
+              <div className="min-w-0 pt-0.5">
+                <p className="observe-rail-section-title m-0">Module</p>
+                <h2
+                  className="m-0 mt-1.5 text-[15px] font-semibold leading-tight tracking-tight text-stone-900"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  Observe
+                </h2>
+                <p className="m-0 mt-1.5 text-[11px] leading-relaxed text-stone-500">
+                  Tenant-aware · cited queries
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <nav className="space-y-1 px-2 py-3" aria-label="Primary">
+        <nav className="flex flex-1 flex-col gap-1.5 px-3 pb-2 pt-0 min-h-0" aria-label="Primary">
+          <div className="observe-rail-section-title px-1 pb-1">Navigate</div>
           {SIDEBAR_NAV.map((item) => {
             const on = activeTab === item.id;
             return (
@@ -785,47 +989,51 @@ export default function ObservabilityChat() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveTab(item.id)}
-                className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left text-[12px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
-                  on ? "border text-stone-900" : "border-transparent text-stone-600 hover:border-transparent hover:text-stone-900"
+                className={`observe-rail-nav-btn group flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left text-[12px] transition-[background,border-color,box-shadow,color] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
+                  on
+                    ? "border-stone-300/90 text-stone-900 shadow-[0_2px_10px_rgba(71,55,31,0.07)]"
+                    : "border-transparent text-stone-600 hover:border-stone-200/90 hover:bg-white/55 hover:text-stone-900"
                 }`}
                 style={
                   on
-                    ? { background: VD.navActive, borderColor: "rgba(174, 138, 88, 0.28)" }
+                    ? { background: VD.navActive, borderColor: "rgba(174, 138, 88, 0.35)" }
                     : {}
                 }
               >
                 <span
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-[10px] font-bold tracking-tight"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border text-[10px] font-bold tracking-tight transition-colors"
                   style={{
                     fontFamily: MONO_FONT,
-                    borderColor: on ? "rgba(174, 138, 88, 0.42)" : VD.borderHairline,
-                    background: on ? "rgba(174, 138, 88, 0.14)" : VD.canvas,
+                    borderColor: on ? "rgba(174, 138, 88, 0.45)" : VD.borderHairline,
+                    background: on ? "rgba(174, 138, 88, 0.18)" : VD.surfaceElevated,
                     color: on ? "#3d3429" : "#78716c",
+                    boxShadow: on ? "inset 0 1px 0 rgba(255,255,255,0.65)" : "none",
                   }}
                   aria-hidden
                 >
                   {item.abbr}
                 </span>
-                <span className="font-medium">{item.label}</span>
+                <span className="min-w-0 font-semibold leading-snug">{item.label}</span>
               </button>
             );
           })}
         </nav>
 
-        <div className="mt-auto border-t px-3 py-3" style={{ borderColor: VD.borderHairline }}>
-          <div
-            className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em]"
-            style={{ color: "#6f665c" }}
-          >
+        <div className="mt-auto border-t px-3.5 py-4" style={{ borderColor: VD.borderHairline }}>
+          <div className="observe-rail-section-title mb-2.5 flex items-center gap-2 px-0.5">
+            <span className="h-1 w-1 shrink-0 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 opacity-90" aria-hidden />
             Quick queries
           </div>
-          <div className="space-y-1.5 rounded-lg border px-2 py-2.5" style={{ borderColor: VD.borderHairline, background: VD.canvas }}>
+          <div
+            className="space-y-2 rounded-xl border px-2.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"
+            style={{ borderColor: VD.borderHairline, background: VD.surfaceElevated }}
+          >
             {QUERIES.slice(0, 4).map((q, i) => (
               <button
                 key={i}
                 type="button"
                 onClick={() => sendQuery(q)}
-                className="query-btn w-full rounded-md border px-2.5 py-2 text-left text-[11px] leading-snug text-stone-600 transition-colors"
+                className="observe-rail-query query-btn w-full rounded-lg border px-3 py-2.5 text-left text-[11px] leading-relaxed text-stone-700 transition-colors hover:text-stone-900"
                 style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
               >
                 {q}
@@ -834,32 +1042,35 @@ export default function ObservabilityChat() {
           </div>
         </div>
 
-        <div className="border-t px-3 py-3" style={{ borderColor: VD.borderHairline }}>
-          <div
-            className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em]"
-            style={{ color: "#6f665c" }}
-          >
+        <div className="border-t px-3.5 pb-4 pt-3" style={{ borderColor: VD.borderHairline }}>
+          <div className="observe-rail-section-title mb-2 flex items-center gap-2 px-0.5">
+            <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-500/85" aria-hidden />
             Data plane
           </div>
-          <div className="mb-2 flex items-center gap-2 text-[11px] text-stone-500">
-            <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400 motion-safe:animate-pulse" aria-hidden />
-            Agents reachable
-          </div>
-          <div className="space-y-1.5">
-            {["Prometheus", "Loki", "Elasticsearch"].map((s) => (
-              <div key={s} className="flex items-center justify-between text-[11px]" style={{ fontFamily: MONO_FONT }}>
-                <span className="text-stone-500">{s}</span>
-                <span className="text-[10px] text-emerald-400/90" aria-hidden>
-                  ●
-                </span>
-              </div>
-            ))}
+          <div
+            className="rounded-xl border px-3 py-2.5"
+            style={{ background: VD.surfaceElevated, borderColor: VD.borderHairline }}
+          >
+            <div className="mb-2 flex items-center gap-2 text-[11px] font-medium text-stone-600">
+              <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(52,211,153,0.2)] motion-safe:animate-pulse" aria-hidden />
+              Agents reachable
+            </div>
+            <div className="space-y-2 border-t pt-2.5" style={{ borderColor: VD.borderHairline }}>
+              {["Prometheus", "Loki", "Elasticsearch"].map((s) => (
+                <div key={s} className="flex items-center justify-between gap-3 text-[11px]" style={{ fontFamily: MONO_FONT }}>
+                  <span className="min-w-0 truncate text-stone-600">{s}</span>
+                  <span className="text-[10px] tabular-nums text-emerald-600/95" aria-hidden>
+                    ●
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </aside>
 
       {/* Main chat area */}
-      <div className="flex-1 flex flex-col min-h-0 min-w-0">
+      <div className="observe-main flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         {/* Header */}
         <header
           className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b px-5 py-3"
