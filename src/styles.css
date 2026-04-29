@@ -268,14 +268,59 @@ h3,
 .app-shell {
   position: relative;
   isolation: isolate;
-  display: grid;
-  /* Shell sidebar keeps a usable minimum width; main pane flexes with minmax(0,1fr) */
-  grid-template-columns: minmax(16rem, 18.25rem) minmax(0, 1fr);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
   gap: var(--space-5);
   min-height: 100vh;
   padding: var(--space-5);
   background: var(--dashboard-shell-bg);
   animation: nexiq-fade-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.app-shell-leading {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.sidebar-resize-handle {
+  flex: 0 0 12px;
+  align-self: stretch;
+  margin-left: -5px;
+  margin-right: -5px;
+  padding: 0;
+  border: none;
+  cursor: col-resize;
+  touch-action: none;
+  background: transparent;
+  position: relative;
+  z-index: 2;
+}
+
+.sidebar-resize-handle:focus-visible {
+  outline: 2px solid rgba(139, 92, 44, 0.55);
+  outline-offset: -1px;
+}
+
+.sidebar-resize-handle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  bottom: 12%;
+  width: 4px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(64, 54, 43, 0.14);
+  transition: background 160ms ease;
+}
+
+.sidebar-resize-handle:hover::after,
+.sidebar-resize-handle:focus-visible::after {
+  background: rgba(139, 92, 44, 0.42);
 }
 
 .app-shell::before {
@@ -600,8 +645,11 @@ h3,
 }
 
 .sidebar-note {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
   margin-top: auto;
-  padding: 0.75rem;
+  padding: 0.85rem;
   border: 1px solid rgba(64, 54, 43, 0.11);
   border-radius: 0.9rem;
   background:
@@ -609,24 +657,50 @@ h3,
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88);
 }
 
-.sidebar-note span,
-.sidebar-note small {
-  display: block;
-  color: #8b8174;
-  font-size: 0.72rem;
-}
-
-.sidebar-note strong {
-  display: block;
-  margin: 0.2rem 0;
-  color: var(--color-ink);
-  font-size: 0.95rem;
-}
-
-.sidebar-note-head {
+.sidebar-note-session {
   display: flex;
   align-items: center;
   gap: 0.45rem;
+}
+
+.sidebar-note-session-label {
+  margin: 0;
+  color: #8b8174;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-note-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.2rem;
+  border-top: 1px solid rgba(64, 54, 43, 0.09);
+}
+
+.sidebar-note-name {
+  margin: 0;
+  padding: 0;
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.sidebar-note-email {
+  margin: 0;
+  padding: 0;
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #7d7469;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: 1.45;
 }
 
 .sidebar-note .status-light {
@@ -639,7 +713,7 @@ h3,
 
 .signout-button {
   width: 100%;
-  margin-top: 0.75rem;
+  margin-top: 0;
   padding: 0.52rem 0.65rem;
   border: 1px solid rgba(64, 54, 43, 0.12);
   border-radius: 0.7rem;
@@ -662,6 +736,7 @@ h3,
 .workspace {
   display: flex;
   flex-direction: column;
+  flex: 1 1 minmax(0, 1fr);
   min-width: 0;
   max-height: calc(100vh - 2 * var(--space-5));
   overflow: hidden;
@@ -2658,6 +2733,20 @@ h3,
     display: flex;
     flex-direction: column;
     padding: 0.65rem;
+  }
+
+  .app-shell-leading {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .sidebar-resize-handle {
+    display: none;
+  }
+
+  .app-sidebar {
+    width: 100% !important;
+    flex-shrink: 1 !important;
   }
 
   .app-sidebar,
