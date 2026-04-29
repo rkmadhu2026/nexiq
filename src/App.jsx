@@ -197,7 +197,11 @@ export default function App() {
 
         <section
           className={
-            activeView.id === "settings" ? "view-stage light-legacy-surface" : "view-stage view-stage--dark"
+            activeView.id === "settings"
+              ? "view-stage light-legacy-surface"
+              : activeView.id === "observability"
+                ? "view-stage view-stage--observe"
+                : "view-stage view-stage--dark"
           }
         >
           <Suspense fallback={<WorkspaceLoading />}>

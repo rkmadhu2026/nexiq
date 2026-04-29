@@ -131,36 +131,37 @@ const RESPONSES = {
   },
 };
 
-/** Warm-dark surfaces — aligned with dashboard bronze/slate; sidebar slightly recessed vs main */
+/** Light surfaces — match Admin Console / Settings & shell dashboard tokens */
 const VD = {
-  canvas: "#12110f",
-  surface: "#181613",
-  surfaceElevated: "#1f1d19",
-  surfaceInset: "#141311",
-  chartBg: "#1f1d19",
-  chartHeader: "#25221e",
-  gridStroke: "rgba(230, 218, 200, 0.07)",
-  axisTick: "#9c9488",
-  axisLine: "rgba(230, 218, 200, 0.12)",
-  logsBg: "#161513",
-  logsHeader: "#1f1c18",
-  logsMeta: "#25211d",
-  logsSearch: "#1c1a16",
-  logsCol: "#181613",
-  analysisBody: "#1e1b17",
-  fixGreenBg: "#121a14",
-  fixGreenHeader: "#152818",
-  scrollbarTrack: "#1c1a16",
-  scrollbarThumb: "rgba(200, 190, 175, 0.22)",
-  navActive: "#252219",
-  quickBtn: "#1c1a16",
-  badgeBg: "rgba(155, 106, 52, 0.12)",
-  userBubble: "#242018",
-  userText: "#e8e0d4",
-  borderHairline: "rgba(230, 218, 200, 0.085)",
-  borderPanel: "rgba(230, 218, 200, 0.13)",
-  panelShadow: "0 1px 0 rgba(255, 255, 255, 0.04), 0 14px 40px rgba(0, 0, 0, 0.38)",
-  tooltipShadow: "0 12px 28px rgba(0, 0, 0, 0.55)",
+  canvas: "#faf7f2",
+  surface: "#fffbf7",
+  surfaceElevated: "#ffffff",
+  surfaceInset: "#f5efe8",
+  chartBg: "#ffffff",
+  chartHeader: "#f8f5f0",
+  gridStroke: "rgba(42, 36, 28, 0.08)",
+  axisTick: "#6b6258",
+  axisLine: "rgba(42, 36, 28, 0.14)",
+  logsBg: "#ffffff",
+  logsHeader: "#f8f5f0",
+  logsMeta: "#efe8dc",
+  logsSearch: "#fffdf9",
+  logsCol: "#f3ece4",
+  analysisBody: "#fffdf9",
+  fixGreenBg: "#ecfdf5",
+  fixGreenHeader: "#d1fae5",
+  scrollbarTrack: "#ebe4d8",
+  scrollbarThumb: "rgba(122, 82, 34, 0.28)",
+  navActive: "#efe8dc",
+  quickBtn: "#fffbf7",
+  badgeBg: "rgba(166, 115, 50, 0.14)",
+  userBubble: "#efe8dc",
+  userText: "#1a1611",
+  borderHairline: "rgba(42, 36, 28, 0.11)",
+  borderPanel: "rgba(42, 36, 28, 0.13)",
+  panelShadow:
+    "0 1px 0 rgba(255, 255, 255, 0.95), 0 14px 36px rgba(47, 40, 31, 0.07)",
+  tooltipShadow: "0 10px 28px rgba(47, 40, 31, 0.12)",
   accentGrad: "linear-gradient(155deg, #ae8a58 0%, #806847 48%, #5e4a32 100%)",
 };
 
@@ -177,18 +178,18 @@ const SIDEBAR_NAV = [
 
 // ── Level Colors ─────────────────────────────────────────────
 const levelConfig = {
-  FATAL: { text: "text-red-200", dot: "#fb7185" },
-  ERROR: { text: "text-red-300/95", dot: "#f87171" },
-  WARN: { text: "text-amber-200/90", dot: "#e8b84d" },
-  INFO: { text: "text-stone-400", dot: "#a8a095" },
-  DEBUG: { text: "text-stone-500", dot: "#7d766c" },
+  FATAL: { text: "text-red-700", dot: "#b91c1c" },
+  ERROR: { text: "text-red-600", dot: "#dc2626" },
+  WARN: { text: "text-amber-700", dot: "#b45309" },
+  INFO: { text: "text-stone-600", dot: "#78716c" },
+  DEBUG: { text: "text-stone-500", dot: "#a8a29e" },
 };
 
 const severityConfig = {
-  critical: { label: "CRITICAL", dot: "#ef5f52", color: "text-red-200/95", border: "border-red-500/30", bg: "bg-red-950/30" },
-  error: { label: "ERROR", dot: "#f87171", color: "text-red-200/90", border: "border-red-500/25", bg: "bg-red-950/25" },
-  warning: { label: "WARNING", dot: "#d4a934", color: "text-amber-100/90", border: "border-amber-500/22", bg: "bg-amber-950/18" },
-  info: { label: "INFO", dot: "#6ee7b7", color: "text-emerald-200/85", border: "border-emerald-500/22", bg: "bg-emerald-950/18" },
+  critical: { label: "CRITICAL", dot: "#b91c1c", color: "text-red-800", border: "border-red-200", bg: "bg-red-50" },
+  error: { label: "ERROR", dot: "#dc2626", color: "text-red-700", border: "border-red-200", bg: "bg-red-50" },
+  warning: { label: "WARNING", dot: "#b45309", color: "text-amber-900", border: "border-amber-200", bg: "bg-amber-50" },
+  info: { label: "INFO", dot: "#047857", color: "text-emerald-900", border: "border-emerald-200", bg: "bg-emerald-50" },
 };
 
 // ── Custom Tooltip ────────────────────────────────────────────
@@ -208,7 +209,7 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
         fontFamily: MONO_FONT,
         background: "rgba(174, 138, 88, 0.06)",
         borderColor: VD.borderPanel,
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.85)",
       }}
     >
       <div
@@ -223,7 +224,7 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
             <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
               Instance
             </span>
-            <span className="text-stone-200">{instanceLabel}</span>
+            <span className="text-stone-800">{instanceLabel}</span>
           </div>
         ) : null}
         {clientName ? (
@@ -231,7 +232,7 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
             <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
               Client
             </span>
-            <span className="text-stone-200">{clientName}</span>
+            <span className="text-stone-800">{clientName}</span>
           </div>
         ) : null}
         {applicationNames && applicationNames.length > 0 ? (
@@ -239,7 +240,7 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
             <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
               Applications / jobs
             </span>
-            <span className="text-stone-200 break-words">{applicationNames.join(" · ")}</span>
+            <span className="text-stone-800 break-words">{applicationNames.join(" · ")}</span>
           </div>
         ) : null}
         {regionLabel ? (
@@ -247,7 +248,7 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
             <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
               Region / cluster
             </span>
-            <span className="text-stone-200">{regionLabel}</span>
+            <span className="text-stone-800">{regionLabel}</span>
           </div>
         ) : null}
       </div>
@@ -272,7 +273,7 @@ const GrafanaTooltip = ({ active, payload, label }) => {
       </div>
       {payload.map((p, i) => (
         <div key={i} style={{ color: p.color }} className="flex gap-2 tabular-nums">
-          <span style={{ color: "#9c9488" }}>{p.name}:</span>
+          <span style={{ color: "#78716c" }}>{p.name}:</span>
           <span className="font-medium">
             {typeof p.value === "number" ? p.value.toFixed(1) : p.value}
           </span>
@@ -302,7 +303,7 @@ function GrafanaChart({ chart }) {
         style={{ background: VD.chartHeader, borderColor: VD.borderHairline }}
       >
         <span
-          className="text-[11px] text-stone-300 font-medium tabular-nums"
+          className="text-[11px] text-stone-700 font-medium tabular-nums"
           style={{ fontFamily: MONO_FONT, letterSpacing: "0.02em" }}
         >
           {chart.title}
@@ -428,7 +429,7 @@ function LogViewer({ logs, title = "Log Results" }) {
         style={{ background: VD.logsHeader, borderColor: VD.borderHairline }}
       >
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-stone-400 font-medium truncate">{title}</span>
+          <span className="text-stone-700 font-medium truncate">{title}</span>
           <span
             className="px-2 py-0.5 rounded border shrink-0 tabular-nums"
             style={{ color: "#8a8278", borderColor: VD.borderHairline, background: VD.logsMeta }}
@@ -444,8 +445,8 @@ function LogViewer({ logs, title = "Log Results" }) {
               onClick={() => setLevelFilter(l)}
               className={`px-2 py-1 rounded border text-[10px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
                 levelFilter === l
-                  ? "text-stone-100"
-                  : "text-stone-500 hover:text-stone-300"
+                  ? "text-stone-900"
+                  : "text-stone-500 hover:text-stone-800"
               }`}
               style={{
                 borderColor: levelFilter === l ? "rgba(174, 138, 88, 0.45)" : VD.borderHairline,
@@ -464,7 +465,7 @@ function LogViewer({ logs, title = "Log Results" }) {
           onChange={(e) => setFilter(e.target.value)}
           placeholder="Filter logs..."
           aria-label="Filter log events"
-          className="w-full bg-transparent text-stone-300 placeholder-stone-600 outline-none text-[11px] py-0.5"
+          className="w-full bg-transparent text-stone-800 placeholder-stone-400 outline-none text-[11px] py-0.5"
           style={{ fontFamily: MONO_FONT }}
         />
       </div>
@@ -491,22 +492,22 @@ function LogViewer({ logs, title = "Log Results" }) {
           return (
             <div
               key={i}
-              className={`grid gap-2 px-3 py-2 border-b border-stone-800/30 hover:bg-white/[0.02] transition-colors ${i === 0 && log.level === "FATAL" ? "bg-red-950/15" : ""}`}
+              className={`grid gap-2 px-3 py-2 border-b border-stone-200/90 hover:bg-stone-50/90 transition-colors ${i === 0 && log.level === "FATAL" ? "bg-red-50" : ""}`}
               style={{ gridTemplateColumns: "90px 60px 110px 1fr" }}
             >
               <span className="text-stone-500 shrink-0 tabular-nums">{log.time}</span>
               <span className={`${cfg.text} flex items-center gap-1.5 shrink-0 font-semibold`}>
-                <span className="w-1.5 h-1.5 rounded-full shrink-0 ring-1 ring-white/10" style={{ background: cfg.dot }} />
+                <span className="w-1.5 h-1.5 rounded-full shrink-0 ring-1 ring-stone-300/60" style={{ background: cfg.dot }} />
                 {log.level}
               </span>
-              <span className="text-amber-100/75 shrink-0 truncate">{log.service}</span>
+              <span className="text-stone-600 shrink-0 truncate">{log.service}</span>
               <span
                 className={`${
                   log.level === "ERROR" || log.level === "FATAL"
-                    ? "text-red-200/95"
+                    ? "text-red-900"
                     : log.level === "WARN"
-                      ? "text-amber-100/90"
-                      : "text-stone-300"
+                      ? "text-amber-950"
+                      : "text-stone-700"
                 } break-all`}
               >
                 {log.message}
@@ -540,10 +541,10 @@ function AIMessage({ response }) {
         <div
           role="status"
           className={`flex flex-wrap items-start gap-x-3 gap-y-2 px-3 py-2.5 rounded-lg border ${sev.border} ${sev.bg}`}
-          style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)" }}
+          style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9)" }}
         >
           <span className="inline-flex items-center gap-2 shrink-0">
-            <span className="h-2 w-2 rounded-full ring-1 ring-white/15 shrink-0" style={{ background: sev.dot }} aria-hidden />
+            <span className="h-2 w-2 rounded-full ring-1 ring-stone-300/50 shrink-0" style={{ background: sev.dot }} aria-hidden />
             <span
               className={`text-[10px] font-semibold tracking-[0.1em] uppercase ${sev.color}`}
               style={{ fontFamily: MONO_FONT }}
@@ -554,7 +555,7 @@ function AIMessage({ response }) {
           <span className="text-stone-500 hidden sm:inline" aria-hidden>
             —
           </span>
-          <p className="text-[13px] leading-relaxed text-stone-300 min-w-0 flex-1 basis-[12rem] m-0">{response.summary}</p>
+          <p className="text-[13px] leading-relaxed text-stone-700 min-w-0 flex-1 basis-[12rem] m-0">{response.summary}</p>
         </div>
 
         <QueryScopeStrip
@@ -588,27 +589,27 @@ function AIMessage({ response }) {
             <span className="h-3 w-px rounded-full bg-amber-600/50" aria-hidden />
             AI Root Cause Analysis
           </div>
-          <div className="px-4 py-3 text-[13px] text-stone-300 leading-relaxed" style={{ background: VD.analysisBody }}>
+          <div className="px-4 py-3 text-[13px] text-stone-700 leading-relaxed" style={{ background: VD.analysisBody }}>
             {response.insight}
           </div>
         </div>
 
         {/* Fix */}
-        <div className="mt-1 rounded-lg border border-emerald-800/25 overflow-hidden" style={{ boxShadow: VD.panelShadow }}>
+        <div className="mt-1 rounded-lg border border-emerald-200 overflow-hidden" style={{ boxShadow: VD.panelShadow }}>
           <div
-            className="px-4 py-2.5 border-b border-emerald-800/25 text-[10px] font-medium uppercase flex items-center gap-2"
+            className="px-4 py-2.5 border-b border-emerald-200 text-[10px] font-medium uppercase flex items-center gap-2"
             style={{
               fontFamily: MONO_FONT,
               background: VD.fixGreenHeader,
-              color: "#6ee7a0",
+              color: "#065f46",
               letterSpacing: "0.08em",
             }}
           >
-            <span className="h-3 w-px rounded-full bg-emerald-400/60" aria-hidden />
+            <span className="h-3 w-px rounded-full bg-emerald-600/50" aria-hidden />
             Recommended Action
           </div>
           <pre
-            className="px-4 py-3 text-[11px] text-emerald-100/95 whitespace-pre-wrap leading-relaxed m-0 border-t border-emerald-900/20"
+            className="px-4 py-3 text-[11px] text-emerald-900 whitespace-pre-wrap leading-relaxed m-0 border-t border-emerald-100"
             style={{ fontFamily: MONO_FONT, background: VD.fixGreenBg }}
           >
             {response.fix}
@@ -709,7 +710,7 @@ export default function ObservabilityChat() {
 
   return (
     <div
-      className="flex min-h-0 w-full flex-1 flex-row text-stone-200"
+      className="flex min-h-0 w-full flex-1 flex-row text-stone-800"
       style={{ background: VD.canvas, fontFamily: UI_FONT }}
     >
       <style>{`
@@ -726,9 +727,9 @@ export default function ObservabilityChat() {
         ::-webkit-scrollbar-track { background: ${VD.scrollbarTrack}; }
         ::-webkit-scrollbar-thumb { background: ${VD.scrollbarThumb}; border-radius: 3px; }
         .query-btn:hover {
-          background: rgba(42, 38, 32, 0.95) !important;
-          border-color: rgba(174, 138, 88, 0.45) !important;
-          color: #e8e0d4 !important;
+          background: rgba(174, 138, 88, 0.09) !important;
+          border-color: rgba(174, 138, 88, 0.38) !important;
+          color: #29241d !important;
         }
         .query-btn:focus-visible {
           outline: 2px solid rgba(174, 138, 88, 0.45);
@@ -764,7 +765,7 @@ export default function ObservabilityChat() {
                 Module
               </p>
               <h2
-                className="m-0 mt-1 text-[15px] font-semibold leading-tight tracking-tight text-stone-100"
+                className="m-0 mt-1 text-[15px] font-semibold leading-tight tracking-tight text-stone-900"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Observe
@@ -785,7 +786,7 @@ export default function ObservabilityChat() {
                 type="button"
                 onClick={() => setActiveTab(item.id)}
                 className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left text-[12px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
-                  on ? "border text-stone-100" : "border-transparent text-stone-500 hover:border-transparent hover:text-stone-300"
+                  on ? "border text-stone-900" : "border-transparent text-stone-600 hover:border-transparent hover:text-stone-900"
                 }`}
                 style={
                   on
@@ -799,7 +800,7 @@ export default function ObservabilityChat() {
                     fontFamily: MONO_FONT,
                     borderColor: on ? "rgba(174, 138, 88, 0.42)" : VD.borderHairline,
                     background: on ? "rgba(174, 138, 88, 0.14)" : VD.canvas,
-                    color: on ? "#f4ebe3" : "#92897e",
+                    color: on ? "#3d3429" : "#78716c",
                   }}
                   aria-hidden
                 >
@@ -824,7 +825,7 @@ export default function ObservabilityChat() {
                 key={i}
                 type="button"
                 onClick={() => sendQuery(q)}
-                className="query-btn w-full rounded-md border px-2.5 py-2 text-left text-[11px] leading-snug text-stone-500 transition-colors"
+                className="query-btn w-full rounded-md border px-2.5 py-2 text-left text-[11px] leading-snug text-stone-600 transition-colors"
                 style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
               >
                 {q}
@@ -865,7 +866,7 @@ export default function ObservabilityChat() {
           style={{
             background: VD.surface,
             borderColor: VD.borderHairline,
-            boxShadow: "inset 0 -1px 0 rgba(255,255,255,0.03)",
+            boxShadow: "inset 0 -1px 0 rgba(42, 36, 28, 0.06)",
           }}
         >
           <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2">
@@ -875,12 +876,12 @@ export default function ObservabilityChat() {
                 fontFamily: MONO_FONT,
                 background: VD.badgeBg,
                 borderColor: "rgba(174, 138, 88, 0.28)",
-                color: "#d4c4a8",
+                color: "#806847",
               }}
             >
               LangGraph · RAG
             </span>
-            <span className="hidden h-4 w-px shrink-0 bg-stone-700 sm:block" aria-hidden />
+            <span className="hidden h-4 w-px shrink-0 bg-stone-300 sm:block" aria-hidden />
             <p className="m-0 max-w-[28rem] text-[12px] leading-snug text-stone-500">
               Charts, logs, and scoped answers — sources attached to each reply
             </p>
@@ -889,7 +890,7 @@ export default function ObservabilityChat() {
             className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-1 text-[11px]"
             style={{ fontFamily: MONO_FONT, color: "#8a8278" }}
           >
-            <span className="flex items-center gap-2 text-stone-400">
+            <span className="flex items-center gap-2 text-stone-600">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/90" aria-hidden />
               NexIQ Production
             </span>
@@ -905,8 +906,8 @@ export default function ObservabilityChat() {
                 className="flex h-16 w-16 items-center justify-center rounded-2xl border text-[13px] font-bold tracking-tight text-white"
                 style={{
                   fontFamily: MONO_FONT,
-                  background: "linear-gradient(155deg, #2a2720, #1c1a16)",
-                  borderColor: "rgba(174, 138, 88, 0.28)",
+                  background: VD.accentGrad,
+                  borderColor: "rgba(174, 138, 88, 0.35)",
                   boxShadow: VD.panelShadow,
                 }}
                 aria-hidden
@@ -914,7 +915,7 @@ export default function ObservabilityChat() {
                 NQ
               </div>
               <div className="max-w-md">
-                <h2 className="mb-2 m-0 text-[1.35rem] font-semibold tracking-tight text-stone-100" style={{ fontFamily: "var(--font-display)" }}>
+                <h2 className="mb-2 m-0 text-[1.35rem] font-semibold tracking-tight text-stone-900" style={{ fontFamily: "var(--font-display)" }}>
                   Ask your infrastructure anything
                 </h2>
                 <p className="m-0 text-[13px] leading-relaxed text-stone-500">
@@ -927,7 +928,7 @@ export default function ObservabilityChat() {
                     key={i}
                     type="button"
                     onClick={() => sendQuery(q)}
-                    className="query-btn px-3 py-2.5 rounded-lg text-[11px] text-left text-stone-400 border transition-colors leading-snug"
+                    className="query-btn px-3 py-2.5 rounded-lg text-[11px] text-left text-stone-600 border transition-colors leading-snug"
                     style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
                   >
                     {q}
@@ -978,7 +979,7 @@ export default function ObservabilityChat() {
                 placeholder="Ask about pods, metrics, tenants, queues, logs, latency… (Enter to send)"
                 rows={2}
                 aria-label="Chat message"
-                className="w-full px-4 py-3 bg-transparent text-[13px] text-stone-200 placeholder-stone-600 resize-none outline-none leading-relaxed"
+                className="w-full px-4 py-3 bg-transparent text-[13px] text-stone-800 placeholder-stone-400 resize-none outline-none leading-relaxed"
               />
               <div
                 className="flex items-center justify-between px-4 py-2 border-t"
