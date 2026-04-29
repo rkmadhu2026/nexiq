@@ -1,0 +1,30 @@
+# Multi-stage build: install deps + `vite build` entirely inside Docker (typical CI).
+#
+# Default production image uses `Dockerfile` + `npm run docker:build`
+# (host runs `vite build`, image only serves nginx + ./dist — fastest and avoids flaky npm-in-Docker).
+#
+# Use this file when CI must compile inside the container:
+#   npm run docker:build:full
+#   docker build -f Dockerfile.build -t nexiq-web:latest .
+#
+# TLS note: if `npm ci` fails with certificate errors (corporate proxy / custom CA),
+# install CA into the image or set NODE_EXTRA_CA_CERTS — or keep using `Dockerfile` + host build.
+#
+FROM node:22-bookworm-slim AS build
+WORKDIR /app
+
+ENV CI=true \
+    NPM_CONFIG_FETCH_RETRIES=5 \
+    NPM_CONFIG_FETCH_RETRY_MINTIMEOUT=20000
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY . .
+RUN npm run build
+
+FROM nginx:1.27-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
