@@ -19,7 +19,7 @@ const topologyNodes = [
   { label: "Clients", tone: "blue" },
   { label: "Apps", tone: "gold" },
   { label: "Logs", tone: "rose" },
-  { label: "Admin", tone: "violet" },
+  { label: "Admin", tone: "slate" },
   { label: "Runbooks", tone: "mint" },
 ];
 

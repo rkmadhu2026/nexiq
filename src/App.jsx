@@ -146,8 +146,8 @@ export default function App() {
           <div className="brand-lockup">
             <div className="brand-mark">NQ</div>
             <div>
-              <p className="eyebrow">NexusIQ</p>
-              <h1>Desktop Studio</h1>
+              <p className="eyebrow">NexIQ</p>
+              <h1>Command center</h1>
             </div>
           </div>
           <button className="sidebar-command" type="button" aria-label="Open command menu">
@@ -167,7 +167,6 @@ export default function App() {
               <span className="view-tab-icon" aria-hidden="true">{view.icon}</span>
               <span className="view-tab-copy">
                 <strong>{view.navLabel}</strong>
-                <small>{view.eyebrow}</small>
               </span>
               <span className="view-tab-status" aria-hidden="true">{view.navStatus}</span>
             </button>
@@ -193,11 +192,6 @@ export default function App() {
             <p>{activeView.eyebrow}</p>
             <h2>{activeView.title}</h2>
             <span>{activeView.description}</span>
-          </div>
-          <div className="window-actions" aria-hidden="true">
-            <span />
-            <span />
-            <span />
           </div>
         </header>
 

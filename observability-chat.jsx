@@ -131,46 +131,64 @@ const RESPONSES = {
   },
 };
 
-/** Warm-dark surfaces — paired with cream light shell (soft neutrals, bronze accent) */
+/** Warm-dark surfaces — aligned with dashboard bronze/slate; sidebar slightly recessed vs main */
 const VD = {
-  canvas: "#171512",
-  surface: "#1e1c17",
-  chartBg: "#252220",
-  chartHeader: "#2e2a24",
-  gridStroke: "#454038",
-  axisTick: "#938a7d",
-  axisLine: "#5a534a",
-  logsBg: "#191714",
-  logsHeader: "#26221c",
-  logsMeta: "#26221c",
-  logsSearch: "#222018",
-  logsCol: "#1c1915",
-  analysisBody: "#231f1a",
-  fixGreenBg: "#162316",
-  scrollbarTrack: "#252220",
-  scrollbarThumb: "#4a443c",
-  navActive: "#342e26",
-  quickBtn: "#222018",
-  badgeBg: "#2c261c",
-  userBubble: "#2e2920",
-  userText: "#e5dccb",
-  accentGrad: "linear-gradient(145deg, #b89562, #6b5838)",
+  canvas: "#12110f",
+  surface: "#181613",
+  surfaceElevated: "#1f1d19",
+  surfaceInset: "#141311",
+  chartBg: "#1f1d19",
+  chartHeader: "#25221e",
+  gridStroke: "rgba(230, 218, 200, 0.07)",
+  axisTick: "#9c9488",
+  axisLine: "rgba(230, 218, 200, 0.12)",
+  logsBg: "#161513",
+  logsHeader: "#1f1c18",
+  logsMeta: "#25211d",
+  logsSearch: "#1c1a16",
+  logsCol: "#181613",
+  analysisBody: "#1e1b17",
+  fixGreenBg: "#121a14",
+  fixGreenHeader: "#152818",
+  scrollbarTrack: "#1c1a16",
+  scrollbarThumb: "rgba(200, 190, 175, 0.22)",
+  navActive: "#252219",
+  quickBtn: "#1c1a16",
+  badgeBg: "rgba(155, 106, 52, 0.12)",
+  userBubble: "#242018",
+  userText: "#e8e0d4",
+  borderHairline: "rgba(230, 218, 200, 0.085)",
+  borderPanel: "rgba(230, 218, 200, 0.13)",
+  panelShadow: "0 1px 0 rgba(255, 255, 255, 0.04), 0 14px 40px rgba(0, 0, 0, 0.38)",
+  tooltipShadow: "0 12px 28px rgba(0, 0, 0, 0.55)",
+  accentGrad: "linear-gradient(155deg, #ae8a58 0%, #806847 48%, #5e4a32 100%)",
 };
+
+const UI_FONT = `var(--font-body, "DM Sans", ui-sans-serif, system-ui, sans-serif)`;
+const MONO_FONT = `var(--font-mono, ui-monospace, monospace)`;
+
+/** Left rail — professional labels (no emoji); abbrev matches dense ops UIs */
+const SIDEBAR_NAV = [
+  { id: "chat", abbr: "AI", label: "Ask AI" },
+  { id: "metrics", abbr: "Mx", label: "Metrics" },
+  { id: "logs", abbr: "Lo", label: "Logs" },
+  { id: "alerts", abbr: "Al", label: "Alerts" },
+];
 
 // ── Level Colors ─────────────────────────────────────────────
 const levelConfig = {
-  FATAL: { bg: "bg-red-900/60", text: "text-red-300", border: "border-red-700", dot: "#ef4444" },
-  ERROR: { bg: "bg-red-900/40", text: "text-red-400", border: "border-red-800", dot: "#f87171" },
-  WARN:  { bg: "bg-yellow-900/30", text: "text-yellow-400", border: "border-yellow-800", dot: "#fbbf24" },
-  INFO:  { bg: "bg-stone-800/40", text: "text-stone-400", border: "border-stone-700", dot: "#b0a595" },
-  DEBUG: { bg: "bg-stone-900/30", text: "text-stone-500", border: "border-stone-800", dot: "#8c8478" },
+  FATAL: { text: "text-red-200", dot: "#fb7185" },
+  ERROR: { text: "text-red-300/95", dot: "#f87171" },
+  WARN: { text: "text-amber-200/90", dot: "#e8b84d" },
+  INFO: { text: "text-stone-400", dot: "#a8a095" },
+  DEBUG: { text: "text-stone-500", dot: "#7d766c" },
 };
 
 const severityConfig = {
-  critical: { icon: "🔴", label: "CRITICAL", color: "text-red-400", border: "border-red-500/40", bg: "bg-red-950/30" },
-  error:    { icon: "🔴", label: "ERROR",    color: "text-red-400", border: "border-red-500/40", bg: "bg-red-950/30" },
-  warning:  { icon: "🟡", label: "WARNING",  color: "text-yellow-400", border: "border-yellow-500/40", bg: "bg-yellow-950/20" },
-  info:     { icon: "🟢", label: "OK",       color: "text-green-400", border: "border-green-500/40", bg: "bg-green-950/20" },
+  critical: { label: "CRITICAL", dot: "#ef5f52", color: "text-red-200/95", border: "border-red-500/30", bg: "bg-red-950/30" },
+  error: { label: "ERROR", dot: "#f87171", color: "text-red-200/90", border: "border-red-500/25", bg: "bg-red-950/25" },
+  warning: { label: "WARNING", dot: "#d4a934", color: "text-amber-100/90", border: "border-amber-500/22", bg: "bg-amber-950/18" },
+  info: { label: "INFO", dot: "#6ee7b7", color: "text-emerald-200/85", border: "border-emerald-500/22", bg: "bg-emerald-950/18" },
 };
 
 // ── Custom Tooltip ────────────────────────────────────────────
@@ -185,33 +203,51 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
 
   return (
     <div
-      className="rounded-lg border border-amber-900/35 px-3 py-2.5 mb-3 text-xs font-mono"
-      style={{ background: "rgba(184, 149, 98, 0.09)" }}
+      className="rounded-lg px-3 py-3 mb-3 text-xs border"
+      style={{
+        fontFamily: MONO_FONT,
+        background: "rgba(174, 138, 88, 0.06)",
+        borderColor: VD.borderPanel,
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+      }}
     >
-      <div className="text-[10px] uppercase tracking-[0.14em] text-amber-600/85 mb-2">Query scope · client & applications</div>
-      <div className="flex flex-wrap gap-x-8 gap-y-2 text-[13px] leading-snug">
+      <div
+        className="text-[10px] uppercase mb-2 font-medium"
+        style={{ letterSpacing: "0.1em", color: "#8a8278" }}
+      >
+        Query scope · client & applications
+      </div>
+      <div className="flex flex-wrap gap-x-10 gap-y-3 text-[12px] leading-snug">
         {instanceLabel ? (
           <div className="min-w-0">
-            <span className="text-gray-500 block text-[11px] mb-0.5">Instance</span>
-            <span className="text-gray-100">{instanceLabel}</span>
+            <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
+              Instance
+            </span>
+            <span className="text-stone-200">{instanceLabel}</span>
           </div>
         ) : null}
         {clientName ? (
           <div className="min-w-0">
-            <span className="text-gray-500 block text-[11px] mb-0.5">Client</span>
-            <span className="text-gray-100">{clientName}</span>
+            <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
+              Client
+            </span>
+            <span className="text-stone-200">{clientName}</span>
           </div>
         ) : null}
         {applicationNames && applicationNames.length > 0 ? (
           <div className="min-w-0 flex-1 basis-[min(100%,14rem)]">
-            <span className="text-gray-500 block text-[11px] mb-0.5">Applications / jobs</span>
-            <span className="text-gray-100 break-words">{applicationNames.join(" · ")}</span>
+            <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
+              Applications / jobs
+            </span>
+            <span className="text-stone-200 break-words">{applicationNames.join(" · ")}</span>
           </div>
         ) : null}
         {regionLabel ? (
           <div className="min-w-0">
-            <span className="text-gray-500 block text-[11px] mb-0.5">Region / cluster</span>
-            <span className="text-gray-100">{regionLabel}</span>
+            <span className="text-[11px] block mb-1" style={{ color: "#7d766c" }}>
+              Region / cluster
+            </span>
+            <span className="text-stone-200">{regionLabel}</span>
           </div>
         ) : null}
       </div>
@@ -222,12 +258,24 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
 const GrafanaTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#252220] border border-stone-600/55 rounded px-3 py-2 shadow-xl text-xs font-mono">
-      <div className="text-gray-400 mb-1">{label}</div>
+    <div
+      className="rounded-md px-3 py-2 text-[11px] border"
+      style={{
+        fontFamily: MONO_FONT,
+        background: VD.chartBg,
+        borderColor: VD.borderPanel,
+        boxShadow: VD.tooltipShadow,
+      }}
+    >
+      <div className="mb-1.5" style={{ color: "#8a8278" }}>
+        {label}
+      </div>
       {payload.map((p, i) => (
-        <div key={i} style={{ color: p.color }} className="flex gap-2">
-          <span>{p.name}:</span>
-          <span className="font-bold">{typeof p.value === 'number' ? p.value.toFixed(1) : p.value}</span>
+        <div key={i} style={{ color: p.color }} className="flex gap-2 tabular-nums">
+          <span style={{ color: "#9c9488" }}>{p.name}:</span>
+          <span className="font-medium">
+            {typeof p.value === "number" ? p.value.toFixed(1) : p.value}
+          </span>
         </div>
       ))}
     </div>
@@ -239,15 +287,37 @@ function GrafanaChart({ chart }) {
   if (!chart) return null;
 
   const gridProps = { stroke: VD.gridStroke, strokeDasharray: "3 3" };
-  const axisProps = { tick: { fill: VD.axisTick, fontSize: 10, fontFamily: "monospace" }, axisLine: { stroke: VD.axisLine } };
+  const axisProps = {
+    tick: { fill: VD.axisTick, fontSize: 10, fontFamily: MONO_FONT },
+    axisLine: { stroke: VD.axisLine },
+  };
 
   return (
-    <div className="mt-3 rounded-lg overflow-hidden border border-stone-600/50" style={{ background: VD.chartBg }}>
-      <div className="flex items-center justify-between px-4 py-2 border-b border-stone-600/40" style={{ background: VD.chartHeader }}>
-        <span className="text-xs font-mono text-gray-300">{chart.title}</span>
-        <div className="flex gap-2 text-xs text-gray-500 font-mono">
-          <span>●  Live</span>
-          <span className="text-gray-600">|</span>
+    <div
+      className="mt-4 rounded-lg overflow-hidden border"
+      style={{ background: VD.chartBg, borderColor: VD.borderPanel, boxShadow: VD.panelShadow }}
+    >
+      <div
+        className="flex items-center justify-between px-4 py-2.5 border-b"
+        style={{ background: VD.chartHeader, borderColor: VD.borderHairline }}
+      >
+        <span
+          className="text-[11px] text-stone-300 font-medium tabular-nums"
+          style={{ fontFamily: MONO_FONT, letterSpacing: "0.02em" }}
+        >
+          {chart.title}
+        </span>
+        <div
+          className="flex gap-3 text-[10px] tabular-nums"
+          style={{ fontFamily: MONO_FONT, color: "#7d766c" }}
+        >
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400/80 motion-safe:animate-pulse" />
+            Live
+          </span>
+          <span style={{ color: "rgba(125,118,108,0.45)" }} aria-hidden>
+            |
+          </span>
           <span>Last 1h</span>
         </div>
       </div>
@@ -265,7 +335,7 @@ function GrafanaChart({ chart }) {
               <XAxis dataKey="time" {...axisProps} interval={9} />
               <YAxis {...axisProps} domain={[0, 100]} unit="%" />
               <Tooltip content={<GrafanaTooltip />} />
-              <ReferenceLine y={80} stroke="#ef4444" strokeDasharray="4 4" label={{ value: "Threshold 80%", fill: "#ef4444", fontSize: 9, fontFamily: "monospace" }} />
+              <ReferenceLine y={80} stroke="#ef4444" strokeDasharray="4 4" label={{ value: "Threshold 80%", fill: "#c87a74", fontSize: 9, fontFamily: MONO_FONT }} />
               <Area type="monotone" dataKey="value" stroke={chart.color} strokeWidth={1.5} fill="url(#cpuGrad)" name="CPU %" dot={false} />
             </AreaChart>
           ) : chart.type === "latency" ? (
@@ -295,7 +365,7 @@ function GrafanaChart({ chart }) {
               <XAxis dataKey="time" {...axisProps} />
               <YAxis {...axisProps} />
               <Tooltip content={<GrafanaTooltip />} />
-              <ReferenceLine y={1000} stroke="#ef4444" strokeDasharray="4 4" label={{ value: "Threshold 1000", fill: "#ef4444", fontSize: 9, fontFamily: "monospace" }} />
+              <ReferenceLine y={1000} stroke="#ef4444" strokeDasharray="4 4" label={{ value: "Threshold 1000", fill: "#c87a74", fontSize: 9, fontFamily: MONO_FONT }} />
               <Area type="monotone" dataKey="max" stroke="#ef4444" strokeWidth={1} fill="url(#maxGrad)" name="Max" dot={false} />
               <Area type="monotone" dataKey="avg" stroke="#f59e0b" strokeWidth={2} fill="url(#queueGrad)" name="Avg" dot={false} />
             </AreaChart>
@@ -306,12 +376,15 @@ function GrafanaChart({ chart }) {
               <YAxis type="category" dataKey="pod" {...axisProps} width={110} />
               <Tooltip content={<GrafanaTooltip />} />
               <Bar dataKey="restarts" fill="#ef4444" name="Restarts" radius={[0, 3, 3, 0]}
-                label={{ position: "right", fill: VD.axisTick, fontSize: 10, fontFamily: "monospace" }} />
+                label={{ position: "right", fill: VD.axisTick, fontSize: 10, fontFamily: MONO_FONT }} />
             </BarChart>
           )}
         </ResponsiveContainer>
       </div>
-      <div className="flex gap-4 px-4 pb-3 text-xs font-mono text-gray-500">
+      <div
+        className="flex flex-wrap gap-x-6 gap-y-2 px-4 pb-3 pt-1 text-[10px] tabular-nums"
+        style={{ fontFamily: MONO_FONT, color: "#7d766c" }}
+      >
         {chart.type === "latency" && (
           <>
             <span className="flex items-center gap-1"><span className="w-3 h-0.5 bg-green-500 inline-block" /> P50</span>
@@ -345,32 +418,67 @@ function LogViewer({ logs, title = "Log Results" }) {
   const levels = ["ALL", ...new Set(logs.map(l => l.level))];
 
   return (
-    <div className="mt-3 rounded-lg overflow-hidden border border-stone-600/50 text-xs font-mono" style={{ background: VD.logsBg }}>
-      {/* Datadog-style header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-stone-600/45" style={{ background: VD.logsHeader }}>
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400">{title}</span>
-          <span className="px-1.5 py-0.5 rounded text-gray-500 border border-stone-600/55" style={{ background: VD.logsMeta }}>
+    <div
+      className="mt-4 rounded-lg overflow-hidden border text-[11px] leading-snug"
+      style={{ fontFamily: MONO_FONT, background: VD.logsBg, borderColor: VD.borderPanel, boxShadow: VD.panelShadow }}
+    >
+      {/* Header */}
+      <div
+        className="flex flex-wrap items-center justify-between gap-2 px-3 py-2.5 border-b"
+        style={{ background: VD.logsHeader, borderColor: VD.borderHairline }}
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-stone-400 font-medium truncate">{title}</span>
+          <span
+            className="px-2 py-0.5 rounded border shrink-0 tabular-nums"
+            style={{ color: "#8a8278", borderColor: VD.borderHairline, background: VD.logsMeta }}
+          >
             {filtered.length} events
           </span>
         </div>
-        <div className="flex gap-2">
-          {levels.map(l => (
-            <button key={l} onClick={() => setLevelFilter(l)}
-              className={`px-2 py-0.5 rounded border text-xs transition-all ${levelFilter === l ? "border-amber-600 text-amber-300/95 bg-stone-900/40" : "border-stone-600 text-stone-500 hover:border-stone-500"}`}>
+        <div className="flex flex-wrap gap-1.5">
+          {levels.map((l) => (
+            <button
+              key={l}
+              type="button"
+              onClick={() => setLevelFilter(l)}
+              className={`px-2 py-1 rounded border text-[10px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
+                levelFilter === l
+                  ? "text-stone-100"
+                  : "text-stone-500 hover:text-stone-300"
+              }`}
+              style={{
+                borderColor: levelFilter === l ? "rgba(174, 138, 88, 0.45)" : VD.borderHairline,
+                background: levelFilter === l ? "rgba(174, 138, 88, 0.12)" : "transparent",
+              }}
+            >
               {l}
             </button>
           ))}
         </div>
       </div>
-      {/* Search bar */}
-      <div className="px-3 py-2 border-b border-stone-700/50" style={{ background: VD.logsSearch }}>
-        <input value={filter} onChange={e => setFilter(e.target.value)}
-          placeholder="Filter logs..." className="w-full bg-transparent text-gray-300 placeholder-gray-600 outline-none text-xs" />
+      {/* Search */}
+      <div className="px-3 py-2 border-b" style={{ background: VD.logsSearch, borderColor: VD.borderHairline }}>
+        <input
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          placeholder="Filter logs..."
+          aria-label="Filter log events"
+          className="w-full bg-transparent text-stone-300 placeholder-stone-600 outline-none text-[11px] py-0.5"
+          style={{ fontFamily: MONO_FONT }}
+        />
       </div>
       {/* Column headers */}
-      <div className="grid gap-2 px-3 py-1.5 border-b border-gray-800/50 text-gray-600 text-xs"
-        style={{ gridTemplateColumns: "90px 60px 110px 1fr", background: VD.logsCol }}>
+      <div
+        className="grid gap-2 px-3 py-2 border-b text-[10px] font-medium uppercase"
+        style={{
+          gridTemplateColumns: "90px 60px 110px 1fr",
+          background: VD.logsCol,
+          borderColor: VD.borderHairline,
+          color: "#6f665c",
+          letterSpacing: "0.06em",
+        }}
+      >
         <span>TIMESTAMP</span>
         <span>LEVEL</span>
         <span>SERVICE</span>
@@ -381,16 +489,26 @@ function LogViewer({ logs, title = "Log Results" }) {
         {filtered.map((log, i) => {
           const cfg = levelConfig[log.level] || levelConfig.INFO;
           return (
-            <div key={i}
-              className={`grid gap-2 px-3 py-1.5 border-b border-stone-800/35 hover:bg-stone-900/25 transition-colors ${i === 0 && log.level === "FATAL" ? "bg-red-950/20" : ""}`}
-              style={{ gridTemplateColumns: "90px 60px 110px 1fr" }}>
-              <span className="text-gray-500 shrink-0">{log.time}</span>
-              <span className={`font-bold ${cfg.text} flex items-center gap-1 shrink-0`}>
-                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: cfg.dot }} />
+            <div
+              key={i}
+              className={`grid gap-2 px-3 py-2 border-b border-stone-800/30 hover:bg-white/[0.02] transition-colors ${i === 0 && log.level === "FATAL" ? "bg-red-950/15" : ""}`}
+              style={{ gridTemplateColumns: "90px 60px 110px 1fr" }}
+            >
+              <span className="text-stone-500 shrink-0 tabular-nums">{log.time}</span>
+              <span className={`${cfg.text} flex items-center gap-1.5 shrink-0 font-semibold`}>
+                <span className="w-1.5 h-1.5 rounded-full shrink-0 ring-1 ring-white/10" style={{ background: cfg.dot }} />
                 {log.level}
               </span>
-              <span className="text-amber-200/85 shrink-0 truncate">{log.service}</span>
-              <span className={`${log.level === "ERROR" || log.level === "FATAL" ? "text-red-300" : log.level === "WARN" ? "text-yellow-300" : "text-gray-300"} break-all`}>
+              <span className="text-amber-100/75 shrink-0 truncate">{log.service}</span>
+              <span
+                className={`${
+                  log.level === "ERROR" || log.level === "FATAL"
+                    ? "text-red-200/95"
+                    : log.level === "WARN"
+                      ? "text-amber-100/90"
+                      : "text-stone-300"
+                } break-all`}
+              >
                 {log.message}
               </span>
             </div>
@@ -402,24 +520,41 @@ function LogViewer({ logs, title = "Log Results" }) {
 }
 
 // ── AI Message Bubble ─────────────────────────────────────────
-function AIMessage({ response, query }) {
+function AIMessage({ response }) {
   const sev = severityConfig[response.severity] || severityConfig.info;
 
   return (
-    <div className="flex gap-3 mb-6">
+    <div className="flex gap-4 mb-8">
       {/* Avatar */}
-      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 border border-amber-600/35"
-        style={{ background: VD.accentGrad }}>
-        <span className="text-xs font-bold text-white">AI</span>
+      <div
+        className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5 border"
+        style={{ background: VD.accentGrad, borderColor: "rgba(174, 138, 88, 0.35)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)" }}
+      >
+        <span className="text-[10px] font-bold text-white tracking-wide" style={{ fontFamily: MONO_FONT }}>
+          AI
+        </span>
       </div>
 
-      <div className="flex-1 min-w-0">
-        {/* Severity badge */}
-        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border mb-3 ${sev.border} ${sev.bg}`}>
-          <span className="text-base leading-none">{sev.icon}</span>
-          <span className={`text-xs font-bold font-mono tracking-widest ${sev.color}`}>{sev.label}</span>
-          <span className="text-gray-400 text-xs">—</span>
-          <span className="text-gray-300 text-xs">{response.summary}</span>
+      <div className="flex-1 min-w-0 space-y-3">
+        {/* Severity + summary */}
+        <div
+          role="status"
+          className={`flex flex-wrap items-start gap-x-3 gap-y-2 px-3 py-2.5 rounded-lg border ${sev.border} ${sev.bg}`}
+          style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)" }}
+        >
+          <span className="inline-flex items-center gap-2 shrink-0">
+            <span className="h-2 w-2 rounded-full ring-1 ring-white/15 shrink-0" style={{ background: sev.dot }} aria-hidden />
+            <span
+              className={`text-[10px] font-semibold tracking-[0.1em] uppercase ${sev.color}`}
+              style={{ fontFamily: MONO_FONT }}
+            >
+              {sev.label}
+            </span>
+          </span>
+          <span className="text-stone-500 hidden sm:inline" aria-hidden>
+            —
+          </span>
+          <p className="text-[13px] leading-relaxed text-stone-300 min-w-0 flex-1 basis-[12rem] m-0">{response.summary}</p>
         </div>
 
         <QueryScopeStrip
@@ -435,24 +570,47 @@ function AIMessage({ response, query }) {
         {/* Logs */}
         {response.logs && <LogViewer logs={response.logs} title="Journal / Application Logs" />}
 
-        {/* Analysis section */}
-        <div className="analysis-panel mt-3 rounded-lg border border-stone-600/45 overflow-hidden">
-          <div className="analysis-panel-header px-4 py-2 border-b border-stone-600/45 text-xs text-stone-500 font-mono flex items-center gap-2"
-            style={{ background: VD.logsHeader }}>
-            <span className="text-amber-600">◈</span> AI Root Cause Analysis
+        {/* Analysis */}
+        <div
+          className="mt-1 rounded-lg border overflow-hidden"
+          style={{ borderColor: VD.borderPanel, boxShadow: VD.panelShadow }}
+        >
+          <div
+            className="px-4 py-2.5 border-b flex items-center gap-2 text-[10px] font-medium uppercase"
+            style={{
+              fontFamily: MONO_FONT,
+              background: VD.logsHeader,
+              borderColor: VD.borderHairline,
+              color: "#8a8278",
+              letterSpacing: "0.08em",
+            }}
+          >
+            <span className="h-3 w-px rounded-full bg-amber-600/50" aria-hidden />
+            AI Root Cause Analysis
           </div>
-          <div className="analysis-panel-body px-4 py-3 text-sm text-stone-300 leading-relaxed" style={{ background: VD.analysisBody }}>
+          <div className="px-4 py-3 text-[13px] text-stone-300 leading-relaxed" style={{ background: VD.analysisBody }}>
             {response.insight}
           </div>
         </div>
 
         {/* Fix */}
-        <div className="fix-panel mt-2 rounded-lg border border-green-800/40 overflow-hidden">
-          <div className="fix-panel-header px-4 py-2 border-b border-green-800/40 text-xs text-green-500 font-mono flex items-center gap-2"
-            style={{ background: "#152814" }}>
-            <span>⚡</span> Recommended Action
+        <div className="mt-1 rounded-lg border border-emerald-800/25 overflow-hidden" style={{ boxShadow: VD.panelShadow }}>
+          <div
+            className="px-4 py-2.5 border-b border-emerald-800/25 text-[10px] font-medium uppercase flex items-center gap-2"
+            style={{
+              fontFamily: MONO_FONT,
+              background: VD.fixGreenHeader,
+              color: "#6ee7a0",
+              letterSpacing: "0.08em",
+            }}
+          >
+            <span className="h-3 w-px rounded-full bg-emerald-400/60" aria-hidden />
+            Recommended Action
           </div>
-          <pre className="fix-panel-body px-4 py-3 text-xs text-green-300 font-mono whitespace-pre-wrap leading-relaxed" style={{ background: VD.fixGreenBg }}>
+          <pre
+            className="px-4 py-3 text-[11px] text-emerald-100/95 whitespace-pre-wrap leading-relaxed m-0 border-t border-emerald-900/20"
+            style={{ fontFamily: MONO_FONT, background: VD.fixGreenBg }}
+          >
             {response.fix}
           </pre>
         </div>
@@ -460,9 +618,15 @@ function AIMessage({ response, query }) {
         {/* Sources */}
         <div className="mt-2 flex flex-wrap gap-2">
           {response.sources.map((s, i) => (
-            <span key={i} className="px-2 py-0.5 rounded text-xs font-mono text-stone-500 border border-stone-600/45"
-              style={{ background: VD.chartBg }}>
-              📎 {s}
+            <span
+              key={i}
+              className="px-2 py-1 rounded border text-[10px] text-stone-500"
+              style={{ fontFamily: MONO_FONT, background: VD.chartBg, borderColor: VD.borderHairline }}
+            >
+              <span className="text-stone-600" aria-hidden>
+                #
+              </span>{" "}
+              {s}
             </span>
           ))}
         </div>
@@ -474,19 +638,29 @@ function AIMessage({ response, query }) {
 // ── Typing Indicator ──────────────────────────────────────────
 function TypingIndicator() {
   return (
-    <div className="flex gap-3 mb-4">
-      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-amber-600/35"
-        style={{ background: VD.accentGrad }}>
-        <span className="text-xs font-bold text-white">AI</span>
+    <div className="flex gap-4 mb-4" role="status" aria-live="polite" aria-busy="true">
+      <div
+        className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border"
+        style={{ background: VD.accentGrad, borderColor: "rgba(174, 138, 88, 0.35)" }}
+      >
+        <span className="text-[10px] font-bold text-white tracking-wide" style={{ fontFamily: MONO_FONT }}>
+          AI
+        </span>
       </div>
-      <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-stone-600/45" style={{ background: VD.logsHeader }}>
-        <div className="flex gap-1.5">
-          {[0, 1, 2].map(i => (
-            <div key={i} className="w-1.5 h-1.5 rounded-full bg-amber-500/90"
-              style={{ animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+      <div
+        className="flex items-center gap-3 px-4 py-3 rounded-lg border"
+        style={{ background: VD.logsHeader, borderColor: VD.borderPanel }}
+      >
+        <div className="flex gap-1.5" aria-hidden>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="oc-typing-dot w-1.5 h-1.5 rounded-full bg-amber-500/85"
+              style={{ animationDelay: `${i * 0.15}s` }}
+            />
           ))}
         </div>
-        <span className="text-xs text-gray-400 font-mono">
+        <span className="text-[11px] text-stone-500" style={{ fontFamily: MONO_FONT }}>
           Querying Prometheus + Elasticsearch + Loki...
         </span>
       </div>
@@ -503,7 +677,10 @@ export default function ObservabilityChat() {
   const bottomRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = bottomRef.current;
+    if (!el) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" });
   }, [messages, loading]);
 
   const sendQuery = async (query) => {
@@ -532,113 +709,227 @@ export default function ObservabilityChat() {
 
   return (
     <div
-      className="flex min-h-0 w-full flex-1 flex-row text-gray-100"
-      style={{ background: VD.canvas, fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
+      className="flex min-h-0 w-full flex-1 flex-row text-stone-200"
+      style={{ background: VD.canvas, fontFamily: UI_FONT }}
     >
       <style>{`
-        @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
-        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: ${VD.scrollbarTrack}; }
-        ::-webkit-scrollbar-thumb { background: ${VD.scrollbarThumb}; border-radius: 2px; }
-        .query-btn:hover { background: #3a3428 !important; border-color: #b89562 !important; color: #e8dcc4 !important; }
+        @keyframes oc-bounce {
+          0%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-5px); }
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .oc-typing-dot {
+            animation: oc-bounce 1.1s ease-in-out infinite;
+          }
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: ${VD.scrollbarTrack}; }
+        ::-webkit-scrollbar-thumb { background: ${VD.scrollbarThumb}; border-radius: 3px; }
+        .query-btn:hover {
+          background: rgba(42, 38, 32, 0.95) !important;
+          border-color: rgba(174, 138, 88, 0.45) !important;
+          color: #e8e0d4 !important;
+        }
+        .query-btn:focus-visible {
+          outline: 2px solid rgba(174, 138, 88, 0.45);
+          outline-offset: 2px;
+        }
       `}</style>
 
-      {/* Sidebar */}
-      <div className="w-56 shrink-0 flex flex-col border-r border-stone-700/45" style={{ background: VD.surface }}>
-        {/* Logo */}
-        <div className="px-4 py-4 border-b border-stone-700/45">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded flex items-center justify-center text-sm"
-              style={{ background: VD.accentGrad }}>👁</div>
-            <div>
-              <div className="text-sm font-bold text-white tracking-tight">NexIQ AI</div>
-              <div className="text-xs text-gray-500">Observability Chat</div>
+      {/* Sidebar — recessed chrome; avoids repeating outer “Observability Chat” title */}
+      <aside
+        className="flex w-[17rem] shrink-0 flex-col border-r"
+        style={{ background: VD.surfaceInset, borderColor: VD.borderHairline }}
+        aria-label="Observe navigation"
+      >
+        <div className="border-b px-3 pb-4 pt-4" style={{ borderColor: VD.borderHairline }}>
+          <div className="flex items-start gap-3">
+            <div
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-[11px] font-bold tracking-tight text-white"
+              style={{
+                fontFamily: MONO_FONT,
+                background: VD.accentGrad,
+                borderColor: "rgba(174, 138, 88, 0.35)",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1)",
+              }}
+              aria-hidden
+            >
+              NQ
+            </div>
+            <div className="min-w-0 pt-0.5">
+              <p
+                className="m-0 text-[10px] font-semibold uppercase tracking-[0.12em]"
+                style={{ color: "#7d7469" }}
+              >
+                Module
+              </p>
+              <h2
+                className="m-0 mt-1 text-[15px] font-semibold leading-tight tracking-tight text-stone-100"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Observe
+              </h2>
+              <p className="m-0 mt-1 text-[11px] leading-snug text-stone-500">
+                Tenant-aware · cited queries
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Nav */}
-        <div className="px-2 py-3 space-y-0.5">
-          {[
-            { id: "chat", icon: "💬", label: "Ask AI" },
-            { id: "metrics", icon: "📈", label: "Metrics" },
-            { id: "logs", icon: "📋", label: "Logs" },
-            { id: "alerts", icon: "🔔", label: "Alerts" },
-          ].map(item => (
-            <button key={item.id} onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all text-left ${activeTab === item.id ? "text-white border border-amber-600/35" : "text-gray-500 hover:text-gray-300"}`}
-              style={activeTab === item.id ? { background: VD.navActive } : {}}>
-              <span>{item.icon}</span> {item.label}
-            </button>
-          ))}
-        </div>
+        <nav className="space-y-1 px-2 py-3" aria-label="Primary">
+          {SIDEBAR_NAV.map((item) => {
+            const on = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveTab(item.id)}
+                className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left text-[12px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
+                  on ? "border text-stone-100" : "border-transparent text-stone-500 hover:border-transparent hover:text-stone-300"
+                }`}
+                style={
+                  on
+                    ? { background: VD.navActive, borderColor: "rgba(174, 138, 88, 0.28)" }
+                    : {}
+                }
+              >
+                <span
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-[10px] font-bold tracking-tight"
+                  style={{
+                    fontFamily: MONO_FONT,
+                    borderColor: on ? "rgba(174, 138, 88, 0.42)" : VD.borderHairline,
+                    background: on ? "rgba(174, 138, 88, 0.14)" : VD.canvas,
+                    color: on ? "#f4ebe3" : "#92897e",
+                  }}
+                  aria-hidden
+                >
+                  {item.abbr}
+                </span>
+                <span className="font-medium">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
 
-        {/* Quick queries */}
-        <div className="px-3 py-2 border-t border-stone-700/45 mt-auto mb-0">
-          <div className="text-xs text-gray-600 mb-2 uppercase tracking-wider">Quick Queries</div>
-          <div className="space-y-1">
+        <div className="mt-auto border-t px-3 py-3" style={{ borderColor: VD.borderHairline }}>
+          <div
+            className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em]"
+            style={{ color: "#6f665c" }}
+          >
+            Quick queries
+          </div>
+          <div className="space-y-1.5 rounded-lg border px-2 py-2.5" style={{ borderColor: VD.borderHairline, background: VD.canvas }}>
             {QUERIES.slice(0, 4).map((q, i) => (
-              <button key={i} onClick={() => sendQuery(q)}
-                className="query-btn w-full text-left px-2.5 py-1.5 rounded text-xs text-gray-500 border border-gray-800/60 transition-all leading-snug"
-                style={{ background: VD.quickBtn }}>
+              <button
+                key={i}
+                type="button"
+                onClick={() => sendQuery(q)}
+                className="query-btn w-full rounded-md border px-2.5 py-2 text-left text-[11px] leading-snug text-stone-500 transition-colors"
+                style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
+              >
                 {q}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Status */}
-        <div className="px-3 py-3 border-t border-stone-700/45">
-          <div className="flex items-center gap-2 text-xs">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-gray-500">All agents online</span>
+        <div className="border-t px-3 py-3" style={{ borderColor: VD.borderHairline }}>
+          <div
+            className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em]"
+            style={{ color: "#6f665c" }}
+          >
+            Data plane
           </div>
-          <div className="mt-1.5 space-y-0.5">
-            {["Prometheus", "Loki", "Elasticsearch"].map(s => (
-              <div key={s} className="flex items-center justify-between text-xs">
-                <span className="text-gray-600">{s}</span>
-                <span className="text-green-500">●</span>
+          <div className="mb-2 flex items-center gap-2 text-[11px] text-stone-500">
+            <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400 motion-safe:animate-pulse" aria-hidden />
+            Agents reachable
+          </div>
+          <div className="space-y-1.5">
+            {["Prometheus", "Loki", "Elasticsearch"].map((s) => (
+              <div key={s} className="flex items-center justify-between text-[11px]" style={{ fontFamily: MONO_FONT }}>
+                <span className="text-stone-500">{s}</span>
+                <span className="text-[10px] text-emerald-400/90" aria-hidden>
+                  ●
+                </span>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </aside>
 
       {/* Main chat area */}
       <div className="flex-1 flex flex-col min-h-0 min-w-0">
         {/* Header */}
-        <div className="px-6 py-3 border-b border-stone-700/45 flex items-center justify-between shrink-0"
-          style={{ background: VD.surface }}>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold text-white">Infrastructure Intelligence Chat</span>
-            <span className="px-2 py-0.5 rounded text-xs border border-amber-600/30 text-amber-200/90"
-              style={{ background: VD.badgeBg }}>LangGraph + RAG</span>
+        <header
+          className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b px-5 py-3"
+          style={{
+            background: VD.surface,
+            borderColor: VD.borderHairline,
+            boxShadow: "inset 0 -1px 0 rgba(255,255,255,0.03)",
+          }}
+        >
+          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2">
+            <span
+              className="shrink-0 rounded-md border px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em]"
+              style={{
+                fontFamily: MONO_FONT,
+                background: VD.badgeBg,
+                borderColor: "rgba(174, 138, 88, 0.28)",
+                color: "#d4c4a8",
+              }}
+            >
+              LangGraph · RAG
+            </span>
+            <span className="hidden h-4 w-px shrink-0 bg-stone-700 sm:block" aria-hidden />
+            <p className="m-0 max-w-[28rem] text-[12px] leading-snug text-stone-500">
+              Charts, logs, and scoped answers — sources attached to each reply
+            </p>
           </div>
-          <div className="flex items-center gap-4 text-xs text-gray-500">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+          <div
+            className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-1 text-[11px]"
+            style={{ fontFamily: MONO_FONT, color: "#8a8278" }}
+          >
+            <span className="flex items-center gap-2 text-stone-400">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/90" aria-hidden />
               NexIQ Production
             </span>
-            <span className="text-gray-600">K8s: nexiq-prod-le</span>
+            <span className="text-stone-500">nexiq-prod-le</span>
           </div>
-        </div>
+        </header>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-6 py-5">
+        <div className="flex-1 overflow-y-auto px-6 py-6" role="log" aria-live="polite" aria-relevant="additions">
           {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center flex-1 min-h-[18rem] text-center gap-6 px-4 py-8">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center text-2xl border border-amber-600/35"
-                style={{ background: "linear-gradient(145deg, #3a3428, #2e281c)" }}>👁</div>
-              <div>
-                <div className="text-xl font-bold text-white mb-1">Ask your infrastructure anything</div>
-                <div className="text-sm text-gray-400">
-                  Metrics, logs, and charts grounded in Prometheus / Loki / Elasticsearch queries for your tenant scope.
-                </div>
+            <div className="flex min-h-[18rem] flex-col items-center justify-center gap-8 px-4 py-10 text-center">
+              <div
+                className="flex h-16 w-16 items-center justify-center rounded-2xl border text-[13px] font-bold tracking-tight text-white"
+                style={{
+                  fontFamily: MONO_FONT,
+                  background: "linear-gradient(155deg, #2a2720, #1c1a16)",
+                  borderColor: "rgba(174, 138, 88, 0.28)",
+                  boxShadow: VD.panelShadow,
+                }}
+                aria-hidden
+              >
+                NQ
               </div>
-              <div className="grid grid-cols-2 gap-2 max-w-lg w-full">
+              <div className="max-w-md">
+                <h2 className="mb-2 m-0 text-[1.35rem] font-semibold tracking-tight text-stone-100" style={{ fontFamily: "var(--font-display)" }}>
+                  Ask your infrastructure anything
+                </h2>
+                <p className="m-0 text-[13px] leading-relaxed text-stone-500">
+                  Metrics, logs, and charts grounded in Prometheus / Loki / Elasticsearch for your tenant scope.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2.5 max-w-lg w-full">
                 {QUERIES.map((q, i) => (
-                  <button key={i} onClick={() => sendQuery(q)}
-                    className="query-btn px-3 py-2 rounded-lg text-xs text-left text-gray-400 border border-gray-700/50 transition-all"
-                    style={{ background: VD.quickBtn }}>
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => sendQuery(q)}
+                    className="query-btn px-3 py-2.5 rounded-lg text-[11px] text-left text-stone-400 border transition-colors leading-snug"
+                    style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
+                  >
                     {q}
                   </button>
                 ))}
@@ -648,14 +939,21 @@ export default function ObservabilityChat() {
 
           {messages.map((msg, i) => (
             msg.role === "user" ? (
-              <div key={i} className="flex justify-end mb-4">
-                <div className="max-w-md px-4 py-2.5 rounded-xl text-sm border border-amber-700/25"
-                  style={{ background: VD.userBubble, color: VD.userText }}>
+              <div key={i} className="flex justify-end mb-5">
+                <div
+                  className="max-w-md px-4 py-3 rounded-xl text-[13px] leading-relaxed border"
+                  style={{
+                    background: VD.userBubble,
+                    color: VD.userText,
+                    borderColor: "rgba(174, 138, 88, 0.2)",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+                  }}
+                >
                   {msg.text}
                 </div>
               </div>
             ) : (
-              <AIMessage key={i} response={msg.response} query={msg.query} />
+              <AIMessage key={i} response={msg.response} />
             )
           ))}
 
@@ -664,25 +962,53 @@ export default function ObservabilityChat() {
         </div>
 
         {/* Input */}
-        <div className="px-6 py-4 border-t border-stone-700/45 shrink-0" style={{ background: VD.surface }}>
+        <div
+          className="px-6 py-4 border-t shrink-0"
+          style={{ background: VD.surfaceElevated, borderColor: VD.borderHairline }}
+        >
           <div className="flex gap-3 items-end">
-            <div className="flex-1 rounded-xl border border-stone-600/55 overflow-hidden"
-              style={{ background: VD.analysisBody }}>
-              <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKey}
+            <div
+              className="flex-1 rounded-xl border overflow-hidden"
+              style={{ background: VD.analysisBody, borderColor: VD.borderPanel, boxShadow: VD.panelShadow }}
+            >
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKey}
                 placeholder="Ask about pods, metrics, tenants, queues, logs, latency… (Enter to send)"
                 rows={2}
-                className="w-full px-4 py-3 bg-transparent text-sm text-gray-200 placeholder-gray-600 resize-none outline-none leading-relaxed" />
-              <div className="flex items-center justify-between px-4 py-2 border-t border-stone-700/40">
-                <div className="flex gap-2 text-xs text-gray-600">
-                  <span>Prom</span><span>•</span><span>ES</span><span>•</span><span>Loki</span><span>•</span><span>K8s API</span>
+                aria-label="Chat message"
+                className="w-full px-4 py-3 bg-transparent text-[13px] text-stone-200 placeholder-stone-600 resize-none outline-none leading-relaxed"
+              />
+              <div
+                className="flex items-center justify-between px-4 py-2 border-t"
+                style={{ borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
+              >
+                <div className="flex gap-2 text-[10px] text-stone-500">
+                  <span>Prom</span>
+                  <span aria-hidden>•</span>
+                  <span>ES</span>
+                  <span aria-hidden>•</span>
+                  <span>Loki</span>
+                  <span aria-hidden>•</span>
+                  <span>K8s API</span>
                 </div>
-                <span className="text-xs text-gray-600">↵ Send</span>
+                <span className="text-[10px] text-stone-600">↵ Send</span>
               </div>
             </div>
-            <button onClick={() => sendQuery(input)} disabled={loading || !input.trim()}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-30"
-              style={{ background: loading ? "#4a4338" : VD.accentGrad }}>
-              ➤
+            <button
+              type="button"
+              onClick={() => sendQuery(input)}
+              disabled={loading || !input.trim()}
+              aria-busy={loading}
+              aria-label="Send message"
+              className="w-11 h-11 rounded-xl flex items-center justify-center text-white transition-opacity disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 shrink-0"
+              style={{
+                background: loading ? "rgba(90, 74, 56, 0.85)" : VD.accentGrad,
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)",
+              }}
+            >
+              →
             </button>
           </div>
         </div>

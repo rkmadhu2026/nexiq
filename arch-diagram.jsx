@@ -11,7 +11,7 @@ const C = {
   green: "#3d8968",
   orange: "#c9923a",
   red: "#c84c44",
-  purple: "#9b7eb0",
+  purple: "#a68968",
   textPrimary: "#ede8df",
   textSecondary: "#b0a595",
   textMuted: "#8c8478",
@@ -657,7 +657,7 @@ export default function ArchDiagram() {
 
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.textPrimary,
-      fontFamily: "system-ui, sans-serif", padding: 24 }}>
+      fontFamily: "var(--font-body)", padding: 24 }}>
 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
@@ -666,7 +666,10 @@ export default function ArchDiagram() {
             justifyContent: "center", fontSize: 18,
             background: "linear-gradient(145deg, #b89562, #6b5838)" }}>👁</div>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: -0.5 }}>
+            <div style={{
+              fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: -0.5,
+              fontFamily: "var(--font-display)",
+            }}>
               NexIQ AI Platform
             </div>
             <div style={{ fontSize: 12, color: C.textMuted, fontFamily: "monospace" }}>

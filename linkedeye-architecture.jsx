@@ -2,7 +2,9 @@ import { useState } from "react";
 
 const COLORS = {
   cyan: "#b89562", blue: "#7a8494", green: "#22c55e",
-  orange: "#f59e0b", red: "#ef4444", purple: "#a855f7",
+  orange: "#f59e0b", red: "#ef4444",
+  /** AI / orchestration layer — warm bronze-slate (matches app tokens, not Tailwind purple) */
+  purple: "#8b7355",
   slate: "#64748b", teal: "#14b8a6"
 };
 
