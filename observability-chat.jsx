@@ -942,13 +942,13 @@ export default function ObservabilityChat() {
 
       {/* Sidebar — shell-aligned hierarchy: brand card · nav chips · query deck · data plane */}
       <aside
-        className="observe-rail flex max-h-[min(48vh,24rem)] w-full shrink-0 flex-col overflow-y-auto border-b md:max-h-none md:h-full md:w-[17rem] md:min-w-[16rem] md:max-w-[17rem] md:flex-none md:overflow-visible md:border-b-0 md:border-r"
+        className="observe-rail flex max-h-[min(48vh,24rem)] w-full shrink-0 flex-col gap-0 overflow-y-auto border-b md:max-h-none md:h-full md:w-[18rem] md:min-w-[17rem] md:max-w-[18rem] md:flex-none md:overflow-visible md:border-b-0 md:border-r"
         style={{ background: VD.surfaceInset, borderColor: VD.borderHairline }}
         aria-label="Observe navigation"
       >
-        <div className="px-3.5 pb-3 pt-4">
+        <div className="px-4 pb-2 pt-4">
           <div
-            className="rounded-xl border px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_1px_3px_rgba(47,40,31,0.06)]"
+            className="rounded-xl border px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_1px_3px_rgba(47,40,31,0.06)]"
             style={{ background: VD.surfaceElevated, borderColor: VD.borderPanel }}
           >
             <div className="flex items-start gap-3">
@@ -972,7 +972,7 @@ export default function ObservabilityChat() {
                 >
                   Observe
                 </h2>
-                <p className="m-0 mt-1.5 text-[11px] leading-relaxed text-stone-500">
+                <p className="m-0 mt-2 text-[11px] leading-relaxed text-stone-500">
                   Tenant-aware · cited queries
                 </p>
               </div>
@@ -980,8 +980,11 @@ export default function ObservabilityChat() {
           </div>
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1.5 px-3 pb-2 pt-0 min-h-0" aria-label="Primary">
-          <div className="observe-rail-section-title px-1 pb-1">Navigate</div>
+        <nav
+          className="flex min-h-0 flex-1 flex-col gap-2 border-t border-stone-200/55 px-4 pb-3 pt-4"
+          aria-label="Primary"
+        >
+          <div className="observe-rail-section-title px-0.5 pb-0.5">Navigate</div>
           {SIDEBAR_NAV.map((item) => {
             const on = activeTab === item.id;
             return (
@@ -989,7 +992,7 @@ export default function ObservabilityChat() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveTab(item.id)}
-                className={`observe-rail-nav-btn group flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left text-[12px] transition-[background,border-color,box-shadow,color] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
+                className={`observe-rail-nav-btn group flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left text-[12px] transition-[background,border-color,box-shadow,color] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500/50 ${
                   on
                     ? "border-stone-300/90 text-stone-900 shadow-[0_2px_10px_rgba(71,55,31,0.07)]"
                     : "border-transparent text-stone-600 hover:border-stone-200/90 hover:bg-white/55 hover:text-stone-900"
@@ -1019,30 +1022,38 @@ export default function ObservabilityChat() {
           })}
         </nav>
 
-        <div className="mt-auto border-t px-3.5 py-4" style={{ borderColor: VD.borderHairline }}>
-          <div className="observe-rail-section-title mb-2.5 flex items-center gap-2 px-0.5">
+        <div className="mt-auto border-t px-4 py-4" style={{ borderColor: VD.borderHairline }}>
+          <div className="observe-rail-section-title mb-3 flex items-center gap-2 px-0.5">
             <span className="h-1 w-1 shrink-0 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 opacity-90" aria-hidden />
             Quick queries
           </div>
           <div
-            className="space-y-2 rounded-xl border px-2.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"
+            className="flex flex-col gap-3 rounded-xl border px-3 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"
             style={{ borderColor: VD.borderHairline, background: VD.surfaceElevated }}
           >
             {QUERIES.slice(0, 4).map((q, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => sendQuery(q)}
-                className="observe-rail-query query-btn w-full rounded-lg border px-3 py-2.5 text-left text-[11px] leading-relaxed text-stone-700 transition-colors hover:text-stone-900"
-                style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
-              >
-                {q}
-              </button>
+              <div key={i} className="flex gap-3">
+                <span
+                  className="w-7 shrink-0 pt-2 text-center text-[10px] font-semibold tabular-nums text-stone-400"
+                  style={{ fontFamily: MONO_FONT }}
+                  aria-hidden
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => sendQuery(q)}
+                  className="observe-rail-query query-btn min-h-[3rem] flex-1 rounded-lg border px-3 py-2.5 text-left text-[11px] leading-snug text-stone-700 transition-colors hover:text-stone-900"
+                  style={{ background: VD.quickBtn, borderColor: VD.borderHairline, fontFamily: MONO_FONT }}
+                >
+                  {q}
+                </button>
+              </div>
             ))}
           </div>
         </div>
 
-        <div className="border-t px-3.5 pb-4 pt-3" style={{ borderColor: VD.borderHairline }}>
+        <div className="border-t px-4 pb-4 pt-3" style={{ borderColor: VD.borderHairline }}>
           <div className="observe-rail-section-title mb-2 flex items-center gap-2 px-0.5">
             <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-500/85" aria-hidden />
             Data plane
