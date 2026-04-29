@@ -30,7 +30,7 @@ const insightRows = [
   ["Admin audit", "enabled", "good"],
 ];
 
-function AuthForm({ mode, onModeChange, onAuthenticate }) {
+function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
   const isSignup = mode === "signup";
   const [form, setForm] = useState({
     name: "NexIQ Admin",
@@ -41,10 +41,11 @@ function AuthForm({ mode, onModeChange, onAuthenticate }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const email = form.email.trim();
     onAuthenticate({
-      name: isSignup ? form.name : "NexIQ Admin",
-      email: form.email,
-      company: isSignup ? form.company : "NexIQ Production",
+      name: isSignup ? form.name.trim() : "NexIQ Admin",
+      email,
+      company: isSignup ? form.company.trim() : "NexIQ Production",
       role: "Admin",
     });
   };
@@ -59,7 +60,13 @@ function AuthForm({ mode, onModeChange, onAuthenticate }) {
           : "Use the demo credentials below to open the local workspace."}
       </span>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
+      {authError && (
+        <p className="auth-error" role="alert">
+          {authError}
+        </p>
+      )}
+
+      <form className="auth-form" onSubmit={handleSubmit} noValidate>
         {isSignup && (
           <>
             <label>
@@ -81,7 +88,9 @@ function AuthForm({ mode, onModeChange, onAuthenticate }) {
         <label>
           Work email
           <input
-            type="email"
+            type="text"
+            inputMode="email"
+            autoComplete="email"
             value={form.email}
             onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
           />
@@ -110,7 +119,7 @@ function AuthForm({ mode, onModeChange, onAuthenticate }) {
   );
 }
 
-export default function AuthLanding({ mode, onModeChange, onAuthenticate }) {
+export default function AuthLanding({ mode, onModeChange, onAuthenticate, authError = null }) {
   if (mode === "signin" || mode === "signup") {
     return (
       <main className="auth-shell">
@@ -118,7 +127,12 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate }) {
           <div className="brand-mark">NQ</div>
           <span>NexusIQ</span>
         </div>
-        <AuthForm mode={mode} onModeChange={onModeChange} onAuthenticate={onAuthenticate} />
+        <AuthForm
+          mode={mode}
+          onModeChange={onModeChange}
+          onAuthenticate={onAuthenticate}
+          authError={authError}
+        />
       </main>
     );
   }

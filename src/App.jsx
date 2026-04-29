@@ -54,8 +54,11 @@ function isValidUser(value) {
     value
       && typeof value === "object"
       && typeof value.name === "string"
+      && value.name.trim().length > 0
       && typeof value.email === "string"
-      && typeof value.role === "string",
+      && value.email.trim().length > 0
+      && typeof value.role === "string"
+      && value.role.trim().length > 0,
   );
 }
 
@@ -84,6 +87,7 @@ function WorkspaceLoading() {
 export default function App() {
   const [activeViewId, setActiveViewId] = useState(views[0].id);
   const [authMode, setAuthMode] = useState("landing");
+  const [authError, setAuthError] = useState(null);
   const [user, setUser] = useState(getStoredUser);
   const activeView = useMemo(
     () => views.find((view) => view.id === activeViewId) ?? views[0],
@@ -92,12 +96,27 @@ export default function App() {
   const ActiveComponent = activeView.component;
 
   const handleAuthenticate = (nextUser) => {
+    const name = String(nextUser?.name ?? "NexIQ Admin").trim() || "NexIQ Admin";
+    const email = String(nextUser?.email ?? "").trim();
+    const role = String(nextUser?.role ?? "Admin").trim() || "Admin";
+    if (!email) {
+      setAuthError("Enter a work email to continue.");
+      return;
+    }
     const sessionUser = {
-      ...nextUser,
+      name,
+      email,
+      role,
+      company: nextUser?.company,
       signedInAt: new Date().toISOString(),
     };
-    window.localStorage.setItem("nexiq-user", JSON.stringify(sessionUser));
-    setUser(sessionUser);
+    try {
+      window.localStorage.setItem("nexiq-user", JSON.stringify(sessionUser));
+      setAuthError(null);
+      setUser(sessionUser);
+    } catch {
+      setAuthError("Could not save your session. Turn off private browsing, allow site data, or free disk space, then try again.");
+    }
   };
 
   const handleSignOut = () => {
@@ -110,8 +129,12 @@ export default function App() {
     return (
       <AuthLanding
         mode={authMode}
-        onModeChange={setAuthMode}
+        onModeChange={(next) => {
+          setAuthError(null);
+          setAuthMode(next);
+        }}
         onAuthenticate={handleAuthenticate}
+        authError={authError}
       />
     );
   }
