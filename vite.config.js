@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
+import { integrationProbeDevPlugin } from "./integrationProbeDevPlugin.js";
+
 /** Host patterns for dev/preview behind tunnels (leading "." = allow all subdomains). */
 const tunnelAllowedHosts = [
   ".loca.lt",
@@ -12,7 +14,7 @@ const tunnelAllowedHosts = [
 ];
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), integrationProbeDevPlugin()],
   server: {
     port: 8080,
     // Prefer 8080; if something else is using it, Vite picks the next free port and prints the URL.

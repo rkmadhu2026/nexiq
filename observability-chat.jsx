@@ -72,9 +72,14 @@ const RESPONSES = {
     type: "metrics",
     severity: "warning",
     summary: "CPU spike on prod-api-02 at 14:32 — correlates with scheduled ETL for multiple tenants.",
-    insight: "Peak CPU 94% at 14:32 during cross-tenant batch export window. Normalized after 14:38. Pattern repeats daily — consider staggering tenant jobs or moving heavy tenants to a dedicated node pool.",
+    insight:
+      "NexIQ Production — workload on prod-api-02 driven mainly by tenant-batch-export and analytics-etl-scheduler. Peak CPU 94% at 14:32 during cross-tenant batch export window. Normalized after 14:38. Pattern repeats daily — consider staggering tenant jobs or moving heavy tenants to a dedicated node pool.",
     fix: "No immediate action if within SLO. If it recurs >3 days, reschedule batch to 16:30 UTC or split tenant batches.",
     chart: { type: "cpu", data: cpuData, title: "prod-api-02 — CPU Usage %", yLabel: "CPU %", threshold: 80, color: "#f59e0b" },
+    instanceLabel: "prod-api-02",
+    clientName: "NexIQ Production",
+    applicationNames: ["tenant-batch-export", "analytics-etl-scheduler", "cross-tenant-export"],
+    regionLabel: "Mumbai DC · nexiq-prod-le",
     sources: ["prometheus:node_cpu_seconds_total{instance='prod-api-02'}", "loki:{job='tenant-batch-export'}"],
   },
   "Why was workflow #8821 rejected?": {
@@ -143,6 +148,51 @@ const severityConfig = {
 };
 
 // ── Custom Tooltip ────────────────────────────────────────────
+/** Tenant / workload context shown above charts when the backend attaches scope labels */
+function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLabel }) {
+  const hasAny =
+    instanceLabel ||
+    clientName ||
+    (applicationNames && applicationNames.length > 0) ||
+    regionLabel;
+  if (!hasAny) return null;
+
+  return (
+    <div
+      className="rounded-lg border border-cyan-800/35 px-3 py-2.5 mb-3 text-xs font-mono"
+      style={{ background: "rgba(8, 145, 178, 0.07)" }}
+    >
+      <div className="text-[10px] uppercase tracking-[0.14em] text-cyan-500/90 mb-2">Query scope · client & applications</div>
+      <div className="flex flex-wrap gap-x-8 gap-y-2 text-[13px] leading-snug">
+        {instanceLabel ? (
+          <div className="min-w-0">
+            <span className="text-gray-500 block text-[11px] mb-0.5">Instance</span>
+            <span className="text-gray-100">{instanceLabel}</span>
+          </div>
+        ) : null}
+        {clientName ? (
+          <div className="min-w-0">
+            <span className="text-gray-500 block text-[11px] mb-0.5">Client</span>
+            <span className="text-gray-100">{clientName}</span>
+          </div>
+        ) : null}
+        {applicationNames && applicationNames.length > 0 ? (
+          <div className="min-w-0 flex-1 basis-[min(100%,14rem)]">
+            <span className="text-gray-500 block text-[11px] mb-0.5">Applications / jobs</span>
+            <span className="text-gray-100 break-words">{applicationNames.join(" · ")}</span>
+          </div>
+        ) : null}
+        {regionLabel ? (
+          <div className="min-w-0">
+            <span className="text-gray-500 block text-[11px] mb-0.5">Region / cluster</span>
+            <span className="text-gray-100">{regionLabel}</span>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 const GrafanaTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
@@ -345,6 +395,13 @@ function AIMessage({ response, query }) {
           <span className="text-gray-400 text-xs">—</span>
           <span className="text-gray-300 text-xs">{response.summary}</span>
         </div>
+
+        <QueryScopeStrip
+          instanceLabel={response.instanceLabel}
+          clientName={response.clientName}
+          applicationNames={response.applicationNames}
+          regionLabel={response.regionLabel}
+        />
 
         {/* Chart */}
         {response.chart && <GrafanaChart chart={response.chart} />}

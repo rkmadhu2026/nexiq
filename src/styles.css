@@ -1726,6 +1726,161 @@ input {
   color: var(--color-ink);
 }
 
+.settings-summary-card.settings-summary-actions {
+  gap: 0.45rem;
+  align-content: start;
+}
+
+.settings-edit-toggle {
+  margin-top: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  background: #ffffff;
+  color: var(--color-ink);
+  font-size: 0.78rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.settings-edit-toggle:hover {
+  border-color: rgba(139, 92, 44, 0.35);
+}
+
+.settings-edit-toggle.active {
+  border-color: rgba(139, 92, 44, 0.45);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.settings-field {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.38rem 0.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.55rem;
+  background: #ffffff;
+  color: var(--color-ink);
+  font-size: 0.84rem;
+}
+
+.settings-field:focus {
+  outline: none;
+  border-color: rgba(139, 92, 44, 0.45);
+  box-shadow: 0 0 0 2px rgba(139, 92, 44, 0.12);
+}
+
+.detail-metrics .settings-field {
+  max-width: 9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.settings-field-value {
+  min-width: 6rem;
+  max-width: 12rem;
+  text-align: right;
+}
+
+.settings-field-inline {
+  max-width: 11rem;
+  font-size: 0.76rem;
+}
+
+.settings-field-em {
+  font-size: 0.76rem;
+}
+
+.settings-field-sub {
+  margin-top: 0.35rem;
+}
+
+.settings-edit-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.settings-edit-row label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: var(--color-muted);
+}
+
+.settings-auth-panel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.settings-auth-heading {
+  margin-bottom: 0.65rem;
+}
+
+.settings-auth-heading p {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.settings-auth-heading strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.98rem;
+  color: var(--color-ink);
+}
+
+.settings-auth-heading span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  line-height: 1.45;
+}
+
+.settings-auth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.75rem;
+}
+
+.settings-auth-grid > div {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.65rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(64, 54, 43, 0.08);
+  background: rgba(255, 250, 242, 0.85);
+}
+
+.settings-auth-label {
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: var(--color-muted);
+}
+
+.settings-auth-grid strong {
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.settings-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.application-row .settings-field {
+  font-size: 0.82rem;
+}
+
 .settings-grid {
   display: grid;
   grid-template-columns: minmax(14rem, 0.85fr) minmax(0, 2fr);
@@ -1829,6 +1984,32 @@ input {
   font-weight: 750;
 }
 
+.integration-verify-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0.75rem 0.95rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(64, 54, 43, 0.1);
+  background: rgba(239, 225, 205, 0.35);
+}
+
+.integration-verify-bar strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+}
+
+.integration-verify-bar > div > span {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
 .integration-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1858,6 +2039,36 @@ input {
   font-style: normal;
   font-size: 0.78rem;
   overflow-wrap: anywhere;
+}
+
+.integration-probe-footer {
+  margin-top: 0.15rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed rgba(64, 54, 43, 0.12);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.integration-last-verified {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+}
+
+.integration-probe-detail {
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.integration-probe-detail--ok {
+  color: #25633f;
+}
+
+.integration-probe-detail--fail {
+  color: #a16207;
+}
+
+.integration-probe-detail--skip {
+  color: var(--color-muted);
 }
 
 .settings-pill {
