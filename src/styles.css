@@ -522,6 +522,14 @@ input {
   background: #fbfaf7;
 }
 
+/* Dark analytical views (Observe / Architecture / Product) — avoid legacy cream overrides */
+.view-stage.view-stage--dark {
+  display: flex;
+  flex-direction: column;
+  border-top-color: rgba(30, 58, 95, 0.35);
+  background: #060d18;
+}
+
 .light-legacy-surface > div {
   min-height: 100% !important;
   background: #fbfaf7 !important;

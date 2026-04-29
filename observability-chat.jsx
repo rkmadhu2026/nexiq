@@ -505,7 +505,10 @@ export default function ObservabilityChat() {
   };
 
   return (
-    <div className="flex h-screen text-gray-100" style={{ background: "#060d18", fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}>
+    <div
+      className="flex min-h-0 w-full flex-1 flex-row text-gray-100"
+      style={{ background: "#060d18", fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
+    >
       <style>{`
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0f172a; }
@@ -575,7 +578,7 @@ export default function ObservabilityChat() {
       </div>
 
       {/* Main chat area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-h-0 min-w-0">
         {/* Header */}
         <div className="px-6 py-3 border-b border-gray-800/60 flex items-center justify-between shrink-0"
           style={{ background: "#070e1c" }}>
@@ -596,12 +599,14 @@ export default function ObservabilityChat() {
         {/* Messages */}
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center gap-6 opacity-60">
+            <div className="flex flex-col items-center justify-center flex-1 min-h-[18rem] text-center gap-6 px-4 py-8">
               <div className="w-14 h-14 rounded-full flex items-center justify-center text-2xl border border-cyan-500/30"
                 style={{ background: "linear-gradient(135deg, #0c2a35, #0c1f3a)" }}>👁</div>
               <div>
                 <div className="text-xl font-bold text-white mb-1">Ask your infrastructure anything</div>
-                <div className="text-sm text-gray-500">Real data • Zero hallucination • Grafana metrics + Datadog logs</div>
+                <div className="text-sm text-gray-400">
+                  Metrics, logs, and charts grounded in Prometheus / Loki / Elasticsearch queries for your tenant scope.
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-2 max-w-lg w-full">
                 {QUERIES.map((q, i) => (

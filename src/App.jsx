@@ -201,7 +201,11 @@ export default function App() {
           </div>
         </header>
 
-        <section className="view-stage light-legacy-surface">
+        <section
+          className={
+            activeView.id === "settings" ? "view-stage light-legacy-surface" : "view-stage view-stage--dark"
+          }
+        >
           <Suspense fallback={<WorkspaceLoading />}>
             <ActiveComponent />
           </Suspense>
