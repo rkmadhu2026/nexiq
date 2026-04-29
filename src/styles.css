@@ -549,12 +549,15 @@ input {
   background: #fbfaf7;
 }
 
-/* Dark analytical views (Observe / Architecture / Product) — avoid legacy cream overrides */
+/* Dark analytical views (Observe / Architecture / Product) — warm neutrals aligned with Claude-style cream shell */
 .view-stage.view-stage--dark {
   display: flex;
   flex-direction: column;
-  border-top-color: rgba(30, 58, 95, 0.35);
-  background: #060d18;
+  border-top-color: rgba(120, 100, 80, 0.22);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(200, 160, 100, 0.07), transparent 22rem),
+    radial-gradient(circle at 90% 5%, rgba(80, 60, 40, 0.14), transparent 20rem),
+    linear-gradient(165deg, #181614 0%, #171512 52%, #131110 100%);
 }
 
 .light-legacy-surface > div {
@@ -603,6 +606,11 @@ input {
   letter-spacing: -0.025em !important;
 }
 
+.light-legacy-surface [style*="#171512"],
+.light-legacy-surface [style*="#1e1c17"],
+.light-legacy-surface [style*="#252220"],
+.light-legacy-surface [style*="#26221c"],
+.light-legacy-surface [style*="#2e2a24"],
 .light-legacy-surface [style*="#060d18"],
 .light-legacy-surface [style*="#070e1c"],
 .light-legacy-surface [style*="#0a1628"],

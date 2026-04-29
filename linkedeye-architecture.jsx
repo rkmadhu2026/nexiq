@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 const COLORS = {
-  cyan: "#06b6d4", blue: "#3b82f6", green: "#22c55e",
+  cyan: "#b89562", blue: "#7a8494", green: "#22c55e",
   orange: "#f59e0b", red: "#ef4444", purple: "#a855f7",
   slate: "#64748b", teal: "#14b8a6"
 };
 
 // ── Shared primitives ─────────────────────────────────────────
-const Box = ({ color = "#06b6d4", title, subtitle, icon, width = 140, onClick, active }) => (
+const Box = ({ color = "#b89562", title, subtitle, icon, width = 140, onClick, active }) => (
   <div onClick={onClick} style={{
     width, border: `1px solid ${active ? color : color + "55"}`,
     borderRadius: 8, padding: "10px 12px", cursor: onClick ? "pointer" : "default",
@@ -41,7 +41,7 @@ const Arrow = ({ dir = "right", color = "#334155", label }) => {
   );
 };
 
-const SectionTitle = ({ children, color = "#06b6d4" }) => (
+const SectionTitle = ({ children, color = "#b89562" }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
     <div style={{ width: 3, height: 16, background: color, borderRadius: 2 }} />
     <span style={{ fontSize: 11, fontWeight: 700, color, fontFamily: "monospace", letterSpacing: 1, textTransform: "uppercase" }}>{children}</span>
@@ -327,7 +327,7 @@ function MCPConnectivity() {
               </div>
               <div style={{ marginBottom: 8 }}>
                 <div style={{ fontSize: 9, color: "#64748b", fontFamily: "monospace", marginBottom: 4 }}>INSTALL</div>
-                <div style={{ background: "#0f172a", borderRadius: 4, padding: "6px 10px",
+                <div style={{ background: "#26221c", borderRadius: 4, padding: "6px 10px",
                   fontSize: 10, color: "#22c55e", fontFamily: "monospace" }}>
                   npx {sel.npm}
                 </div>
@@ -337,7 +337,7 @@ function MCPConnectivity() {
               <div style={{ fontSize: 9, color: "#64748b", fontFamily: "monospace", marginBottom: 8 }}>EXPOSED TOOLS</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {sel.tools.map((t, i) => (
-                  <div key={i} style={{ background: "#0f172a", borderRadius: 4, padding: "6px 10px",
+                  <div key={i} style={{ background: "#26221c", borderRadius: 4, padding: "6px 10px",
                     fontSize: 10, color: sel.color, fontFamily: "monospace", border: `1px solid ${sel.color}22` }}>
                     <span style={{ color: "#64748b" }}>fn</span> {t}
                   </div>
@@ -421,7 +421,7 @@ function DataFlow() {
       </div>
 
       {/* Query display */}
-      <div style={{ background: "#0f172a", borderRadius: 8, padding: "12px 16px", marginBottom: 24,
+      <div style={{ background: "#252220", borderRadius: 8, padding: "12px 16px", marginBottom: 24,
         border: `1px solid ${f.color}44`, display: "flex", alignItems: "center", gap: 10 }}>
         <span style={{ fontSize: 10, color: "#64748b", fontFamily: "monospace" }}>Engineer types:</span>
         <span style={{ fontSize: 12, color: f.color, fontFamily: "monospace", fontWeight: 600 }}>"{f.query}"</span>
@@ -439,7 +439,7 @@ function DataFlow() {
                 {s.step}
               </div>
               {i < f.steps.length - 1 && (
-                <div style={{ width: 1, flex: 1, background: "#1e293b", minHeight: 16 }} />
+                <div style={{ width: 1, flex: 1, background: "#4a443c", minHeight: 16 }} />
               )}
             </div>
 
@@ -555,8 +555,8 @@ function ProjectStructure() {
   return (
     <div style={{ padding: 32 }}>
       <SectionTitle color={COLORS.cyan}>Project File Structure — nexiq-ai/</SectionTitle>
-      <div style={{ background: "#0a0f1e", borderRadius: 10, padding: 20, fontFamily: "monospace", fontSize: 11 }}>
-        <div style={{ color: "#f1f5f9", marginBottom: 12, fontSize: 12, fontWeight: 700 }}>📁 nexiq-ai/</div>
+      <div style={{ background: "#1a1714", borderRadius: 10, padding: 20, fontFamily: "monospace", fontSize: 11 }}>
+        <div style={{ color: "#ede8df", marginBottom: 12, fontSize: 12, fontWeight: 700 }}>📁 nexiq-ai/</div>
         {dirs.map(dir => (
           <div key={dir.id} style={{ marginBottom: 4 }}>
             <div onClick={() => toggle(dir.id)}
@@ -591,38 +591,38 @@ export default function LinkedEyeArchitecture() {
   const ActiveComponent = tabs[tab].component;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#060d18", color: "#f1f5f9" }}>
-      <style>{`* { box-sizing: border-box; } button { outline: none; } ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #1e293b; }`}</style>
+    <div style={{ minHeight: "100vh", background: "#171512", color: "#ede8df" }}>
+      <style>{`* { box-sizing: border-box; } button { outline: none; } ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #4a443c; }`}</style>
 
       {/* Header */}
-      <div style={{ borderBottom: "1px solid #0f1f35", padding: "14px 32px",
+      <div style={{ borderBottom: "1px solid #3a3630", padding: "14px 32px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        background: "#070e1c", position: "sticky", top: 0, zIndex: 10 }}>
+        background: "#1e1c17", position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #06b6d4, #3b82f6)",
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #b89562, #6b5838)",
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>👁</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: "#f1f5f9", fontFamily: "monospace" }}>NexIQ AI</div>
-            <div style={{ fontSize: 9, color: "#475569", fontFamily: "monospace" }}>Product Architecture & Structure</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "#ede8df", fontFamily: "monospace" }}>NexIQ AI</div>
+            <div style={{ fontSize: 9, color: "#8c8478", fontFamily: "monospace" }}>Product Architecture & Structure</div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           {["On-Premise", "LangGraph", "MCP", "Open Source"].map(b => (
             <span key={b} style={{ fontSize: 9, padding: "3px 8px", borderRadius: 4,
-              border: "1px solid #1e293b", color: "#64748b", fontFamily: "monospace" }}>{b}</span>
+              border: "1px solid #3d3932", color: "#8c8478", fontFamily: "monospace" }}>{b}</span>
           ))}
         </div>
       </div>
 
       {/* Tabs */}
-      <div style={{ borderBottom: "1px solid #0f1f35", padding: "0 32px", background: "#070e1c" }}>
+      <div style={{ borderBottom: "1px solid #3a3630", padding: "0 32px", background: "#1e1c17" }}>
         <div style={{ display: "flex", gap: 0 }}>
           {tabs.map((t, i) => (
             <button key={i} onClick={() => setTab(i)}
               style={{ padding: "12px 16px", border: "none", background: "transparent",
                 cursor: "pointer", fontFamily: "monospace", fontSize: 11,
-                color: tab === i ? "#06b6d4" : "#475569",
-                borderBottom: tab === i ? "2px solid #06b6d4" : "2px solid transparent",
+                color: tab === i ? "#b89562" : "#7d766c",
+                borderBottom: tab === i ? "2px solid #b89562" : "2px solid transparent",
                 transition: "all 0.2s", display: "flex", alignItems: "center", gap: 6 }}>
               <span>{t.icon}</span> {t.label}
             </button>

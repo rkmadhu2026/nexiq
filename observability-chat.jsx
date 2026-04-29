@@ -131,13 +131,39 @@ const RESPONSES = {
   },
 };
 
+/** Warm-dark surfaces — paired with cream light shell (soft neutrals, bronze accent) */
+const VD = {
+  canvas: "#171512",
+  surface: "#1e1c17",
+  chartBg: "#252220",
+  chartHeader: "#2e2a24",
+  gridStroke: "#454038",
+  axisTick: "#938a7d",
+  axisLine: "#5a534a",
+  logsBg: "#191714",
+  logsHeader: "#26221c",
+  logsMeta: "#26221c",
+  logsSearch: "#222018",
+  logsCol: "#1c1915",
+  analysisBody: "#231f1a",
+  fixGreenBg: "#162316",
+  scrollbarTrack: "#252220",
+  scrollbarThumb: "#4a443c",
+  navActive: "#342e26",
+  quickBtn: "#222018",
+  badgeBg: "#2c261c",
+  userBubble: "#2e2920",
+  userText: "#e5dccb",
+  accentGrad: "linear-gradient(145deg, #b89562, #6b5838)",
+};
+
 // ── Level Colors ─────────────────────────────────────────────
 const levelConfig = {
   FATAL: { bg: "bg-red-900/60", text: "text-red-300", border: "border-red-700", dot: "#ef4444" },
   ERROR: { bg: "bg-red-900/40", text: "text-red-400", border: "border-red-800", dot: "#f87171" },
   WARN:  { bg: "bg-yellow-900/30", text: "text-yellow-400", border: "border-yellow-800", dot: "#fbbf24" },
-  INFO:  { bg: "bg-slate-800/40", text: "text-slate-400", border: "border-slate-700", dot: "#94a3b8" },
-  DEBUG: { bg: "bg-slate-900/30", text: "text-slate-500", border: "border-slate-800", dot: "#64748b" },
+  INFO:  { bg: "bg-stone-800/40", text: "text-stone-400", border: "border-stone-700", dot: "#b0a595" },
+  DEBUG: { bg: "bg-stone-900/30", text: "text-stone-500", border: "border-stone-800", dot: "#8c8478" },
 };
 
 const severityConfig = {
@@ -159,10 +185,10 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
 
   return (
     <div
-      className="rounded-lg border border-cyan-800/35 px-3 py-2.5 mb-3 text-xs font-mono"
-      style={{ background: "rgba(8, 145, 178, 0.07)" }}
+      className="rounded-lg border border-amber-900/35 px-3 py-2.5 mb-3 text-xs font-mono"
+      style={{ background: "rgba(184, 149, 98, 0.09)" }}
     >
-      <div className="text-[10px] uppercase tracking-[0.14em] text-cyan-500/90 mb-2">Query scope · client & applications</div>
+      <div className="text-[10px] uppercase tracking-[0.14em] text-amber-600/85 mb-2">Query scope · client & applications</div>
       <div className="flex flex-wrap gap-x-8 gap-y-2 text-[13px] leading-snug">
         {instanceLabel ? (
           <div className="min-w-0">
@@ -196,7 +222,7 @@ function QueryScopeStrip({ instanceLabel, clientName, applicationNames, regionLa
 const GrafanaTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-gray-900 border border-gray-600 rounded px-3 py-2 shadow-xl text-xs font-mono">
+    <div className="bg-[#252220] border border-stone-600/55 rounded px-3 py-2 shadow-xl text-xs font-mono">
       <div className="text-gray-400 mb-1">{label}</div>
       {payload.map((p, i) => (
         <div key={i} style={{ color: p.color }} className="flex gap-2">
@@ -212,12 +238,12 @@ const GrafanaTooltip = ({ active, payload, label }) => {
 function GrafanaChart({ chart }) {
   if (!chart) return null;
 
-  const gridProps = { stroke: "#1e293b", strokeDasharray: "3 3" };
-  const axisProps = { tick: { fill: "#64748b", fontSize: 10, fontFamily: "monospace" }, axisLine: { stroke: "#334155" } };
+  const gridProps = { stroke: VD.gridStroke, strokeDasharray: "3 3" };
+  const axisProps = { tick: { fill: VD.axisTick, fontSize: 10, fontFamily: "monospace" }, axisLine: { stroke: VD.axisLine } };
 
   return (
-    <div className="mt-3 rounded-lg overflow-hidden border border-gray-700/60" style={{ background: "#0f172a" }}>
-      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-700/50" style={{ background: "#1e293b" }}>
+    <div className="mt-3 rounded-lg overflow-hidden border border-stone-600/50" style={{ background: VD.chartBg }}>
+      <div className="flex items-center justify-between px-4 py-2 border-b border-stone-600/40" style={{ background: VD.chartHeader }}>
         <span className="text-xs font-mono text-gray-300">{chart.title}</span>
         <div className="flex gap-2 text-xs text-gray-500 font-mono">
           <span>●  Live</span>
@@ -280,7 +306,7 @@ function GrafanaChart({ chart }) {
               <YAxis type="category" dataKey="pod" {...axisProps} width={110} />
               <Tooltip content={<GrafanaTooltip />} />
               <Bar dataKey="restarts" fill="#ef4444" name="Restarts" radius={[0, 3, 3, 0]}
-                label={{ position: "right", fill: "#94a3b8", fontSize: 10, fontFamily: "monospace" }} />
+                label={{ position: "right", fill: VD.axisTick, fontSize: 10, fontFamily: "monospace" }} />
             </BarChart>
           )}
         </ResponsiveContainer>
@@ -319,32 +345,32 @@ function LogViewer({ logs, title = "Log Results" }) {
   const levels = ["ALL", ...new Set(logs.map(l => l.level))];
 
   return (
-    <div className="mt-3 rounded-lg overflow-hidden border border-gray-700/60 text-xs font-mono" style={{ background: "#0a0f1e" }}>
+    <div className="mt-3 rounded-lg overflow-hidden border border-stone-600/50 text-xs font-mono" style={{ background: VD.logsBg }}>
       {/* Datadog-style header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-700/50" style={{ background: "#111827" }}>
+      <div className="flex items-center justify-between px-3 py-2 border-b border-stone-600/45" style={{ background: VD.logsHeader }}>
         <div className="flex items-center gap-2">
           <span className="text-gray-400">{title}</span>
-          <span className="px-1.5 py-0.5 rounded text-gray-500 border border-gray-700" style={{ background: "#1f2937" }}>
+          <span className="px-1.5 py-0.5 rounded text-gray-500 border border-stone-600/55" style={{ background: VD.logsMeta }}>
             {filtered.length} events
           </span>
         </div>
         <div className="flex gap-2">
           {levels.map(l => (
             <button key={l} onClick={() => setLevelFilter(l)}
-              className={`px-2 py-0.5 rounded border text-xs transition-all ${levelFilter === l ? "border-blue-500 text-blue-400 bg-blue-950/30" : "border-gray-700 text-gray-500 hover:border-gray-500"}`}>
+              className={`px-2 py-0.5 rounded border text-xs transition-all ${levelFilter === l ? "border-amber-600 text-amber-300/95 bg-stone-900/40" : "border-stone-600 text-stone-500 hover:border-stone-500"}`}>
               {l}
             </button>
           ))}
         </div>
       </div>
       {/* Search bar */}
-      <div className="px-3 py-2 border-b border-gray-800/50" style={{ background: "#0f172a" }}>
+      <div className="px-3 py-2 border-b border-stone-700/50" style={{ background: VD.logsSearch }}>
         <input value={filter} onChange={e => setFilter(e.target.value)}
           placeholder="Filter logs..." className="w-full bg-transparent text-gray-300 placeholder-gray-600 outline-none text-xs" />
       </div>
       {/* Column headers */}
       <div className="grid gap-2 px-3 py-1.5 border-b border-gray-800/50 text-gray-600 text-xs"
-        style={{ gridTemplateColumns: "90px 60px 110px 1fr", background: "#0d1520" }}>
+        style={{ gridTemplateColumns: "90px 60px 110px 1fr", background: VD.logsCol }}>
         <span>TIMESTAMP</span>
         <span>LEVEL</span>
         <span>SERVICE</span>
@@ -356,14 +382,14 @@ function LogViewer({ logs, title = "Log Results" }) {
           const cfg = levelConfig[log.level] || levelConfig.INFO;
           return (
             <div key={i}
-              className={`grid gap-2 px-3 py-1.5 border-b border-gray-800/30 hover:bg-gray-800/20 transition-colors ${i === 0 && log.level === "FATAL" ? "bg-red-950/20" : ""}`}
+              className={`grid gap-2 px-3 py-1.5 border-b border-stone-800/35 hover:bg-stone-900/25 transition-colors ${i === 0 && log.level === "FATAL" ? "bg-red-950/20" : ""}`}
               style={{ gridTemplateColumns: "90px 60px 110px 1fr" }}>
               <span className="text-gray-500 shrink-0">{log.time}</span>
               <span className={`font-bold ${cfg.text} flex items-center gap-1 shrink-0`}>
                 <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: cfg.dot }} />
                 {log.level}
               </span>
-              <span className="text-blue-400 shrink-0 truncate">{log.service}</span>
+              <span className="text-amber-200/85 shrink-0 truncate">{log.service}</span>
               <span className={`${log.level === "ERROR" || log.level === "FATAL" ? "text-red-300" : log.level === "WARN" ? "text-yellow-300" : "text-gray-300"} break-all`}>
                 {log.message}
               </span>
@@ -382,8 +408,8 @@ function AIMessage({ response, query }) {
   return (
     <div className="flex gap-3 mb-6">
       {/* Avatar */}
-      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 border border-cyan-500/30"
-        style={{ background: "linear-gradient(135deg, #0891b2, #1e40af)" }}>
+      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 border border-amber-600/35"
+        style={{ background: VD.accentGrad }}>
         <span className="text-xs font-bold text-white">AI</span>
       </div>
 
@@ -410,12 +436,12 @@ function AIMessage({ response, query }) {
         {response.logs && <LogViewer logs={response.logs} title="Journal / Application Logs" />}
 
         {/* Analysis section */}
-        <div className="analysis-panel mt-3 rounded-lg border border-gray-700/40 overflow-hidden">
-          <div className="analysis-panel-header px-4 py-2 border-b border-gray-700/40 text-xs text-gray-500 font-mono flex items-center gap-2"
-            style={{ background: "#111827" }}>
-            <span className="text-cyan-500">◈</span> AI Root Cause Analysis
+        <div className="analysis-panel mt-3 rounded-lg border border-stone-600/45 overflow-hidden">
+          <div className="analysis-panel-header px-4 py-2 border-b border-stone-600/45 text-xs text-stone-500 font-mono flex items-center gap-2"
+            style={{ background: VD.logsHeader }}>
+            <span className="text-amber-600">◈</span> AI Root Cause Analysis
           </div>
-          <div className="analysis-panel-body px-4 py-3 text-sm text-gray-300 leading-relaxed" style={{ background: "#0d1a2a" }}>
+          <div className="analysis-panel-body px-4 py-3 text-sm text-stone-300 leading-relaxed" style={{ background: VD.analysisBody }}>
             {response.insight}
           </div>
         </div>
@@ -423,10 +449,10 @@ function AIMessage({ response, query }) {
         {/* Fix */}
         <div className="fix-panel mt-2 rounded-lg border border-green-800/40 overflow-hidden">
           <div className="fix-panel-header px-4 py-2 border-b border-green-800/40 text-xs text-green-500 font-mono flex items-center gap-2"
-            style={{ background: "#0a1f0a" }}>
+            style={{ background: "#152814" }}>
             <span>⚡</span> Recommended Action
           </div>
-          <pre className="fix-panel-body px-4 py-3 text-xs text-green-300 font-mono whitespace-pre-wrap leading-relaxed" style={{ background: "#071407" }}>
+          <pre className="fix-panel-body px-4 py-3 text-xs text-green-300 font-mono whitespace-pre-wrap leading-relaxed" style={{ background: VD.fixGreenBg }}>
             {response.fix}
           </pre>
         </div>
@@ -434,8 +460,8 @@ function AIMessage({ response, query }) {
         {/* Sources */}
         <div className="mt-2 flex flex-wrap gap-2">
           {response.sources.map((s, i) => (
-            <span key={i} className="px-2 py-0.5 rounded text-xs font-mono text-gray-500 border border-gray-700/50"
-              style={{ background: "#0f172a" }}>
+            <span key={i} className="px-2 py-0.5 rounded text-xs font-mono text-stone-500 border border-stone-600/45"
+              style={{ background: VD.chartBg }}>
               📎 {s}
             </span>
           ))}
@@ -449,14 +475,14 @@ function AIMessage({ response, query }) {
 function TypingIndicator() {
   return (
     <div className="flex gap-3 mb-4">
-      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-cyan-500/30"
-        style={{ background: "linear-gradient(135deg, #0891b2, #1e40af)" }}>
+      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-amber-600/35"
+        style={{ background: VD.accentGrad }}>
         <span className="text-xs font-bold text-white">AI</span>
       </div>
-      <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-gray-700/40" style={{ background: "#111827" }}>
+      <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-stone-600/45" style={{ background: VD.logsHeader }}>
         <div className="flex gap-1.5">
           {[0, 1, 2].map(i => (
-            <div key={i} className="w-1.5 h-1.5 rounded-full bg-cyan-400"
+            <div key={i} className="w-1.5 h-1.5 rounded-full bg-amber-500/90"
               style={{ animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
           ))}
         </div>
@@ -507,22 +533,22 @@ export default function ObservabilityChat() {
   return (
     <div
       className="flex min-h-0 w-full flex-1 flex-row text-gray-100"
-      style={{ background: "#060d18", fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
+      style={{ background: VD.canvas, fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
     >
       <style>{`
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
-        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
-        .query-btn:hover { background: #1e3a5f !important; border-color: #3b82f6 !important; color: #93c5fd !important; }
+        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: ${VD.scrollbarTrack}; }
+        ::-webkit-scrollbar-thumb { background: ${VD.scrollbarThumb}; border-radius: 2px; }
+        .query-btn:hover { background: #3a3428 !important; border-color: #b89562 !important; color: #e8dcc4 !important; }
       `}</style>
 
       {/* Sidebar */}
-      <div className="w-56 shrink-0 flex flex-col border-r border-gray-800/60" style={{ background: "#070e1c" }}>
+      <div className="w-56 shrink-0 flex flex-col border-r border-stone-700/45" style={{ background: VD.surface }}>
         {/* Logo */}
-        <div className="px-4 py-4 border-b border-gray-800/60">
+        <div className="px-4 py-4 border-b border-stone-700/45">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded flex items-center justify-center text-sm"
-              style={{ background: "linear-gradient(135deg, #0891b2, #1e40af)" }}>👁</div>
+              style={{ background: VD.accentGrad }}>👁</div>
             <div>
               <div className="text-sm font-bold text-white tracking-tight">NexIQ AI</div>
               <div className="text-xs text-gray-500">Observability Chat</div>
@@ -539,21 +565,21 @@ export default function ObservabilityChat() {
             { id: "alerts", icon: "🔔", label: "Alerts" },
           ].map(item => (
             <button key={item.id} onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all text-left ${activeTab === item.id ? "text-white border border-cyan-500/30" : "text-gray-500 hover:text-gray-300"}`}
-              style={activeTab === item.id ? { background: "#0c1f3a" } : {}}>
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all text-left ${activeTab === item.id ? "text-white border border-amber-600/35" : "text-gray-500 hover:text-gray-300"}`}
+              style={activeTab === item.id ? { background: VD.navActive } : {}}>
               <span>{item.icon}</span> {item.label}
             </button>
           ))}
         </div>
 
         {/* Quick queries */}
-        <div className="px-3 py-2 border-t border-gray-800/60 mt-auto mb-0">
+        <div className="px-3 py-2 border-t border-stone-700/45 mt-auto mb-0">
           <div className="text-xs text-gray-600 mb-2 uppercase tracking-wider">Quick Queries</div>
           <div className="space-y-1">
             {QUERIES.slice(0, 4).map((q, i) => (
               <button key={i} onClick={() => sendQuery(q)}
                 className="query-btn w-full text-left px-2.5 py-1.5 rounded text-xs text-gray-500 border border-gray-800/60 transition-all leading-snug"
-                style={{ background: "#0a1422" }}>
+                style={{ background: VD.quickBtn }}>
                 {q}
               </button>
             ))}
@@ -561,7 +587,7 @@ export default function ObservabilityChat() {
         </div>
 
         {/* Status */}
-        <div className="px-3 py-3 border-t border-gray-800/60">
+        <div className="px-3 py-3 border-t border-stone-700/45">
           <div className="flex items-center gap-2 text-xs">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-gray-500">All agents online</span>
@@ -580,12 +606,12 @@ export default function ObservabilityChat() {
       {/* Main chat area */}
       <div className="flex-1 flex flex-col min-h-0 min-w-0">
         {/* Header */}
-        <div className="px-6 py-3 border-b border-gray-800/60 flex items-center justify-between shrink-0"
-          style={{ background: "#070e1c" }}>
+        <div className="px-6 py-3 border-b border-stone-700/45 flex items-center justify-between shrink-0"
+          style={{ background: VD.surface }}>
           <div className="flex items-center gap-3">
             <span className="text-sm font-bold text-white">Infrastructure Intelligence Chat</span>
-            <span className="px-2 py-0.5 rounded text-xs border border-cyan-500/30 text-cyan-400"
-              style={{ background: "#0c2a35" }}>LangGraph + RAG</span>
+            <span className="px-2 py-0.5 rounded text-xs border border-amber-600/30 text-amber-200/90"
+              style={{ background: VD.badgeBg }}>LangGraph + RAG</span>
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <span className="flex items-center gap-1.5">
@@ -600,8 +626,8 @@ export default function ObservabilityChat() {
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center flex-1 min-h-[18rem] text-center gap-6 px-4 py-8">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center text-2xl border border-cyan-500/30"
-                style={{ background: "linear-gradient(135deg, #0c2a35, #0c1f3a)" }}>👁</div>
+              <div className="w-14 h-14 rounded-full flex items-center justify-center text-2xl border border-amber-600/35"
+                style={{ background: "linear-gradient(145deg, #3a3428, #2e281c)" }}>👁</div>
               <div>
                 <div className="text-xl font-bold text-white mb-1">Ask your infrastructure anything</div>
                 <div className="text-sm text-gray-400">
@@ -612,7 +638,7 @@ export default function ObservabilityChat() {
                 {QUERIES.map((q, i) => (
                   <button key={i} onClick={() => sendQuery(q)}
                     className="query-btn px-3 py-2 rounded-lg text-xs text-left text-gray-400 border border-gray-700/50 transition-all"
-                    style={{ background: "#0a1422" }}>
+                    style={{ background: VD.quickBtn }}>
                     {q}
                   </button>
                 ))}
@@ -623,8 +649,8 @@ export default function ObservabilityChat() {
           {messages.map((msg, i) => (
             msg.role === "user" ? (
               <div key={i} className="flex justify-end mb-4">
-                <div className="max-w-md px-4 py-2.5 rounded-xl text-sm border border-blue-500/20"
-                  style={{ background: "#0c1f3a", color: "#93c5fd" }}>
+                <div className="max-w-md px-4 py-2.5 rounded-xl text-sm border border-amber-700/25"
+                  style={{ background: VD.userBubble, color: VD.userText }}>
                   {msg.text}
                 </div>
               </div>
@@ -638,15 +664,15 @@ export default function ObservabilityChat() {
         </div>
 
         {/* Input */}
-        <div className="px-6 py-4 border-t border-gray-800/60 shrink-0" style={{ background: "#070e1c" }}>
+        <div className="px-6 py-4 border-t border-stone-700/45 shrink-0" style={{ background: VD.surface }}>
           <div className="flex gap-3 items-end">
-            <div className="flex-1 rounded-xl border border-gray-700/60 overflow-hidden"
-              style={{ background: "#0d1a2a" }}>
+            <div className="flex-1 rounded-xl border border-stone-600/55 overflow-hidden"
+              style={{ background: VD.analysisBody }}>
               <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKey}
                 placeholder="Ask about pods, metrics, tenants, queues, logs, latency… (Enter to send)"
                 rows={2}
                 className="w-full px-4 py-3 bg-transparent text-sm text-gray-200 placeholder-gray-600 resize-none outline-none leading-relaxed" />
-              <div className="flex items-center justify-between px-4 py-2 border-t border-gray-800/40">
+              <div className="flex items-center justify-between px-4 py-2 border-t border-stone-700/40">
                 <div className="flex gap-2 text-xs text-gray-600">
                   <span>Prom</span><span>•</span><span>ES</span><span>•</span><span>Loki</span><span>•</span><span>K8s API</span>
                 </div>
@@ -655,7 +681,7 @@ export default function ObservabilityChat() {
             </div>
             <button onClick={() => sendQuery(input)} disabled={loading || !input.trim()}
               className="w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-30"
-              style={{ background: loading ? "#1e3a5f" : "linear-gradient(135deg, #0891b2, #1e40af)" }}>
+              style={{ background: loading ? "#4a4338" : VD.accentGrad }}>
               ➤
             </button>
           </div>

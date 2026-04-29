@@ -1,12 +1,21 @@
 import { useState } from "react";
 
 const C = {
-  bg: "#060d18", surface: "#0a1628", card: "#0f1f35",
-  border: "#1e3a5f", borderLight: "#2a4a6b",
-  blue: "#1a56db", cyan: "#0891b2", green: "#059669",
-  orange: "#d97706", red: "#dc2626", purple: "#7c3aed",
-  textPrimary: "#e2e8f0", textSecondary: "#94a3b8",
-  textMuted: "#64748b", white: "#ffffff",
+  bg: "#171512",
+  surface: "#1f1d19",
+  card: "#2a261f",
+  border: "#3d3932",
+  borderLight: "#504a42",
+  blue: "#b89562",
+  cyan: "#b89562",
+  green: "#3d8968",
+  orange: "#c9923a",
+  red: "#c84c44",
+  purple: "#9b7eb0",
+  textPrimary: "#ede8df",
+  textSecondary: "#b0a595",
+  textMuted: "#8c8478",
+  white: "#f5f0e8",
 };
 
 const TAB_DEFS = [
@@ -655,7 +664,7 @@ export default function ArchDiagram() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
           <div style={{ width: 36, height: 36, borderRadius: 8, display: "flex", alignItems: "center",
             justifyContent: "center", fontSize: 18,
-            background: "linear-gradient(135deg, #0891b2, #1a56db)" }}>👁</div>
+            background: "linear-gradient(145deg, #b89562, #6b5838)" }}>👁</div>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: -0.5 }}>
               NexIQ AI Platform
