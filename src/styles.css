@@ -237,6 +237,12 @@ input {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
   font-size: 0.72rem;
   font-weight: 800;
+  cursor: pointer;
+}
+
+.sidebar-command:focus-visible {
+  outline: 2px solid rgba(139, 92, 44, 0.55);
+  outline-offset: 2px;
 }
 
 .sidebar-section-label {
@@ -398,6 +404,22 @@ input {
   background: #f3eadc;
 }
 
+.view-tab:focus-visible {
+  outline: 2px solid rgba(139, 92, 44, 0.55);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .view-tab {
+    transition: none;
+  }
+
+  .view-tab:hover,
+  .view-tab.active {
+    transform: none;
+  }
+}
+
 .sidebar-note {
   margin-top: auto;
   padding: 0.75rem;
@@ -451,6 +473,11 @@ input {
 
 .signout-button:hover {
   background: var(--color-accent-soft);
+}
+
+.signout-button:focus-visible {
+  outline: 2px solid rgba(139, 92, 44, 0.55);
+  outline-offset: 2px;
 }
 
 .workspace {
@@ -1343,6 +1370,11 @@ input {
   box-shadow: 0 14px 32px rgba(71, 55, 31, 0.18);
 }
 
+.auth-primary:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 3px;
+}
+
 .auth-link {
   width: 100%;
   margin-top: 0.7rem;
@@ -1357,6 +1389,12 @@ input {
 
 .auth-link:hover {
   text-decoration: underline;
+}
+
+.auth-link:focus-visible {
+  outline: 2px solid rgba(139, 92, 44, 0.55);
+  outline-offset: 3px;
+  border-radius: 0.65rem;
 }
 
 .hero-copy {
