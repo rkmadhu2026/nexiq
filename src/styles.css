@@ -394,6 +394,14 @@ h3,
   line-height: 1.2;
 }
 
+/* Sidebar tag reads as a subtitle, not all-caps marketing */
+.brand-lockup--shell .landing-brand-tag {
+  text-transform: none;
+  letter-spacing: 0.06em;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
 .brand-mark {
   display: grid;
   width: 2.35rem;

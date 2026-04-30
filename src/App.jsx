@@ -208,9 +208,9 @@ export default function App() {
               <div className="brand-lockup-copy">
                 <div className="landing-brand-text">
                   <span className="landing-brand-title">SK RGUS</span>
-                  <span className="landing-brand-tag">Ask Argus</span>
+                  <span className="landing-brand-tag">Command center</span>
                 </div>
-                <h1 className="sidebar-shell-heading">Command center</h1>
+                <h1 className="sidebar-shell-heading">Ask Argus</h1>
               </div>
             </div>
             <button className="sidebar-command" type="button" aria-label="Open command menu">
