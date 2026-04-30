@@ -162,7 +162,7 @@ h3,
   font-optical-sizing: auto;
 }
 
-@keyframes nexiq-fade-rise {
+@keyframes skrgus-fade-rise {
   from {
     opacity: 0;
     transform: translate3d(0, 14px, 0);
@@ -275,7 +275,7 @@ h3,
   min-height: 100vh;
   padding: var(--space-5);
   background: var(--dashboard-shell-bg);
-  animation: nexiq-fade-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: skrgus-fade-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .app-shell-leading {
@@ -1079,7 +1079,7 @@ h3,
   align-content: center;
   justify-items: center;
   gap: var(--space-6);
-  animation: nexiq-fade-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: skrgus-fade-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .auth-shell:not(.landing)::before {
@@ -1856,7 +1856,7 @@ h3,
 .auth-shell.landing > .landing-features,
 .auth-shell.landing > .landing-proof,
 .auth-shell.landing > .landing-final-cta {
-  animation: nexiq-fade-rise 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: skrgus-fade-rise 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .auth-shell.landing > .landing-nav {
@@ -1884,7 +1884,7 @@ h3,
 }
 
 .landing-features > article {
-  animation: nexiq-fade-rise 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: skrgus-fade-rise 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .landing-features > article:nth-child(1) {

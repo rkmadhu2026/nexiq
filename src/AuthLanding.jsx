@@ -33,19 +33,19 @@ const insightRows = [
 function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
   const isSignup = mode === "signup";
   const [form, setForm] = useState({
-    name: "NexIQ Admin",
-    email: "admin@nexiq.ai",
+    name: "SK RGUS Admin",
+    email: "admin@skrgus.ai",
     password: "demo1234",
-    company: "NexIQ Production",
+    company: "SK RGUS Production",
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const email = form.email.trim();
     onAuthenticate({
-      name: isSignup ? form.name.trim() : "NexIQ Admin",
+      name: isSignup ? form.name.trim() : "SK RGUS Admin",
       email,
-      company: isSignup ? form.company.trim() : "NexIQ Production",
+      company: isSignup ? form.company.trim() : "SK RGUS Production",
       role: "Admin",
     });
   };
@@ -53,7 +53,7 @@ function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
   return (
     <section className="auth-card">
       <p>{isSignup ? "Create Account" : "Welcome Back"}</p>
-      <h2>{isSignup ? "Start your NexIQ workspace" : "Sign in to NexIQ"}</h2>
+      <h2>{isSignup ? "Start your SK RGUS workspace" : "Sign in to SK RGUS"}</h2>
       <span>
         {isSignup
           ? "Create a secure admin profile for client integrations and AI operations."
@@ -113,7 +113,7 @@ function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
         type="button"
         onClick={() => onModeChange(isSignup ? "signin" : "signup")}
       >
-        {isSignup ? "Already have an account? Sign in" : "New to NexIQ? Create an account"}
+        {isSignup ? "Already have an account? Sign in" : "New to SK RGUS? Create an account"}
       </button>
     </section>
   );
@@ -124,8 +124,8 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
     return (
       <main className="auth-shell">
         <div className="auth-brand">
-          <div className="brand-mark">NQ</div>
-          <span>NexusIQ</span>
+          <div className="brand-mark">SK</div>
+          <span>SK RGUS</span>
         </div>
         <AuthForm
           mode={mode}
@@ -141,8 +141,8 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
     <main className="auth-shell landing">
       <nav className="landing-nav">
         <div className="auth-brand">
-          <div className="brand-mark">NQ</div>
-          <span>NexusIQ</span>
+          <div className="brand-mark">SK</div>
+          <span>SK RGUS</span>
         </div>
         <div className="landing-menu" aria-label="Landing page sections">
           <span>Workspace</span>
@@ -159,7 +159,7 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
       <section className="landing-hero innovative">
         <div className="hero-copy">
           <div className="hero-live-row">
-            <span className="live-pill">NexIQ desktop</span>
+            <span className="live-pill">SK RGUS desktop</span>
             <span>Observability, client apps, integrations, and admin settings in one clean workspace</span>
           </div>
           <h1 className="hero-title">
@@ -168,11 +168,11 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
             <em>Built for real incidents.</em>
           </h1>
           <span>
-            NexIQ brings your observability chat, product architecture, client application details,
+            SK RGUS brings your observability chat, product architecture, client application details,
             integration status, and admin controls into a single light desktop interface.
           </span>
           <div className="landing-actions">
-            <button type="button" onClick={() => onModeChange("signup")}>Open NexIQ workspace</button>
+            <button type="button" onClick={() => onModeChange("signup")}>Open SK RGUS workspace</button>
             <button type="button" onClick={() => onModeChange("signin")}>Open demo console</button>
           </div>
           <small className="landing-note">Demo tenant included · light UI · admin settings and integrations built in</small>
@@ -186,17 +186,17 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
           </div>
         </div>
 
-        <div className="landing-preview mission-control" aria-label="NexIQ desktop preview">
+        <div className="landing-preview mission-control" aria-label="SK RGUS desktop preview">
           <div className="preview-header">
             <span />
             <span />
             <span />
-            <b>NexIQ Desktop Preview</b>
+            <b>SK RGUS Desktop Preview</b>
           </div>
           <div className="topology-card">
             <div className="topology-core">
-              <span>NQ</span>
-              <strong>NexIQ Workspace</strong>
+              <span>SK</span>
+              <strong>SK RGUS Workspace</strong>
             </div>
             <div className="topology-ring">
               {topologyNodes.map((node) => (
@@ -255,8 +255,8 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
           </span>
         </div>
         <blockquote>
-          “NexIQ puts the client, app, integration, and evidence in one workspace without making the UI feel heavy.”
-          <cite>Platform Operations · NexIQ demo tenant</cite>
+          “SK RGUS puts the client, app, integration, and evidence in one workspace without making the UI feel heavy.”
+          <cite>Platform Operations · SK RGUS demo tenant</cite>
         </blockquote>
       </section>
 

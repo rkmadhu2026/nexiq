@@ -4,8 +4,8 @@ import { probeIntegrationEndpoint } from "./integrationProbe.js";
 
 const initialClients = [
   {
-    id: "nexiq-prod",
-    name: "NexIQ Production",
+    id: "skrgus-prod",
+    name: "SK RGUS Production",
     plan: "Enterprise",
     region: "Mumbai DC",
     owner: "Ops Admin",
@@ -13,8 +13,8 @@ const initialClients = [
     apps: 14,
     integrations: 8,
     authProvider: "SAML 2.0 · Okta",
-    directoryTenantId: "nexiq-prod-01",
-    oauthAudience: "https://api.nexiq.ai",
+    directoryTenantId: "skrgus-prod-01",
+    oauthAudience: "https://api.skrgus.ai",
     sessionPolicy: "SSO required · MFA enforced (Admin)",
     lastDirectorySync: "4 min ago",
   },
@@ -29,7 +29,7 @@ const initialClients = [
     integrations: 6,
     authProvider: "OIDC · Azure AD",
     directoryTenantId: "alpha-capital.onmicrosoft.com",
-    oauthAudience: "api://nexiq-alpha",
+    oauthAudience: "api://skrgus-alpha",
     sessionPolicy: "SSO required · MFA optional",
     lastDirectorySync: "18 min ago",
   },
@@ -51,14 +51,14 @@ const initialClients = [
 ];
 
 const initialIntegrations = [
-  { name: "Prometheus", type: "Metrics", endpoint: "https://metrics.nexiq.local", status: "Connected", sync: "22 sec ago", lastVerified: "—" },
-  { name: "Loki", type: "Logs", endpoint: "https://logs.nexiq.local", status: "Connected", sync: "48 sec ago", lastVerified: "—" },
-  { name: "Elasticsearch", type: "Search / app logs", endpoint: "https://es.nexiq.local", status: "Connected", sync: "1 min ago", lastVerified: "—" },
-  { name: "Kubernetes", type: "Cluster API", endpoint: "nexiq-prod-le", status: "Connected", sync: "Live", lastVerified: "—" },
+  { name: "Prometheus", type: "Metrics", endpoint: "https://metrics.skrgus.local", status: "Connected", sync: "22 sec ago", lastVerified: "—" },
+  { name: "Loki", type: "Logs", endpoint: "https://logs.skrgus.local", status: "Connected", sync: "48 sec ago", lastVerified: "—" },
+  { name: "Elasticsearch", type: "Search / app logs", endpoint: "https://es.skrgus.local", status: "Connected", sync: "1 min ago", lastVerified: "—" },
+  { name: "Kubernetes", type: "Cluster API", endpoint: "skrgus-prod-le", status: "Connected", sync: "Live", lastVerified: "—" },
   { name: "SNMP Network", type: "Network Devices", endpoint: "10.10.0.0/16", status: "Pending", sync: "Needs approval", lastVerified: "—" },
-  { name: "SSO / SAML", type: "Identity", endpoint: "sso.nexiq.local", status: "Connected", sync: "Policy active", lastVerified: "—" },
-  { name: "Slack", type: "Notifications", endpoint: "#nexiq-alerts", status: "Connected", sync: "Live", lastVerified: "—" },
-  { name: "PostgreSQL", type: "Application DB", endpoint: "postgresql://nexiq-db", status: "Connected", sync: "15 sec ago", lastVerified: "—" },
+  { name: "SSO / SAML", type: "Identity", endpoint: "sso.skrgus.local", status: "Connected", sync: "Policy active", lastVerified: "—" },
+  { name: "Slack", type: "Notifications", endpoint: "#skrgus-alerts", status: "Connected", sync: "Live", lastVerified: "—" },
+  { name: "PostgreSQL", type: "Application DB", endpoint: "postgresql://skrgus-db", status: "Connected", sync: "15 sec ago", lastVerified: "—" },
 ];
 
 const connectorCatalog = [
@@ -71,10 +71,10 @@ const connectorCatalog = [
 ];
 
 const historyEvents = [
-  { time: "08:31", title: "Slack connector synced", detail: "Indexed 42 new alert messages from #nexiq-alerts.", actor: "System" },
+  { time: "08:31", title: "Slack connector synced", detail: "Indexed 42 new alert messages from #skrgus-alerts.", actor: "System" },
   { time: "08:24", title: "Jira connector requested", detail: "Waiting for tenant admin approval for Alpha Capital.", actor: "Ops Admin" },
-  { time: "08:12", title: "NexIQ Production policy updated", detail: "Data retention changed to 90 days for chat and connector events.", actor: "Admin" },
-  { time: "07:58", title: "GitHub connector tested", detail: "Repository access verified for nexiq-ai and mcp-tooling.", actor: "System" },
+  { time: "08:12", title: "SK RGUS Production policy updated", detail: "Data retention changed to 90 days for chat and connector events.", actor: "Admin" },
+  { time: "07:58", title: "GitHub connector tested", detail: "Repository access verified for skrgus-ai and mcp-tooling.", actor: "System" },
   { time: "07:45", title: "Google Drive source added", detail: "Runbook folder connected to Runbook RAG application.", actor: "SRE Team" },
 ];
 
@@ -86,10 +86,10 @@ const initialAdminSettings = [
 ];
 
 const initialApplications = [
-  { app: "Observability Chat", client: "NexIQ Production", owner: "Platform Team", data: "Metrics, logs, events", health: "Healthy" },
+  { app: "Observability Chat", client: "SK RGUS Production", owner: "Platform Team", data: "Metrics, logs, events", health: "Healthy" },
   { app: "Workflow automation", client: "Alpha Capital", owner: "BizOps", data: "Tenant workflows, policy events", health: "Healthy" },
   { app: "Network Monitor", client: "Vertex MSP", owner: "NOC Team", data: "SNMP, device inventory", health: "Attention" },
-  { app: "Runbook RAG", client: "NexIQ Production", owner: "SRE Team", data: "SOPs, incidents", health: "Healthy" },
+  { app: "Runbook RAG", client: "SK RGUS Production", owner: "SRE Team", data: "SOPs, incidents", health: "Healthy" },
 ];
 
 function StatusPill({ status }) {
@@ -194,7 +194,7 @@ export default function SettingsIntegrations() {
           <p>Admin Settings</p>
           <h3>Multi-client integrations and application data</h3>
           <span>
-            Manage tenant details, connector status, permissions, and application inventory from one NexIQ control plane.
+            Manage tenant details, connector status, permissions, and application inventory from one SK RGUS control plane.
           </span>
         </div>
         <div className="settings-summary-card settings-summary-actions">
@@ -328,7 +328,7 @@ export default function SettingsIntegrations() {
               <p>Authentication</p>
               <strong>Directory & API identity for this client</strong>
               <span>
-                SSO tenant, OAuth audience, and policy shown to NexIQ gateways for this workspace.
+                SSO tenant, OAuth audience, and policy shown to SK RGUS gateways for this workspace.
               </span>
             </div>
             <div className="settings-auth-grid">

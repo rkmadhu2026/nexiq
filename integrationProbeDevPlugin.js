@@ -20,7 +20,7 @@ async function probeUrlFromServer(urlString) {
       signal: ctrl.signal,
       headers: {
         Accept: "*/*",
-        "User-Agent": "NexIQ-integration-probe/1.0",
+        "User-Agent": "SKRGUS-integration-probe/1.0",
       },
     });
     clearTimeout(timer);
@@ -93,7 +93,7 @@ function integrationProbeMiddleware() {
 export function integrationProbeDevPlugin() {
   const mw = integrationProbeMiddleware();
   return {
-    name: "nexiq-integration-probe",
+    name: "skrgus-integration-probe",
     configureServer(server) {
       server.middlewares.use(mw);
     },

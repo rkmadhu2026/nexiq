@@ -1,5 +1,5 @@
 {
-  "name": "nexiq",
+  "name": "skrgus",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,8 +8,8 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "docker:build": "npm run build && docker build -t nexiq-web:latest .",
-    "docker:build:full": "docker build -f Dockerfile.build -t nexiq-web:latest ."
+    "docker:build": "npm run build && docker build -t skrgus-web:latest .",
+    "docker:build:full": "docker build -f Dockerfile.build -t skrgus-web:latest ."
   },
   "dependencies": {
     "react": "^19.2.5",

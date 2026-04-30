@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nexiq-web
+  name: skrgus-web
   labels:
-    app: nexiq-web
+    app: skrgus-web
 spec:
   type: ClusterIP
   selector:
-    app: nexiq-web
+    app: skrgus-web
   ports:
     - name: http
       port: 80
