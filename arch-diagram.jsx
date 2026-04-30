@@ -137,7 +137,7 @@ function OverviewTab() {
         { label: "elasticsearch-mcp", sub: ":8002 SSE", icon: "🔍" },
         { label: "loki-mcp", sub: ":8003 SSE", icon: "📋" },
         { label: "kubernetes-mcp", sub: ":8004 SSE", icon: "☸️" },
-        { label: "nexiq-db-mcp", sub: ":8005 SSE", icon: "🗄️" },
+        { label: "skrgus-db-mcp", sub: ":8005 SSE", icon: "🗄️" },
         { label: "runbook-mcp", sub: ":8006 SSE RAG", icon: "📖" },
       ]
     },
@@ -149,13 +149,13 @@ function OverviewTab() {
         { label: "Elasticsearch", sub: ":9200 app-logs-*", icon: "🔍" },
         { label: "Loki", sub: ":3100 LogQL", icon: "📦" },
         { label: "Kubernetes API", sub: ":6443 REST", icon: "☸️" },
-        { label: "PostgreSQL", sub: ":5432 nexiq", icon: "🐘" },
+        { label: "PostgreSQL", sub: ":5432 skrgus", icon: "🐘" },
         { label: "pgVector/Qdrant", sub: "vector similarity", icon: "🧮" },
       ]
     },
     {
       id: "l6", title: "L6 — Physical Infrastructure",
-      color: C.textMuted, note: "NexIQ production — KVM hosts, VMs, switches",
+      color: C.textMuted, note: "SK RGUS production — KVM hosts, VMs, switches",
       items: [
         { label: "KVM Hosts", sub: "KVM1-KVM5 (10.10.0.x)", icon: "🖥️" },
         { label: "51 Virtual Machines", sub: "Apps, Gateway, Workers…", icon: "💻" },
@@ -394,7 +394,7 @@ function MCPTab() {
       output: "Pod status + events → AI analysis context",
     },
     {
-      name: "nexiq-db-mcp", port: "8005", color: C.green, icon: "🗄️",
+      name: "skrgus-db-mcp", port: "8005", color: C.green, icon: "🗄️",
       license: "MIT Open Source",
       dataSource: "PostgreSQL :5432",
       tools: ["get_device_health(site)", "get_url_ssl_status(url)", "get_open_tickets(priority)", "get_site_summary(site_id)", "get_hardware_status(host)"],
@@ -670,7 +670,7 @@ export default function ArchDiagram() {
               fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: -0.5,
               fontFamily: "var(--font-display)",
             }}>
-              NexIQ AI Platform
+              SK RGUS AI Platform
             </div>
             <div style={{ fontSize: 12, color: C.textMuted, fontFamily: "monospace" }}>
               Product Structure • Flow • Connectivity — Santhira Technologies

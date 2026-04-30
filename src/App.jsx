@@ -11,16 +11,16 @@ const views = [
     id: "observability",
     eyebrow: "Live Workspace",
     title: "Observability Chat",
-    icon: "AI",
+    icon: "Ag",
     navLabel: "Observe",
     navStatus: "Live",
-    description: "Ask natural-language questions across metrics, logs, pods, and tenant-scoped application data.",
+    description: "Ask Argus natural-language questions across metrics, logs, pods, and tenant-scoped application data.",
     component: ObservabilityChat,
   },
   {
     id: "platform",
     eyebrow: "Architecture Map",
-    title: "NexIQ Platform",
+    title: "SK RGUS Platform",
     icon: "AR",
     navLabel: "Architecture",
     navStatus: "Map",
@@ -64,17 +64,17 @@ function isValidUser(value) {
 
 function getStoredUser() {
   try {
-    const stored = window.localStorage.getItem("nexiq-user");
+    const stored = window.localStorage.getItem("skrgus-user");
     if (!stored) return null;
     const parsed = JSON.parse(stored);
     return isValidUser(parsed) ? parsed : null;
   } catch {
-    window.localStorage.removeItem("nexiq-user");
+    window.localStorage.removeItem("skrgus-user");
     return null;
   }
 }
 
-const SIDEBAR_WIDTH_KEY = "nexiq-sidebar-width";
+const SIDEBAR_WIDTH_KEY = "skrgus-sidebar-width";
 const SIDEBAR_MIN = 240;
 const SIDEBAR_MAX = 480;
 const SIDEBAR_DEFAULT = 292;
@@ -100,8 +100,8 @@ function persistSidebarWidth(w) {
 function WorkspaceLoading() {
   return (
     <div className="workspace-loading" role="status" aria-live="polite">
-      <div className="loading-orb">NQ</div>
-      <strong>Loading NexIQ workspace</strong>
+      <div className="loading-orb">SK</div>
+      <strong>Loading SK RGUS workspace</strong>
       <span>Preparing dashboards, connectors, and AI context...</span>
     </div>
   );
@@ -127,7 +127,7 @@ export default function App() {
   const ActiveComponent = activeView.component;
 
   const handleAuthenticate = (nextUser) => {
-    const name = String(nextUser?.name ?? "NexIQ Admin").trim() || "NexIQ Admin";
+    const name = String(nextUser?.name ?? "SK RGUS Admin").trim() || "SK RGUS Admin";
     const email = String(nextUser?.email ?? "").trim();
     const role = String(nextUser?.role ?? "Admin").trim() || "Admin";
     if (!email) {
@@ -142,7 +142,7 @@ export default function App() {
       signedInAt: new Date().toISOString(),
     };
     try {
-      window.localStorage.setItem("nexiq-user", JSON.stringify(sessionUser));
+      window.localStorage.setItem("skrgus-user", JSON.stringify(sessionUser));
       setAuthError(null);
       setUser(sessionUser);
     } catch {
@@ -151,7 +151,7 @@ export default function App() {
   };
 
   const handleSignOut = () => {
-    window.localStorage.removeItem("nexiq-user");
+    window.localStorage.removeItem("skrgus-user");
     setUser(null);
     setAuthMode("landing");
   };
@@ -203,9 +203,9 @@ export default function App() {
         <aside className="app-sidebar" style={{ width: sidebarWidth, flexShrink: 0 }}>
           <div className="sidebar-topbar">
             <div className="brand-lockup">
-              <div className="brand-mark">NQ</div>
+              <div className="brand-mark">SK</div>
               <div>
-                <p className="eyebrow">NexIQ</p>
+                <p className="eyebrow">SK RGUS</p>
                 <h1>Command center</h1>
               </div>
             </div>

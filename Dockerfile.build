@@ -5,7 +5,7 @@
 #
 # Use this file when CI must compile inside the container:
 #   npm run docker:build:full
-#   docker build -f Dockerfile.build -t nexiq-web:latest .
+#   docker build -f Dockerfile.build -t skrgus-web:latest .
 #
 # TLS note: if `npm ci` fails with certificate errors (corporate proxy / custom CA),
 # install CA into the image or set NODE_EXTRA_CA_CERTS — or keep using `Dockerfile` + host build.

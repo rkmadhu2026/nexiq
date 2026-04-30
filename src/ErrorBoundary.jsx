@@ -11,7 +11,7 @@ export default class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    console.error("NexIQ render error", error, info);
+    console.error("SK RGUS render error", error, info);
   }
 
   handleReload = () => {
@@ -26,9 +26,9 @@ export default class ErrorBoundary extends Component {
     return (
       <main className="error-shell">
         <section className="error-card">
-          <div className="brand-mark">NQ</div>
+          <div className="brand-mark">SK</div>
           <p>Workspace interrupted</p>
-          <h1>NexIQ hit an unexpected UI error.</h1>
+          <h1>SK RGUS hit an unexpected UI error.</h1>
           <span>
             Your session is still safe. Reload the workspace to recover, or sign out and start a fresh demo session.
           </span>

@@ -2,7 +2,7 @@
 # Use: push to `main` or tag `v*`, or run workflow manually.
 #
 # After push, update k8s/deployment.yaml image to:
-#   ghcr.io/<owner>/nexiq-web:<tag>
+#   ghcr.io/<owner>/<repository>:<tag>
 # and ensure the cluster can pull (imagePullSecrets if private).
 
 name: Publish Docker image

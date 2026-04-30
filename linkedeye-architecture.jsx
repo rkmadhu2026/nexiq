@@ -61,12 +61,12 @@ function ProductOverview() {
     { name: "TenantOps Chat", sub: "Multi-tenant observability", color: COLORS.cyan, icon: "📊",
       desc: "Natural language across metrics, logs, and tenant-scoped app data. Charts and log viewers inline — one workspace per client or region.",
       targets: ["SaaS", "Platform teams"], stack: ["Elasticsearch", "Prometheus", "Loki"] },
-    { name: "NexusIQ", sub: "On-Prem MSP Platform", color: COLORS.blue, icon: "🖥",
+    { name: "SK RGUS MSP", sub: "On-Prem MSP Platform", color: COLORS.blue, icon: "🖥",
       desc: "Multi-tenant AI observability for MSPs. Monitors servers, K8s, network devices, storage across all client environments.",
       targets: ["MSPs", "NOC Teams"], stack: ["SNMP", "K8s API", "Node Exporter"] },
-    { name: "NexIQ AI", sub: "Enterprise ITSM + AI", color: COLORS.purple, icon: "👁",
+    { name: "SK RGUS AI", sub: "Enterprise ITSM + AI", color: COLORS.purple, icon: "👁",
       desc: "ITSM with an AI layer: incidents, CMDB, and operational data unified. Geographic drill-down, hardware health, and audit-ready history.",
-      targets: ["Enterprises", "GCCs"], stack: ["NexIQ DB", "All Sources"] },
+      targets: ["Enterprises", "GCCs"], stack: ["SK RGUS DB", "All Sources"] },
   ];
 
   const mcpServers = [
@@ -76,7 +76,7 @@ function ProductOverview() {
     { name: "kubernetes-mcp", color: COLORS.blue, icon: "⚙️" },
     { name: "snmp-network-mcp", color: COLORS.green, icon: "🌐" },
     { name: "tenant-data-mcp", color: COLORS.red, icon: "📈" },
-    { name: "nexiq-db-mcp", color: COLORS.purple, icon: "🗄️" },
+    { name: "skrgus-db-mcp", color: COLORS.purple, icon: "🗄️" },
     { name: "runbook-mcp", color: COLORS.cyan, icon: "📖" },
   ];
 
@@ -179,7 +179,7 @@ function ArchitectureDiagram() {
         { icon: "⚙️", name: "kubernetes-mcp", sub: ":8004", color: COLORS.blue },
         { icon: "🌐", name: "snmp-network-mcp", sub: ":8005", color: COLORS.green },
         { icon: "📈", name: "tenant-data-mcp", sub: ":8006", color: COLORS.red },
-        { icon: "🗄️", name: "nexiq-db-mcp", sub: ":8007", color: COLORS.purple },
+        { icon: "🗄️", name: "skrgus-db-mcp", sub: ":8007", color: COLORS.purple },
         { icon: "📖", name: "runbook-mcp", sub: ":8008", color: COLORS.cyan },
       ]
     },
@@ -191,7 +191,7 @@ function ArchitectureDiagram() {
         { icon: "📜", name: "Loki", sub: "App Logs", color: COLORS.teal },
         { icon: "☸️", name: "Kubernetes", sub: "K8s API", color: COLORS.blue },
         { icon: "🌐", name: "SNMP Devices", sub: "Cisco/Aruba/Huawei", color: COLORS.green },
-        { icon: "🗃️", name: "PostgreSQL", sub: "NexIQ DB", color: COLORS.purple },
+        { icon: "🗃️", name: "PostgreSQL", sub: "SK RGUS DB", color: COLORS.purple },
         { icon: "📚", name: "pgVector", sub: "RAG Embeddings", color: COLORS.cyan },
       ]
     },
@@ -199,7 +199,7 @@ function ArchitectureDiagram() {
 
   return (
     <div style={{ padding: 32 }}>
-      <SectionTitle color={COLORS.cyan}>Full Stack Architecture — NexIQ AI (On-Premise)</SectionTitle>
+      <SectionTitle color={COLORS.cyan}>Full Stack Architecture — SK RGUS AI (On-Premise)</SectionTitle>
       <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
         {layers.map((layer, li) => (
           <div key={li}>
@@ -257,7 +257,7 @@ function MCPConnectivity() {
     { id: "tenantdata", name: "tenant-data-mcp", port: 8006, color: COLORS.red, icon: "📈",
       tools: ["get_workflow_rejection_reason(id)", "get_tenant_quota_usage(tenant)", "get_background_job_stats()", "get_tenant_health(tenant)"],
       connects: "Elasticsearch app indices (tenant-scoped)", license: "MIT", npm: "@santhira/tenant-data-mcp" },
-    { id: "nexiq", name: "nexiq-db-mcp", port: 8007, color: COLORS.purple, icon: "👁",
+    { id: "skrgus", name: "skrgus-db-mcp", port: 8007, color: COLORS.purple, icon: "👁",
       tools: ["get_device_health(site)", "get_url_ssl(url)", "get_open_tickets()", "get_site_summary(site)"],
       connects: "PostgreSQL :5432", license: "Proprietary", npm: "Internal" },
     { id: "runbook", name: "runbook-mcp", port: 8008, color: COLORS.cyan, icon: "📖",
@@ -494,7 +494,7 @@ function ProjectStructure() {
         { label: "kubernetes-mcp/", color: COLORS.blue, children: ["server.py", "tools/pod_status.py", "tools/k8s_events.py", "Dockerfile"] },
         { label: "snmp-network-mcp/", color: COLORS.green, children: ["server.py", "tools/switch_ports.py", "tools/device_cpu.py", "Dockerfile"] },
         { label: "tenant-data-mcp/", color: COLORS.red, children: ["server.py", "tools/workflow_rejection.py", "tools/tenant_quota.py"] },
-        { label: "nexiq-db-mcp/", color: COLORS.purple, children: ["server.py", "tools/device_health.py", "tools/url_checks.py"] },
+        { label: "skrgus-db-mcp/", color: COLORS.purple, children: ["server.py", "tools/device_health.py", "tools/url_checks.py"] },
         { label: "runbook-mcp/", color: COLORS.cyan, children: ["server.py", "tools/search_runbook.py", "vector_store/"] },
       ]
     },
@@ -556,9 +556,9 @@ function ProjectStructure() {
 
   return (
     <div style={{ padding: 32 }}>
-      <SectionTitle color={COLORS.cyan}>Project File Structure — nexiq-ai/</SectionTitle>
+      <SectionTitle color={COLORS.cyan}>Project File Structure — skrgus-ai/</SectionTitle>
       <div style={{ background: "#1a1714", borderRadius: 10, padding: 20, fontFamily: "monospace", fontSize: 11 }}>
-        <div style={{ color: "#ede8df", marginBottom: 12, fontSize: 12, fontWeight: 700 }}>📁 nexiq-ai/</div>
+        <div style={{ color: "#ede8df", marginBottom: 12, fontSize: 12, fontWeight: 700 }}>📁 skrgus-ai/</div>
         {dirs.map(dir => (
           <div key={dir.id} style={{ marginBottom: 4 }}>
             <div onClick={() => toggle(dir.id)}
@@ -604,7 +604,7 @@ export default function LinkedEyeArchitecture() {
           <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #b89562, #6b5838)",
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>👁</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: "#ede8df", fontFamily: "monospace" }}>NexIQ AI</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "#ede8df", fontFamily: "monospace" }}>SK RGUS AI</div>
             <div style={{ fontSize: 9, color: "#8c8478", fontFamily: "monospace" }}>Product Architecture & Structure</div>
           </div>
         </div>

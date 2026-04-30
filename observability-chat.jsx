@@ -73,13 +73,13 @@ const RESPONSES = {
     severity: "warning",
     summary: "CPU spike on prod-api-02 at 14:32 — correlates with scheduled ETL for multiple tenants.",
     insight:
-      "NexIQ Production — workload on prod-api-02 driven mainly by tenant-batch-export and analytics-etl-scheduler.\n\nPeak CPU 94% at 14:32 during cross-tenant batch export window. Normalized after 14:38.\n\nPattern repeats daily — consider staggering tenant jobs or moving heavy tenants to a dedicated node pool.",
+      "SK RGUS Production — workload on prod-api-02 driven mainly by tenant-batch-export and analytics-etl-scheduler.\n\nPeak CPU 94% at 14:32 during cross-tenant batch export window. Normalized after 14:38.\n\nPattern repeats daily — consider staggering tenant jobs or moving heavy tenants to a dedicated node pool.",
     fix: "No immediate action if within SLO. If it recurs >3 days, reschedule batch to 16:30 UTC or split tenant batches.",
     chart: { type: "cpu", data: cpuData, title: "prod-api-02 — CPU Usage %", yLabel: "CPU %", threshold: 80, color: "#f59e0b" },
     instanceLabel: "prod-api-02",
-    clientName: "NexIQ Production",
+    clientName: "SK RGUS Production",
     applicationNames: ["tenant-batch-export", "analytics-etl-scheduler", "cross-tenant-export"],
-    regionLabel: "Mumbai DC · nexiq-prod-le",
+    regionLabel: "Mumbai DC · skrgus-prod-le",
     sources: ["prometheus:node_cpu_seconds_total{instance='prod-api-02'}", "loki:{job='tenant-batch-export'}"],
   },
   "Why was workflow #8821 rejected?": {
@@ -175,7 +175,7 @@ const MONO_FONT = `var(--font-mono, ui-monospace, monospace)`;
 
 /** Left rail — professional labels (no emoji); abbrev matches dense ops UIs */
 const SIDEBAR_NAV = [
-  { id: "chat", abbr: "AI", label: "Ask AI" },
+  { id: "chat", abbr: "Ag", label: "Ask Argus" },
   { id: "metrics", abbr: "Mx", label: "Metrics" },
   { id: "logs", abbr: "Lo", label: "Logs" },
   { id: "alerts", abbr: "Al", label: "Alerts" },
@@ -962,7 +962,7 @@ export default function ObservabilityChat() {
                 }}
                 aria-hidden
               >
-                NQ
+                SK
               </div>
               <div className="min-w-0 pt-0.5">
                 <p className="observe-rail-section-title m-0">Module</p>
@@ -973,7 +973,7 @@ export default function ObservabilityChat() {
                   Observe
                 </h2>
                 <p className="m-0 mt-2 text-[11px] leading-relaxed text-stone-500">
-                  Tenant-aware · cited queries
+                  Argus · tenant-aware · cited queries
                 </p>
               </div>
             </div>
@@ -1105,7 +1105,7 @@ export default function ObservabilityChat() {
             </span>
             <span className="hidden h-4 w-px shrink-0 bg-stone-300 sm:block" aria-hidden />
             <p className="m-0 max-w-[28rem] text-[12px] leading-snug text-stone-500">
-              Charts, logs, and scoped answers — sources attached to each reply
+              Argus turns charts, logs, and scoped answers into replies — sources attached to each reply
             </p>
           </div>
           <div
@@ -1114,9 +1114,9 @@ export default function ObservabilityChat() {
           >
             <span className="flex items-center gap-2 text-stone-600">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/90" aria-hidden />
-              NexIQ Production
+              SK RGUS Production
             </span>
-            <span className="text-stone-500">nexiq-prod-le</span>
+            <span className="text-stone-500">skrgus-prod-le</span>
           </div>
         </header>
 
@@ -1134,11 +1134,11 @@ export default function ObservabilityChat() {
                 }}
                 aria-hidden
               >
-                NQ
+                Ag
               </div>
               <div className="max-w-md">
                 <h2 className="mb-2 m-0 text-[1.35rem] font-semibold tracking-tight text-stone-900" style={{ fontFamily: "var(--font-display)" }}>
-                  Ask your infrastructure anything
+                  Ask Argus anything about your infrastructure
                 </h2>
                 <p className="m-0 text-[13px] leading-relaxed text-stone-500">
                   Metrics, logs, and charts grounded in Prometheus / Loki / Elasticsearch for your tenant scope.
@@ -1198,7 +1198,7 @@ export default function ObservabilityChat() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
-                placeholder="Ask about pods, metrics, tenants, queues, logs, latency… (Enter to send)"
+                placeholder="Ask Argus about pods, metrics, tenants, queues, logs, latency… (Enter to send)"
                 rows={2}
                 aria-label="Chat message"
                 className="w-full px-4 py-3 bg-transparent text-[13px] text-stone-800 placeholder-stone-400 resize-none outline-none leading-relaxed"

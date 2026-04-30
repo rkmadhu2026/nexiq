@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nexiq-web
+  name: skrgus-web
   labels:
-    app: nexiq-web
+    app: skrgus-web
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nexiq-web
+      app: skrgus-web
   template:
     metadata:
       labels:
-        app: nexiq-web
+        app: skrgus-web
     spec:
       containers:
         - name: nginx
-          # Change to your registry after push, e.g. 123456789.dkr.ecr.ap-south-1.amazonaws.com/nexiq-web:v1
-          image: nexiq-web:latest
+          # Change to your registry after push, e.g. 123456789.dkr.ecr.ap-south-1.amazonaws.com/skrgus-web:v1
+          image: skrgus-web:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
