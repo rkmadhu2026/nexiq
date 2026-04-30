@@ -213,8 +213,13 @@ export default function App() {
                 <h1 className="sidebar-shell-heading">Ask Argus</h1>
               </div>
             </div>
-            <button className="sidebar-command" type="button" aria-label="Open command menu">
-              ⌘K
+            <button
+              className="sidebar-command"
+              type="button"
+              aria-label="Ask Argus"
+              title="Keyboard shortcut: ⌘K"
+            >
+              Ask
             </button>
           </div>
 
