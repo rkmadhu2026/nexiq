@@ -30,6 +30,18 @@ const insightRows = [
   ["Admin audit", "enabled", "good"],
 ];
 
+function BrandLockup() {
+  return (
+    <div className="auth-brand landing-brand-lockup">
+      <div className="brand-mark">SK</div>
+      <div className="landing-brand-text">
+        <span className="landing-brand-title">SK RGUS</span>
+        <span className="landing-brand-tag">Ask Argus</span>
+      </div>
+    </div>
+  );
+}
+
 function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
   const isSignup = mode === "signup";
   const [form, setForm] = useState({
@@ -56,7 +68,7 @@ function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
       <h2>{isSignup ? "Start your SK RGUS workspace" : "Sign in to SK RGUS"}</h2>
       <span>
         {isSignup
-          ? "Create a secure admin profile for client integrations and AI operations."
+          ? "Create a secure admin profile for client integrations and Ask Argus–guided operations."
           : "Use the demo credentials below to open the local workspace."}
       </span>
 
@@ -122,10 +134,12 @@ function AuthForm({ mode, onModeChange, onAuthenticate, authError }) {
 export default function AuthLanding({ mode, onModeChange, onAuthenticate, authError = null }) {
   if (mode === "signin" || mode === "signup") {
     return (
-      <main className="auth-shell">
-        <div className="auth-brand">
-          <div className="brand-mark">SK</div>
-          <span>SK RGUS</span>
+      <main className="auth-shell auth-gate">
+        <div className="auth-gate-intro">
+          <BrandLockup />
+          <p className="auth-gate-blurb">
+            Observability chat, architecture maps, clients and integrations — one calm desktop with Ask Argus when incidents spike.
+          </p>
         </div>
         <AuthForm
           mode={mode}
@@ -140,10 +154,7 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
   return (
     <main className="auth-shell landing">
       <nav className="landing-nav">
-        <div className="auth-brand">
-          <div className="brand-mark">SK</div>
-          <span>SK RGUS</span>
-        </div>
+        <BrandLockup />
         <div className="landing-menu" aria-label="Landing page sections">
           <span>Workspace</span>
           <span>Integrations</span>
@@ -158,9 +169,10 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
 
       <section className="landing-hero innovative">
         <div className="hero-copy">
+          <p className="landing-kicker">Evidence-led ops desk</p>
           <div className="hero-live-row">
-            <span className="live-pill">SK RGUS desktop</span>
-            <span>Observability, client apps, integrations, and admin settings in one clean workspace</span>
+            <span className="live-pill">Ask Argus workspace</span>
+            <span>Observe, integrate, and administer multi-client fleets without switching tabs.</span>
           </div>
           <h1 className="hero-title">
             <span>One calm workspace for</span>
@@ -168,14 +180,13 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
             <em>Built for real incidents.</em>
           </h1>
           <span>
-            SK RGUS brings your observability chat, product architecture, client application details,
-            integration status, and admin controls into a single light desktop interface.
+            Ask Argus sits beside architecture maps, client apps, connector health, and admin controls — one light desktop built for incidents.
           </span>
           <div className="landing-actions">
             <button type="button" onClick={() => onModeChange("signup")}>Open SK RGUS workspace</button>
             <button type="button" onClick={() => onModeChange("signin")}>Open demo console</button>
           </div>
-          <small className="landing-note">Demo tenant included · light UI · admin settings and integrations built in</small>
+          <small className="landing-note">Demo tenant · light UI · Ask Argus · admin & integrations included</small>
           <div className="landing-stats">
             {landingStats.map((stat) => (
               <div key={stat.label}>
@@ -191,7 +202,7 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
             <span />
             <span />
             <span />
-            <b>SK RGUS Desktop Preview</b>
+            <b>Desktop preview</b>
           </div>
           <div className="topology-card">
             <div className="topology-core">
@@ -205,7 +216,7 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
             </div>
           </div>
           <div className="ai-agent-card">
-            <div className="agent-orb">AI</div>
+            <div className="agent-orb">Ag</div>
             <div>
               <small>Root-cause answer with evidence</small>
               <strong>“Why is checkout-api pod crashing?”</strong>
@@ -250,12 +261,11 @@ export default function AuthLanding({ mode, onModeChange, onAuthenticate, authEr
           <p>Why this feels better</p>
           <h2>Less visual noise. More operational context.</h2>
           <span>
-            The landing now mirrors the actual product: light panels, clear hierarchy, client context,
-            integration state, and AI answers with supporting evidence.
+            Light panels and clear hierarchy mirror the product: client context, integration state, and Ask Argus answers with cited evidence.
           </span>
         </div>
         <blockquote>
-          “SK RGUS puts the client, app, integration, and evidence in one workspace without making the UI feel heavy.”
+          “Ask Argus keeps client, app, integration, and evidence in one workspace — calm even when alerts aren’t.”
           <cite>Platform Operations · SK RGUS demo tenant</cite>
         </blockquote>
       </section>
