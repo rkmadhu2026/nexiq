@@ -103,7 +103,7 @@ function WorkspaceLoading() {
     <div className="workspace-loading" role="status" aria-live="polite">
       <div className="loading-orb">SK</div>
       <strong>Loading SK RGUS workspace</strong>
-      <span>Preparing dashboards, connectors, and AI context...</span>
+      <span>Preparing dashboards, connectors, and Ask Argus context...</span>
     </div>
   );
 }
@@ -203,11 +203,14 @@ export default function App() {
       <div className="app-shell-leading">
         <aside className="app-sidebar" style={{ width: sidebarWidth, flexShrink: 0 }}>
           <div className="sidebar-topbar">
-            <div className="brand-lockup">
+            <div className="brand-lockup brand-lockup--shell">
               <div className="brand-mark">SK</div>
-              <div>
-                <p className="eyebrow">SK RGUS</p>
-                <h1>Command center</h1>
+              <div className="brand-lockup-copy">
+                <div className="landing-brand-text">
+                  <span className="landing-brand-title">SK RGUS</span>
+                  <span className="landing-brand-tag">Ask Argus</span>
+                </div>
+                <h1 className="sidebar-shell-heading">Command center</h1>
               </div>
             </div>
             <button className="sidebar-command" type="button" aria-label="Open command menu">
