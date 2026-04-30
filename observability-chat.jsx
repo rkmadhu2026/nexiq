@@ -942,11 +942,11 @@ export default function ObservabilityChat() {
 
       {/* Sidebar — shell-aligned hierarchy: brand card · nav chips · query deck · data plane */}
       <aside
-        className="observe-rail flex max-h-[min(48vh,24rem)] w-full shrink-0 flex-col gap-0 overflow-y-auto border-b md:max-h-none md:h-full md:w-[18rem] md:min-w-[17rem] md:max-w-[18rem] md:flex-none md:overflow-visible md:border-b-0 md:border-r"
+        className="observe-rail flex max-h-[min(48vh,24rem)] w-full shrink-0 flex-col gap-0 overflow-y-auto border-b md:max-h-none md:h-full md:w-[18rem] md:min-w-[17rem] md:max-w-[18rem] md:flex-none md:overflow-y-auto md:border-b-0 md:border-r"
         style={{ background: VD.surfaceInset, borderColor: VD.borderHairline }}
         aria-label="Observe navigation"
       >
-        <div className="px-4 pb-2 pt-4">
+        <div className="shrink-0 px-4 pb-2 pt-4">
           <div
             className="rounded-xl border px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_1px_3px_rgba(47,40,31,0.06)]"
             style={{ background: VD.surfaceElevated, borderColor: VD.borderPanel }}
@@ -962,7 +962,7 @@ export default function ObservabilityChat() {
                 }}
                 aria-hidden
               >
-                SK
+                Ag
               </div>
               <div className="min-w-0 pt-0.5">
                 <p className="observe-rail-section-title m-0">Module</p>
@@ -981,10 +981,11 @@ export default function ObservabilityChat() {
         </div>
 
         <nav
-          className="flex min-h-0 flex-1 flex-col gap-2 border-t border-stone-200/55 px-4 pb-3 pt-4"
+          className="observe-rail-nav flex shrink-0 flex-col gap-2.5 border-y px-4 py-5 bg-white/35"
           aria-label="Primary"
+          style={{ borderColor: VD.borderHairline }}
         >
-          <div className="observe-rail-section-title px-0.5 pb-0.5">Navigate</div>
+          <div className="observe-rail-section-title px-0.5 pb-1">Navigate</div>
           {SIDEBAR_NAV.map((item) => {
             const on = activeTab === item.id;
             return (
@@ -1022,8 +1023,11 @@ export default function ObservabilityChat() {
           })}
         </nav>
 
-        <div className="mt-auto border-t px-4 py-4" style={{ borderColor: VD.borderHairline }}>
-          <div className="observe-rail-section-title mb-3 flex items-center gap-2 px-0.5">
+        <div
+          className="observe-rail-quick shrink-0 border-b px-4 py-5 md:py-6"
+          style={{ borderColor: VD.borderHairline, background: "rgba(255, 252, 247, 0.55)" }}
+        >
+          <div className="observe-rail-section-title mb-3.5 flex items-center gap-2 px-0.5">
             <span className="h-1 w-1 shrink-0 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 opacity-90" aria-hidden />
             Quick queries
           </div>
@@ -1053,7 +1057,7 @@ export default function ObservabilityChat() {
           </div>
         </div>
 
-        <div className="border-t px-4 pb-4 pt-3" style={{ borderColor: VD.borderHairline }}>
+        <div className="observe-rail-footer shrink-0 px-4 pb-4 pt-5 md:pt-6" style={{ borderColor: VD.borderHairline }}>
           <div className="observe-rail-section-title mb-2 flex items-center gap-2 px-0.5">
             <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-500/85" aria-hidden />
             Data plane

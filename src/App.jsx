@@ -24,7 +24,8 @@ const views = [
     icon: "AR",
     navLabel: "Architecture",
     navStatus: "Map",
-    description: "Explore product layers, MCP connectivity, query flow, and data flow.",
+    description:
+      "Architecture behind Ask Argus: product layers, MCP connectivity, LangGraph query flow, and data paths — reference diagrams with illustrative timings.",
     component: ArchDiagram,
   },
   {

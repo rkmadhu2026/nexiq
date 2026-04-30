@@ -167,8 +167,8 @@ function OverviewTab() {
 
   return (
     <div>
-      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 20, fontFamily: "monospace" }}>
-        Six-layer architecture — each layer communicates only through defined interfaces. No layer knows the internals of another.
+      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 20, fontFamily: "monospace", lineHeight: 1.55 }}>
+        Six-layer stack for <strong style={{ color: C.textPrimary }}>Ask Argus</strong> — each layer talks only through defined interfaces. Illustrative ports and services; swap for your environment.
       </div>
       {layers.map((layer, li) => (
         <div key={layer.id}>
@@ -251,8 +251,8 @@ function FlowTab() {
 
   return (
     <div>
-      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 20, fontFamily: "monospace" }}>
-        Every query follows this deterministic 6-step pipeline. LLM is invoked only AFTER all data is fetched — total latency ~1.2 seconds.
+      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 20, fontFamily: "monospace", lineHeight: 1.55 }}>
+        How <strong style={{ color: C.textPrimary }}>Ask Argus</strong> handles a query: six deterministic steps. The model runs <strong style={{ color: C.textPrimary }}>after</strong> tools return data. Timings (~1.2s total) are <strong style={{ color: C.textPrimary }}>examples</strong>, not measured from your tenant.
       </div>
 
       {/* Step selector */}
@@ -302,7 +302,7 @@ function FlowTab() {
                 borderLeft: "none", borderRadius: "0 8px 8px 0",
                 transition: "all 0.2s"
               }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
                   <div>
                     <span style={{ fontSize: 13, fontWeight: 700, color: step.color, fontFamily: "monospace" }}>
                       {step.title}
@@ -311,23 +311,34 @@ function FlowTab() {
                       {step.component}
                     </span>
                   </div>
-                  <span style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace",
-                    background: C.card, padding: "2px 6px", borderRadius: 4, border: `1px solid ${C.border}` }}>
-                    {step.time}
-                  </span>
+                  <div style={{ textAlign: "right", flexShrink: 0 }}>
+                    <div style={{ fontSize: 9, color: C.textMuted, fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 3 }}>
+                      Typical latency
+                    </div>
+                    <span style={{ fontSize: 10, color: C.textSecondary, fontFamily: "monospace",
+                      background: C.card, padding: "3px 8px", borderRadius: 4, border: `1px solid ${C.border}`, fontWeight: 700 }}>
+                      {step.time}
+                    </span>
+                  </div>
                 </div>
 
                 {activeStep === i && (
-                  <div style={{ marginTop: 10 }}>
-                    <div style={{ fontSize: 12, color: C.textSecondary, lineHeight: 1.6, marginBottom: 8 }}>
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>
+                      What happens
+                    </div>
+                    <div style={{ fontSize: 12, color: C.textSecondary, lineHeight: 1.65, marginBottom: 10 }}>
                       {step.desc}
+                    </div>
+                    <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>
+                      Example payload
                     </div>
                     <div style={{
                       background: C.bg, border: `1px solid ${step.color}44`,
                       borderRadius: 6, padding: "8px 12px",
-                      fontSize: 11, color: step.color, fontFamily: "monospace"
+                      fontSize: 11, color: C.textPrimary, fontFamily: "monospace", lineHeight: 1.5,
                     }}>
-                      → {step.example}
+                      {step.example}
                     </div>
                   </div>
                 )}
@@ -415,15 +426,15 @@ function MCPTab() {
 
   return (
     <div>
-      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 16, fontFamily: "monospace" }}>
-        6 independent MCP servers. Each deployed as Docker container. LangGraph agent connects via SSE transport. Click a server to see details.
+      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 16, fontFamily: "monospace", lineHeight: 1.55 }}>
+        <strong style={{ color: C.textPrimary }}>Ask Argus</strong> calls these MCP surfaces over SSE (example six servers, Docker-deployed). Click a tile for tools, intents, and response shape — <strong style={{ color: C.textPrimary }}>contract reference</strong>, not your live inventory.
       </div>
 
       {/* Agent box */}
       <div style={{ background: "#7c3aed22", border: "1px solid #7c3aed55",
         borderRadius: 10, padding: "12px 20px", marginBottom: 12, textAlign: "center" }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: "#a855f7", fontFamily: "monospace" }}>
-          🧠 LangGraph Agent (Tool Selector + Data Fetcher)
+          🧠 LangGraph Agent — Ask Argus (tool selector + data fetcher)
         </div>
         <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginTop: 4 }}>
           Discovers tools dynamically via MCP protocol — no hardcoded integrations
@@ -464,36 +475,40 @@ function MCPTab() {
       {sel && (
         <div style={{ background: sel.color + "11", border: `1px solid ${sel.color}44`,
           borderRadius: 10, padding: "16px 20px", marginBottom: 12 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: sel.color, fontFamily: "monospace", marginBottom: 12 }}>
-            {sel.icon} {sel.name} — Detail
+          <div style={{ fontSize: 14, fontWeight: 700, color: sel.color, fontFamily: "monospace", marginBottom: 6 }}>
+            {sel.icon} {sel.name}
+          </div>
+          <div style={{ fontSize: 11, color: C.textSecondary, fontFamily: "monospace", lineHeight: 1.5, marginBottom: 12,
+            paddingBottom: 12, borderBottom: `1px solid ${sel.color}33` }}>
+            Ask Argus tool surface · <strong style={{ color: C.textPrimary }}>SSE :{sel.port}</strong> · {sel.license}. Diagram ref. <strong style={{ color: C.textPrimary }}>Apr 2026</strong> — illustrative only.
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
-              <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginBottom: 6, textTransform: "uppercase" }}>
-                Tools Exposed
+              <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Tool names (exposed)
               </div>
               {sel.tools.map((t, i) => (
-                <div key={i} style={{ fontSize: 10, color: C.textSecondary, fontFamily: "monospace",
-                  background: C.bg, padding: "4px 8px", borderRadius: 4, marginBottom: 3,
-                  border: `1px solid ${C.border}` }}>
+                <div key={i} style={{ fontSize: 11, color: C.textPrimary, fontFamily: "monospace",
+                  background: C.bg, padding: "6px 10px", borderRadius: 4, marginBottom: 4,
+                  border: `1px solid ${C.border}`, lineHeight: 1.4 }}>
                   {t}
                 </div>
               ))}
             </div>
             <div>
-              <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginBottom: 6, textTransform: "uppercase" }}>
-                Triggered By Intents
+              <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Intent routing (when Ask Argus selects this MCP)
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
                 {sel.intents.map((t, i) => (
                   <Chip key={i} text={t} color={sel.color} />
                 ))}
               </div>
-              <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginBottom: 4, textTransform: "uppercase" }}>
-                Output Format
+              <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Response shape (to LangGraph / UI)
               </div>
-              <div style={{ fontSize: 11, color: C.textSecondary, fontFamily: "monospace",
-                background: C.bg, padding: "8px 10px", borderRadius: 6, border: `1px solid ${C.border}` }}>
+              <div style={{ fontSize: 12, color: C.textPrimary, fontFamily: "monospace",
+                background: C.bg, padding: "10px 12px", borderRadius: 6, border: `1px solid ${C.border}`, lineHeight: 1.45 }}>
                 {sel.output}
               </div>
             </div>
@@ -573,8 +588,8 @@ function DataFlowTab() {
 
   return (
     <div>
-      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 16, fontFamily: "monospace" }}>
-        Trace the exact data path for each query type. Every byte that flows through the system is shown here.
+      <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 16, fontFamily: "monospace", lineHeight: 1.55 }}>
+        Trace how <strong style={{ color: C.textPrimary }}>Ask Argus</strong> moves a question through the stack. Steps list <strong style={{ color: C.textPrimary }}>example payloads</strong> — not a capture from your environment. <strong style={{ color: C.textPrimary }}>Reference Apr 2026.</strong>
       </div>
 
       {/* Flow selector */}
@@ -588,9 +603,17 @@ function DataFlowTab() {
             fontSize: 11, fontFamily: "monospace", fontWeight: 700,
             transition: "all 0.2s", textAlign: "left"
           }}>
-            <div style={{ marginBottom: 2 }}>{f.intent}</div>
-            <div style={{ fontSize: 10, color: selectedFlow === i ? f.color + "aa" : C.textMuted, fontWeight: 400 }}>
-              {f.query.substring(0, 32)}...
+            <div style={{ marginBottom: 4 }}>{f.intent}</div>
+            <div style={{
+              fontSize: 10,
+              color: selectedFlow === i ? f.color + "cc" : C.textMuted,
+              fontWeight: 400,
+              lineHeight: 1.35,
+              maxWidth: 280,
+              wordBreak: "break-word",
+              whiteSpace: "normal",
+            }}>
+              {f.query}
             </div>
           </button>
         ))}
@@ -620,7 +643,7 @@ function DataFlowTab() {
             )}
           </div>
           <div style={{ flex: 1, padding: "0 0 12px 10px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6, flexWrap: "wrap" }}>
               <span style={{ fontSize: 11, color: C.textSecondary, fontFamily: "monospace", fontWeight: 700 }}>
                 {step.from}
               </span>
@@ -629,9 +652,12 @@ function DataFlowTab() {
                 {step.to}
               </span>
             </div>
-            <div style={{ fontSize: 10, color: C.textMuted, fontFamily: "monospace",
-              background: C.bg, padding: "5px 10px", borderRadius: 5,
-              border: `1px solid ${C.border}`, wordBreak: "break-all", lineHeight: 1.5 }}>
+            <div style={{ fontSize: 9, color: C.textMuted, fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>
+              Payload / contract (example)
+            </div>
+            <div style={{ fontSize: 11, color: C.textPrimary, fontFamily: "monospace",
+              background: C.bg, padding: "8px 12px", borderRadius: 5,
+              border: `1px solid ${C.border}`, wordBreak: "break-word", lineHeight: 1.5 }}>
               {step.data}
             </div>
           </div>
@@ -661,24 +687,32 @@ export default function ArchDiagram() {
 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, display: "flex", alignItems: "center",
-            justifyContent: "center", fontSize: 18,
-            background: "linear-gradient(145deg, #b89562, #6b5838)" }}>👁</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 8, display: "flex", alignItems: "center",
+            justifyContent: "center", fontSize: 11, fontWeight: 800, fontFamily: "monospace", letterSpacing: "-0.03em",
+            color: "#fffbeb",
+            border: "1px solid rgba(255,255,255,0.14)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)",
+            background: "linear-gradient(145deg, #b89562, #6b5838)",
+          }}>Ag</div>
           <div>
             <div style={{
               fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: -0.5,
               fontFamily: "var(--font-display)",
             }}>
-              SK RGUS AI Platform
+              Ask Argus · SK RGUS Platform
             </div>
-            <div style={{ fontSize: 12, color: C.textMuted, fontFamily: "monospace" }}>
-              Product Structure • Flow • Connectivity — Santhira Technologies
+            <div style={{ fontSize: 12, color: C.textSecondary, fontFamily: "monospace", lineHeight: 1.45 }}>
+              Architecture map — layers, MCP, LangGraph query flow, data paths.
+            </div>
+            <div style={{ fontSize: 11, color: C.textMuted, fontFamily: "monospace", marginTop: 6, lineHeight: 1.45 }}>
+              Reference diagram · illustrative timings & payloads · <strong style={{ color: C.textSecondary }}>Apr 2026</strong> · Santhira Technologies — not live telemetry from your tenant.
             </div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {["LangGraph", "MCP", "Prometheus", "Elasticsearch", "Loki", "K8s", "Next.js 15"].map(t => (
+          {["Ask Argus", "LangGraph", "MCP", "Prometheus", "Elasticsearch", "Loki", "K8s", "Next.js 15"].map(t => (
             <Chip key={t} text={t} color={C.cyan} />
           ))}
         </div>
