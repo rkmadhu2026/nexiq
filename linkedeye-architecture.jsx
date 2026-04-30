@@ -64,7 +64,7 @@ function ProductOverview() {
     { name: "SK RGUS MSP", sub: "On-Prem MSP Platform", color: COLORS.blue, icon: "🖥",
       desc: "Multi-tenant AI observability for MSPs. Monitors servers, K8s, network devices, storage across all client environments.",
       targets: ["MSPs", "NOC Teams"], stack: ["SNMP", "K8s API", "Node Exporter"] },
-    { name: "SK RGUS AI", sub: "Enterprise ITSM + AI", color: COLORS.purple, icon: "👁",
+    { name: "SK RGUS AI", sub: "Enterprise ITSM + AI", color: COLORS.purple, icon: "🎯",
       desc: "ITSM with an AI layer: incidents, CMDB, and operational data unified. Geographic drill-down, hardware health, and audit-ready history.",
       targets: ["Enterprises", "GCCs"], stack: ["SK RGUS DB", "All Sources"] },
   ];
@@ -257,7 +257,7 @@ function MCPConnectivity() {
     { id: "tenantdata", name: "tenant-data-mcp", port: 8006, color: COLORS.red, icon: "📈",
       tools: ["get_workflow_rejection_reason(id)", "get_tenant_quota_usage(tenant)", "get_background_job_stats()", "get_tenant_health(tenant)"],
       connects: "Elasticsearch app indices (tenant-scoped)", license: "MIT", npm: "@santhira/tenant-data-mcp" },
-    { id: "skrgus", name: "skrgus-db-mcp", port: 8007, color: COLORS.purple, icon: "👁",
+    { id: "skrgus", name: "skrgus-db-mcp", port: 8007, color: COLORS.purple, icon: "🗄️",
       tools: ["get_device_health(site)", "get_url_ssl(url)", "get_open_tickets()", "get_site_summary(site)"],
       connects: "PostgreSQL :5432", license: "Proprietary", npm: "Internal" },
     { id: "runbook", name: "runbook-mcp", port: 8008, color: COLORS.cyan, icon: "📖",
@@ -602,10 +602,12 @@ export default function LinkedEyeArchitecture() {
         background: "#1e1c17", position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #b89562, #6b5838)",
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>👁</div>
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, fontFamily: "monospace", color: "#fffbeb", border: "1px solid rgba(255,255,255,0.12)" }}>Ag</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: "#ede8df", fontFamily: "monospace" }}>SK RGUS AI</div>
-            <div style={{ fontSize: 9, color: "#8c8478", fontFamily: "monospace" }}>Product Architecture & Structure</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "#ede8df", fontFamily: "monospace" }}>Ask Argus · SK RGUS</div>
+            <div style={{ fontSize: 9, color: "#8c8478", fontFamily: "monospace", lineHeight: 1.35 }}>
+              Product architecture & structure · reference Apr 2026 (illustrative)
+            </div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
