@@ -3,7 +3,7 @@ import AuthLanding from "./AuthLanding.jsx";
 
 const ObservabilityChat = lazy(() => import("../observability-chat.jsx"));
 const ArchDiagram = lazy(() => import("../arch-diagram.jsx"));
-const LinkedEyeArchitecture = lazy(() => import("../linkedeye-architecture.jsx"));
+const AskArgusFinspot = lazy(() => import("../ask-argus-finspot-architecture.jsx"));
 const SettingsIntegrations = lazy(() => import("./SettingsIntegrations.jsx"));
 
 const views = [
@@ -36,7 +36,7 @@ const views = [
     navLabel: "Product",
     navStatus: "Studio",
     description: "Review the product family, open-source MCP servers, and deployment structure.",
-    component: LinkedEyeArchitecture,
+    component: AskArgusFinspot,
   },
   {
     id: "settings",

@@ -579,7 +579,7 @@ function ProjectStructure() {
 }
 
 // ── Main App ──────────────────────────────────────────────────
-export default function LinkedEyeArchitecture() {
+export default function AskArgusFinspot() {
   const [tab, setTab] = useState(0);
 
   const tabs = [
